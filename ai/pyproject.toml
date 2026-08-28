@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "healthguard_ai"
+version = "0.1.0"
+description = "AI Insight Generation for HealthGuard"
+requires-python = ">=3.9"
+dependencies = [
+    "google-genai",
+    "pydantic"
+]
+
+[tool.setuptools]
+packages = ["services"]

@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: healthguard_ai
+Version: 0.1.0
+Summary: AI Insight Generation for HealthGuard
+Requires-Python: >=3.9
+Requires-Dist: google-genai
+Requires-Dist: pydantic
