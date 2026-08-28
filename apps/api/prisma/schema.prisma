@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model vitals {
+  id          Int      @id @default(autoincrement())
+  heart_rate  Int
+  spo2        Float
+  temperature Float
+  ecg_status  String?
+  source      String?
+  timestamp   DateTime @default(now())
+}
+
+model activity {
+  id             Int      @id @default(autoincrement())
+  steps          Int
+  distance_km    Float
+  calories       Float
+  active_minutes Int
+  source         String?
+  timestamp      DateTime @default(now())
+}
+
+model alerts {
+  id        Int      @id @default(autoincrement())
+  severity  String
+  title     String
+  detail    String
+  status    String   @default("active")
+  metric    String?
+  timestamp DateTime @default(now())
+}
+
+model device_status {
+  id             Int      @id @default(autoincrement())
+  battery_level  Int
+  is_charging    Boolean
+  wifi_strength  Int
+  firmware_ver   String
+  status         String
+  timestamp      DateTime @default(now())
+}
