@@ -5,6 +5,7 @@
 - Removed unused frontend assets, packages, shared-type wrappers and firmware stubs.
 - Replaced overlapping specs and empty document placeholders with a concise documentation index.
 - Separated setup, operations, testing and audit history; corrected claims against the current code.
+- Corrected garbled UI text, outdated Settings/Reports wording and upload units; added source encoding checks.
 
 ## 0.2.0 — audit remediation, 24 October 2026
 

@@ -25,7 +25,7 @@
     "before_project_markdown_files": 37,
     "after_project_markdown_files": 15,
     "before_project_words": 22171,
-    "after_project_words": 7873,
+    "after_project_words": 8043,
     "count_scope": "Project-authored guides/templates; excludes generated dependency docs and removed output drafts",
     "index": "docs/README.md",
     "local_links_checked": 68,
@@ -143,5 +143,24 @@
     "shared/types/insights.ts",
     "shared/types/users.ts",
     "shared/types/vitals.ts"
-  ]
+  ],
+  "recheck": {
+    "date": "2026-10-25",
+    "additional_unused_files_found": 0,
+    "corrupted_ui_lines_fixed": 14,
+    "corrected": [
+      "Assistant, Emergency and onboarding text encoding",
+      "Loading punctuation",
+      "Settings account scope and Reports export wording",
+      "Upload size unit",
+      "API refresh expiry and logout header documentation"
+    ],
+    "source_encoding_negative_probe": "original corrupted source rejected",
+    "frontend_tests": 16,
+    "browser_tests": 7,
+    "frontend_types_lint_build": "passed",
+    "project_references": "passed",
+    "backup_and_historical_evidence": "passed",
+    "published": false
+  }
 }

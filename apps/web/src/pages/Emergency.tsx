@@ -71,7 +71,7 @@ export default function Emergency() {
     );
   };
 
-  const vitalsSnippet = vitals ? `HR ${vitals.heart_rate ?? 'â€”'} bpm, SpO2 ${vitals.spo2 ?? 'â€”'}%, Temp ${vitals.temperature ?? 'â€”'}C` : '';
+  const vitalsSnippet = vitals ? `HR ${vitals.heart_rate ?? '—'} bpm, SpO2 ${vitals.spo2 ?? '—'}%, Temp ${vitals.temperature ?? '—'}C` : '';
   const mailBody = encodeURIComponent(`This is an emergency alert from Vyana.\n\nLatest vitals: ${vitalsSnippet}`);
   const input = 'w-full px-3 py-2 rounded-lg border border-gray-200 text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand';
 
@@ -94,7 +94,7 @@ export default function Emergency() {
               <AlertTriangle className="w-7 h-7 text-red-500" />
             </div>
             <p className="font-semibold text-gray-900">Emergency alert logged</p>
-            <p className="text-[13px] text-gray-500 mt-1">Itâ€™s now active on your dashboard. Contact your doctor below.</p>
+            <p className="text-[13px] text-gray-500 mt-1">It’s now active on your dashboard. Contact your doctor below.</p>
             <button type="button" onClick={() => setSosState('idle')} className="mt-4 text-[13px] font-medium text-brand hover:text-brand-hover">Done</button>
           </div>
         ) : sosState === 'confirm' ? (
@@ -109,7 +109,7 @@ export default function Emergency() {
         ) : (
           <button type="button" onClick={() => setSosState('confirm')} disabled={sosState === 'sending'}
             className="w-32 h-32 rounded-full bg-red-600 text-white font-bold text-xl shadow-lg hover:bg-red-700 active:scale-95 transition disabled:opacity-60 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-300">
-            {sosState === 'sending' ? 'â€¦' : 'SOS'}
+            {sosState === 'sending' ? '…' : 'SOS'}
           </button>
         )}
       </div>
@@ -146,7 +146,7 @@ export default function Emergency() {
             {addErr && <p role="alert" className="text-[12px] text-red-600">{addErr}</p>}
             <button type="button" onClick={submitContact} disabled={adding}
               className="flex items-center gap-1.5 text-[13px] font-semibold text-brand hover:text-brand-hover disabled:opacity-50 rounded-lg px-1 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
-              <Plus className="w-4 h-4" /> {adding ? 'Addingâ€¦' : 'Add contact'}
+              <Plus className="w-4 h-4" /> {adding ? 'Adding…' : 'Add contact'}
             </button>
           </div>
         </div>
@@ -156,12 +156,12 @@ export default function Emergency() {
           <button type="button" onClick={findHospitals} disabled={geo === 'locating' || geo === 'loading'}
             className="flex items-center gap-2 text-[14px] font-semibold text-white bg-brand hover:bg-brand-hover rounded-xl px-4 py-2.5 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
             {(geo === 'locating' || geo === 'loading') ? <Loader2 className="w-4 h-4 animate-spin" /> : <MapPin className="w-4 h-4" />}
-            {geo === 'locating' ? 'Locatingâ€¦' : geo === 'loading' ? 'Searchingâ€¦' : 'Find hospitals near me'}
+            {geo === 'locating' ? 'Locating…' : geo === 'loading' ? 'Searching…' : 'Find hospitals near me'}
           </button>
 
           <div className="mt-4" role="status" aria-live="polite">
             {geo === 'denied' && <p className="text-[13px] text-amber-600">Location permission denied. Enable location to find nearby hospitals.</p>}
-            {geo === 'error' && <p className="text-[13px] text-red-600">Couldnâ€™t search right now. Please try again.</p>}
+            {geo === 'error' && <p className="text-[13px] text-red-600">Couldn’t search right now. Please try again.</p>}
             {geo === 'empty' && <p className="text-[13px] text-gray-500">No hospitals found within 5 km.</p>}
             {geo === 'done' && (
               <ul className="space-y-2">

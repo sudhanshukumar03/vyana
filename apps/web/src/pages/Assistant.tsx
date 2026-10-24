@@ -50,10 +50,10 @@ export default function Assistant() {
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      setMessages((m) => [...m, { role: 'assistant', content: 'That file is larger than 10 MB. Please upload a smaller file.' }]);
+      setMessages((m) => [...m, { role: 'assistant', content: 'That file is larger than 10 MiB. Please upload a smaller file.' }]);
       return;
     }
-    setMessages((m) => [...m, { role: 'user', content: `ðŸ“Ž Uploaded report: ${file.name}` }]);
+    setMessages((m) => [...m, { role: 'user', content: `Uploaded report: ${file.name}` }]);
     setUploading(true);
     try {
       const dataUrl: string = await new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ export default function Assistant() {
         method: 'POST',
         body: JSON.stringify({ data_base64: b64, mime_type: file.type, filename: file.name }),
       });
-      const points = (data.discussion_points || []).map((p: string) => `â€¢ ${p}`).join('\n');
+      const points = (data.discussion_points || []).map((p: string) => `• ${p}`).join('\n');
       const content = (data.summary || 'No summary available.') + (points ? `\n\n${points}` : '');
       setMessages((m) => [...m, { role: 'assistant', content }]);
     } catch (error) {
@@ -83,7 +83,7 @@ export default function Assistant() {
         <Sparkles className="w-7 h-7 text-brand" />
         <h1 className="text-2xl font-bold text-gray-900">AI Assistant</h1>
       </div>
-      <p className="text-[12px] text-gray-600 mb-4">AI guidance only â€” not a substitute for professional medical care.</p>
+      <p className="text-[12px] text-gray-600 mb-4">AI guidance only — not a substitute for professional medical care.</p>
 
       <div role="log" aria-live="polite" aria-label="Conversation" className="flex-1 overflow-y-auto bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-4">
         {messages.length === 0 ? (
@@ -111,7 +111,7 @@ export default function Assistant() {
         )}
         {(sending || uploading) && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 text-gray-600 rounded-2xl px-4 py-2.5 text-[14px]">{uploading ? 'Analysing reportâ€¦' : 'Thinkingâ€¦'}</div>
+            <div className="bg-gray-100 text-gray-600 rounded-2xl px-4 py-2.5 text-[14px]">{uploading ? 'Analysing report…' : 'Thinking…'}</div>
           </div>
         )}
         <div ref={endRef} />
@@ -126,7 +126,7 @@ export default function Assistant() {
           maxLength={4000}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask the assistantâ€¦"
+          placeholder="Ask the assistant…"
           aria-label="Message the assistant"
           className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         />

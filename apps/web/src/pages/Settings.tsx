@@ -13,7 +13,7 @@ export default function Settings() {
           <SettingsIcon className="w-7 h-7 text-gray-500" />
         </div>
         <h2 className="text-lg font-semibold text-gray-900 mb-1">No settings to configure</h2>
-        <p className="text-gray-500 max-w-sm">This build runs against a single demo profile, so there’s nothing to configure yet. Account and alert-threshold settings would live here.</p>
+        <p className="text-gray-500 max-w-sm">Edit your details on the Profile page. Custom alert thresholds and notification preferences are not available in this build.</p>
       </div>
     </div>
   );

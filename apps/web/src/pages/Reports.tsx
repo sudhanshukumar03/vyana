@@ -13,7 +13,7 @@ export default function Reports() {
         <div className="w-14 h-14 rounded-full bg-surface-soft flex items-center justify-center mb-4">
           <FileText className="w-7 h-7 text-brand" />
         </div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">No reports yet</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-1">Report export is unavailable</h2>
         <p className="text-gray-500 max-w-sm">Exportable health reports aren’t part of this build. Live vitals and activity are available on the Dashboard and in History.</p>
         <Link to="/assistant" className="mt-4 underline text-brand">Analyze a report with the AI Assistant</Link>
       </div>

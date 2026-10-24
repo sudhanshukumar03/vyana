@@ -19,14 +19,14 @@ function App() {
   const token = useHealthStore((s) => s.token);
   const authReady = useHealthStore((s) => s.authReady);
   useEffect(() => { void useHealthStore.getState().bootstrap(); }, []);
-  if (!authReady) return <p role="status" className="p-8">Restoring your session?</p>;
+  if (!authReady) return <p role="status" className="p-8">Restoring your session...</p>;
 
   if (!token) {
-    return <Suspense fallback={<p role="status" className="p-8">Loading sign in?</p>}><Login /></Suspense>;
+    return <Suspense fallback={<p role="status" className="p-8">Loading sign in...</p>}><Login /></Suspense>;
   }
 
   return (
-    <BrowserRouter><Suspense fallback={<p role="status" className="p-8">Loading page?</p>}>
+    <BrowserRouter><Suspense fallback={<p role="status" className="p-8">Loading page...</p>}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />

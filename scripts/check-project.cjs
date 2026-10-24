@@ -1,4 +1,4 @@
-// Validate local documentation, audit traceability and source/asset references.
+// Validate documentation, audit traceability, source/asset references and text encoding.
 const fs = require('node:fs');
 const path = require('node:path');
 const ts = require('typescript');
@@ -6,9 +6,16 @@ const ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 const absolute = name => path.join(root, name);
 const relative = name => path.relative(root, name).replaceAll('\\', '/');
+const generatedDirectories = new Set(['node_modules', 'venv', '.venv', '__pycache__', 'dist', '.pio']);
 const walk = directory => fs.readdirSync(directory, {withFileTypes: true})
-  .flatMap(entry => entry.isDirectory() ? walk(path.join(directory, entry.name)) : [path.join(directory, entry.name)]);
+  .flatMap(entry => entry.isDirectory()
+    ? generatedDirectories.has(entry.name) ? [] : walk(path.join(directory, entry.name))
+    : entry.isFile() ? [path.join(directory, entry.name)] : []);
 const failures = [];
+function checkEncoding(file, text) {
+  const damaged = /\uFFFD|\u00c3[\u0080-\u00ff\u0152\u0153\u0160\u0161\u0178\u017d\u017e\u0192\u2000-\u20ff]|\u00e2[\u0080-\u00bf\u2000-\u20ff]|\u00f0\u0178|\u00c2[\u0080-\u00bf]/;
+  if (damaged.test(text)) failures.push(`${relative(file)}: damaged text encoding`);
+}
 const documents = ['README.md', 'CONTRIBUTING.md', 'CHANGELOG.md', 'hardware/README.md']
   .map(absolute).concat(walk(absolute('docs')).filter(file => file.endsWith('.md')));
 const withoutFences = text => text.replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '');
@@ -30,7 +37,8 @@ function headings(file) {
 let links = 0;
 for (const file of documents) {
   const text = fs.readFileSync(file, 'utf8');
-  if (!text.trim() || /\uFFFD|\u00e2\u20ac/.test(text)) failures.push(`${relative(file)}: empty or damaged text`);
+  if (!text.trim()) failures.push(`${relative(file)}: empty document`);
+  checkEncoding(file, text);
   for (const match of withoutFences(text).matchAll(/!?\[[^\]\n]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/g)) {
     const href = match[1].replace(/^<|>$/g, '');
     if (/^[a-z][a-z\d+.-]*:/i.test(href) || href.startsWith('//')) continue;
@@ -63,7 +71,9 @@ const sources = ['apps/web/src', 'apps/api/src', 'shared'].flatMap(directory => 
 const edges = new Map();
 const packages = new Set();
 for (const file of sources) {
-  const references = ts.preProcessFile(fs.readFileSync(file, 'utf8'), true, true).importedFiles;
+  const text = fs.readFileSync(file, 'utf8');
+  checkEncoding(file, text);
+  const references = ts.preProcessFile(text, true, true).importedFiles;
   const dependencies = [];
   for (const {fileName: specifier} of references) {
     if (specifier.startsWith('.')) {
@@ -94,6 +104,11 @@ for (const dependency of Object.keys(manifest.dependencies)) {
 }
 const webText = walk(absolute('apps/web/src')).filter(file => /\.(?:tsx?|css)$/.test(file))
   .concat(absolute('apps/web/index.html')).map(file => fs.readFileSync(file, 'utf8')).join('\n');
+const extraTextFiles = ['ai/main.py', 'ai/__init__.py', 'apps/web/index.html', 'apps/web/src/index.css']
+  .map(absolute).concat(['ai/services', 'ai/tests', 'simulator', 'scripts', 'hardware/esp32/src', 'hardware/esp32/test']
+    .flatMap(directory => walk(absolute(directory)))
+    .filter(file => /\.(?:py|cjs|h|cpp)$/.test(file) && path.basename(file) !== 'config.h'));
+for (const file of extraTextFiles) checkEncoding(file, fs.readFileSync(file, 'utf8'));
 const assets = walk(absolute('apps/web/public')).filter(file => /\.(?:png|jpe?g|gif|svg|webp|ico)$/i.test(file));
 for (const match of webText.matchAll(/["'`]\/(?!\/)([^"'`\s]+\.(?:png|jpe?g|gif|svg|webp|ico))["'`]/gi)) {
   const file = path.resolve(absolute('apps/web/public'), match[1]);

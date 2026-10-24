@@ -27,9 +27,9 @@ AI fallbacks are validated 200 responses with `offline: true`. Ordinary JSON bod
 | POST /auth/request-verification | Requires bearer identity |
 | POST /auth/verify | Consumes `{token}` |
 
-Passwords need at least eight characters and at most 72 UTF-8 bytes. Access tokens last 15 minutes and stay in browser memory. Refresh cookies last up to 30 days, rotate, and use HttpOnly/SameSite=Strict plus Secure in production.
+Passwords need at least eight characters and at most 72 UTF-8 bytes. Access tokens last 15 minutes and stay in browser memory. Refresh cookies rotate and renew a 30-day expiry on each refresh. They use HttpOnly/SameSite=Strict plus Secure in production.
 
-Cookie mutations require the accepted origin; refresh requires credentials and `X-HealthGuard-Client: web`. Recovery/verification uses the encrypted operator outbox described in [operations](OPERATIONS.md).
+Refresh requires the refresh cookie. Refresh and logout both require `X-HealthGuard-Client: web`. Browser requests must use the accepted origin. Recovery/verification uses the encrypted operator outbox described in [operations](OPERATIONS.md).
 
 ## Device writes
 

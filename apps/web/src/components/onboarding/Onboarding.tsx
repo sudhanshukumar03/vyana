@@ -131,7 +131,7 @@ export function Onboarding() {
                 <input id="ob-w" type="number" inputMode="decimal" className={input} value={form.weight_kg} onChange={(e) => patch('weight_kg', e.target.value)} placeholder="72" />
               </div>
               {!bodyValid && (form.height_cm !== '' || form.weight_kg !== '') && (
-                <p className="text-[12px] text-warn">Enter height 50â€“250 cm and weight 20â€“300 kg.</p>
+                <p className="text-[12px] text-warn">Enter height 50–250 cm and weight 20–300 kg.</p>
               )}
               <p className="text-[12px] text-muted">Used to calculate your BMI and tailor guidance.</p>
             </>
@@ -142,7 +142,7 @@ export function Onboarding() {
               <div>
                 <label className={label} htmlFor="ob-act">Activity level</label>
                 <select id="ob-act" className={input} value={form.activity_level} onChange={(e) => patch('activity_level', e.target.value)}>
-                  <option value="">Selectâ€¦</option>
+                  <option value="">Select…</option>
                   <option value="sedentary">Sedentary</option>
                   <option value="light">Lightly active</option>
                   <option value="moderate">Moderately active</option>
@@ -176,7 +176,7 @@ export function Onboarding() {
               className="bg-brand text-white text-[14px] font-semibold px-5 py-2.5 rounded-xl hover:bg-brand-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">Next</button>
           ) : (
             <button type="button" onClick={finish} disabled={saving}
-              className="bg-brand text-white text-[14px] font-semibold px-5 py-2.5 rounded-xl hover:bg-brand-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">{saving ? 'Savingâ€¦' : 'Finish'}</button>
+              className="bg-brand text-white text-[14px] font-semibold px-5 py-2.5 rounded-xl hover:bg-brand-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">{saving ? 'Saving…' : 'Finish'}</button>
           )}
         </div>
       </div>

@@ -105,3 +105,9 @@ Unused source/assets and overlapping documentation were removed after a referenc
 After cleanup, all 83 tests passed (28 API, 16 frontend, 29 Python, seven browser and three native firmware), along with types/lint/build, the ESP32 compile, frozen install, reference checks and the source secret scan. The final JS dependency scan reported zero known advisories. An initial axe analysis-page timeout passed in isolation and on the final complete browser run.
 
 The original documents and removed drafts/assets are preserved in an ignored local backup. [The cleanup record](cleanup-2026-10-25.json) lists removal totals and verification. This cleanup does not authorize a public push. Commit `69c2f52` is the earlier review snapshot and does not include these changes.
+
+## Second review — 25 October
+
+The follow-up review found garbled characters on 14 lines in Assistant, Emergency and onboarding, plus misleading loading punctuation, outdated Settings/Reports wording and an upload limit labeled MB instead of MiB. These are corrected. The API guide now states the rolling refresh expiry and the client-header requirement for both refresh and logout.
+
+The source encoding check now covers project code as well as docs and excludes generated dependencies. It rejected the original corrupted Assistant source in a negative check. Frontend types/lint/build, all 16 frontend tests and all seven browser tests passed again. The 68 local links, 47 finding IDs, 22 regression cases, removal list, backup integrity and unchanged historical JSON evidence also passed review. No additional unused source or image was identified. Nothing was pushed.

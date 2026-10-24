@@ -16,7 +16,7 @@ pnpm test:e2e
 
 Use your disposable test credentials in place of the example. Integration tests require both variables; without a URL they are skipped. A pass with skipped integration tests is not a database verification pass.
 
-`pnpm verify` runs documentation/reference checks, types, lint, API/frontend tests, builds and Python tests/lint. API lint currently repeats TypeScript checking; frontend uses ESLint and Python uses Ruff. Browser tests start isolated API/Vite servers on 18000/4173 and require a built API.
+`pnpm verify` checks documentation, references and text encoding, then runs types, lint, API/frontend tests, builds and Python tests/lint. Encoding checks cover project source and docs, excluding generated dependencies. API lint currently repeats TypeScript checking; frontend uses ESLint and Python uses Ruff. Browser tests start isolated API/Vite servers on 18000/4173 and require a built API.
 
 For JS checks in Linux, build `docker build -f scripts/Dockerfile.verify -t healthguard-checks .`, then run `docker run --rm healthguard-checks`. Supply test database variables only for a disposable database. That image runs JS checks; Python and firmware checks are separate.
 
