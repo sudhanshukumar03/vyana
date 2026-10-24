@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 80 72" fill="none">
+  <defs>
+    <linearGradient id="vyana-teal" x1="12" y1="64" x2="68" y2="8" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#115e59"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="4" width="64" height="64" rx="14" fill="url(#vyana-teal)"/>
+  <path d="M21 27h7l12 22 14-26h6" stroke="#fff" stroke-width="5.5" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>

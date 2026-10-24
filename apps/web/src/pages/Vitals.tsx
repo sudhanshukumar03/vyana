@@ -1,3 +1,4 @@
+import { ECGWaveform } from '../components/ECGWaveform';
 import { useHealthStore } from '../store/useHealthStore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Activity, Heart, Thermometer, AlertCircle } from 'lucide-react';
@@ -22,18 +23,19 @@ export default function Vitals() {
     hr: v.heart_rate,
     spo2: v.spo2,
     temp: v.temperature
-  })).reverse();
+  }));
 
   return (
     <div className="space-y-6 p-6">
       <h1 className="text-2xl font-bold text-gray-900">Vitals Overview</h1>
+      <ECGWaveform />
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Heart Rate Card */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-700">Heart Rate</h3>
-            <Heart className="text-red-500 w-6 h-6" />
+            <Heart className="text-brand w-6 h-6" />
           </div>
           <p className="text-3xl font-bold text-gray-900">{vitals.heart_rate} <span className="text-sm font-normal text-gray-500">bpm</span></p>
           <div className="h-48 mt-4">
@@ -53,7 +55,7 @@ export default function Vitals() {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-700">Blood Oxygen</h3>
-            <Activity className="text-blue-500 w-6 h-6" />
+            <Activity className="text-brand w-6 h-6" />
           </div>
           <p className="text-3xl font-bold text-gray-900">{vitals.spo2} <span className="text-sm font-normal text-gray-500">%</span></p>
           <div className="h-48 mt-4">

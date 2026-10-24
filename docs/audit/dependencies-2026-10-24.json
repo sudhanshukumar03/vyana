@@ -1,0 +1,2671 @@
+{
+  "advisories": {
+    "1112644": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1112644,
+      "title": "Hono vulnerable to XSS through ErrorBoundary component ",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.11.7",
+      "patched_versions": ">=4.11.7",
+      "severity": "moderate",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-9r54-q6cx-xmh5",
+      "url": "https://github.com/advisories/GHSA-9r54-q6cx-xmh5"
+    },
+    "1112677": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1112677,
+      "title": "Hono cache middleware ignores \"Cache-Control: private\" leading to Web Cache Deception",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.11.7",
+      "patched_versions": ">=4.11.7",
+      "severity": "moderate",
+      "cwe": "CWE-524, CWE-613",
+      "github_advisory_id": "GHSA-6wqw-2p9w-4vw4",
+      "url": "https://github.com/advisories/GHSA-6wqw-2p9w-4vw4"
+    },
+    "1112678": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1112678,
+      "title": "Hono IPv4 address validation bypass in IP Restriction Middleware allows IP spoofing",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.11.7",
+      "patched_versions": ">=4.11.7",
+      "severity": "moderate",
+      "cwe": "CWE-185",
+      "github_advisory_id": "GHSA-r354-f388-2fhh",
+      "url": "https://github.com/advisories/GHSA-r354-f388-2fhh"
+    },
+    "1112911": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1112911,
+      "title": "Hono has an Arbitrary Key Read in Serve static Middleware (Cloudflare Workers Adapter)",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.11.7",
+      "patched_versions": ">=4.11.7",
+      "severity": "moderate",
+      "cwe": "CWE-200, CWE-284, CWE-668",
+      "github_advisory_id": "GHSA-w332-q679-j88p",
+      "url": "https://github.com/advisories/GHSA-w332-q679-j88p"
+    },
+    "1113311": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1113311,
+      "title": "Hono added timing comparison hardening in basicAuth and bearerAuth",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.11.10",
+      "patched_versions": ">=4.11.10",
+      "severity": "low",
+      "cwe": "CWE-208",
+      "github_advisory_id": "GHSA-gq3j-xvxp-8hrf",
+      "url": "https://github.com/advisories/GHSA-gq3j-xvxp-8hrf"
+    },
+    "1114004": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1114004,
+      "title": "Hono Vulnerable to Cookie Attribute Injection via Unsanitized domain and path in setCookie()",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.4",
+      "patched_versions": ">=4.12.4",
+      "severity": "moderate",
+      "cwe": "CWE-113, CWE-1113",
+      "github_advisory_id": "GHSA-5pq2-9x2x-5p6w",
+      "url": "https://github.com/advisories/GHSA-5pq2-9x2x-5p6w"
+    },
+    "1114005": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1114005,
+      "title": "Hono Vulnerable to SSE Control Field Injection via CR/LF in writeSSE()",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.4",
+      "patched_versions": ">=4.12.4",
+      "severity": "moderate",
+      "cwe": "CWE-74",
+      "github_advisory_id": "GHSA-p6xx-57qc-3wxr",
+      "url": "https://github.com/advisories/GHSA-p6xx-57qc-3wxr"
+    },
+    "1114006": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1114006,
+      "title": "Hono vulnerable to arbitrary file access via serveStatic vulnerability ",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.4",
+      "patched_versions": ">=4.12.4",
+      "severity": "high",
+      "cwe": "CWE-177",
+      "github_advisory_id": "GHSA-q5qw-h33p-qvwr",
+      "url": "https://github.com/advisories/GHSA-q5qw-h33p-qvwr"
+    },
+    "1114170": {
+      "findings": [
+        {
+          "version": "1.19.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1114170,
+      "title": "@hono/node-server has authorization bypass for protected static paths via encoded slashes in Serve Static Middleware",
+      "module_name": "@hono/node-server",
+      "vulnerable_versions": "<1.19.10",
+      "patched_versions": ">=1.19.10",
+      "severity": "high",
+      "cwe": "CWE-863",
+      "github_advisory_id": "GHSA-wc8c-qw6v-h7f6",
+      "url": "https://github.com/advisories/GHSA-wc8c-qw6v-h7f6"
+    },
+    "1115806": {
+      "findings": [
+        {
+          "version": "4.17.21",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1115806,
+      "title": "lodash vulnerable to Code Injection via `_.template` imports key names",
+      "module_name": "lodash",
+      "vulnerable_versions": ">=4.0.0 <=4.17.23",
+      "patched_versions": ">=4.17.24",
+      "severity": "high",
+      "cwe": "CWE-94",
+      "github_advisory_id": "GHSA-r5fr-rjxr-66jc",
+      "url": "https://github.com/advisories/GHSA-r5fr-rjxr-66jc"
+    },
+    "1115810": {
+      "findings": [
+        {
+          "version": "4.17.21",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1115810,
+      "title": "lodash vulnerable to Prototype Pollution via array path bypass in `_.unset` and `_.omit`",
+      "module_name": "lodash",
+      "vulnerable_versions": "<=4.17.23",
+      "patched_versions": ">=4.17.24",
+      "severity": "moderate",
+      "cwe": "CWE-1321",
+      "github_advisory_id": "GHSA-f23m-r3pf-42rh",
+      "url": "https://github.com/advisories/GHSA-f23m-r3pf-42rh"
+    },
+    "1116277": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1116277,
+      "title": "Hono: Non-breaking space prefix bypass in cookie name handling in getCookie()",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.12",
+      "patched_versions": ">=4.12.12",
+      "severity": "moderate",
+      "cwe": "CWE-20",
+      "github_advisory_id": "GHSA-r5rp-j6wh-rvv4",
+      "url": "https://github.com/advisories/GHSA-r5rp-j6wh-rvv4"
+    },
+    "1116279": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1116279,
+      "title": "Hono: Path traversal in toSSG() allows writing files outside the output directory",
+      "module_name": "hono",
+      "vulnerable_versions": ">=4.0.0 <=4.12.11",
+      "patched_versions": ">=4.12.12",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-xf4j-xp2r-rqqx",
+      "url": "https://github.com/advisories/GHSA-xf4j-xp2r-rqqx"
+    },
+    "1116280": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1116280,
+      "title": "Hono: Middleware bypass via repeated slashes in serveStatic",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.12",
+      "patched_versions": ">=4.12.12",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-wmmm-f939-6g9c",
+      "url": "https://github.com/advisories/GHSA-wmmm-f939-6g9c"
+    },
+    "1116281": {
+      "findings": [
+        {
+          "version": "1.19.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1116281,
+      "title": "@hono/node-server: Middleware bypass via repeated slashes in serveStatic",
+      "module_name": "@hono/node-server",
+      "vulnerable_versions": "<1.19.13",
+      "patched_versions": ">=1.19.13",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-92pp-h63x-v22m",
+      "url": "https://github.com/advisories/GHSA-92pp-h63x-v22m"
+    },
+    "1117087": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1117087,
+      "title": "Hono has incorrect IP matching in ipRestriction() for IPv4-mapped IPv6 addresses",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.12",
+      "patched_versions": ">=4.12.12",
+      "severity": "moderate",
+      "cwe": "CWE-180",
+      "github_advisory_id": "GHSA-xpcf-pg52-r92g",
+      "url": "https://github.com/advisories/GHSA-xpcf-pg52-r92g"
+    },
+    "1117915": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1117915,
+      "title": "Hono has CSS Declaration Injection via Style Object Values in JSX SSR",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.18",
+      "patched_versions": ">=4.12.18",
+      "severity": "moderate",
+      "cwe": "CWE-74, CWE-116",
+      "github_advisory_id": "GHSA-qp7p-654g-cw7p",
+      "url": "https://github.com/advisories/GHSA-qp7p-654g-cw7p"
+    },
+    "1118963": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1118963,
+      "title": "Hono has improper validation of NumericDate claims (exp, nbf, iat) in JWT verify()",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.18",
+      "patched_versions": ">=4.12.18",
+      "severity": "low",
+      "cwe": "CWE-1284",
+      "github_advisory_id": "GHSA-hm8q-7f3q-5f36",
+      "url": "https://github.com/advisories/GHSA-hm8q-7f3q-5f36"
+    },
+    "1118964": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1118964,
+      "title": "Hono's Cache Middleware ignores Vary: Authorization / Vary: Cookie leading to cross-user cache leakage",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.18",
+      "patched_versions": ">=4.12.18",
+      "severity": "moderate",
+      "cwe": "CWE-524",
+      "github_advisory_id": "GHSA-p77w-8qqv-26rm",
+      "url": "https://github.com/advisories/GHSA-p77w-8qqv-26rm"
+    },
+    "1118982": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1118982,
+      "title": "Hono: bodyLimit() can be bypassed for chunked / unknown-length requests",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.16",
+      "patched_versions": ">=4.12.16",
+      "severity": "moderate",
+      "cwe": "CWE-400",
+      "github_advisory_id": "GHSA-9vqf-7f2p-gf9v",
+      "url": "https://github.com/advisories/GHSA-9vqf-7f2p-gf9v"
+    },
+    "1118983": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1118983,
+      "title": "hono/jsx has Unvalidated JSX Tag Names that May Allow HTML Injection",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.16",
+      "patched_versions": ">=4.12.16",
+      "severity": "moderate",
+      "cwe": "CWE-74",
+      "github_advisory_id": "GHSA-69xw-7hcm-h432",
+      "url": "https://github.com/advisories/GHSA-69xw-7hcm-h432"
+    },
+    "1120082": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1120082,
+      "title": "Hono: IP Restriction bypasses static deny rules for non-canonical IPv6 ",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.21",
+      "patched_versions": ">=4.12.21",
+      "severity": "moderate",
+      "cwe": "CWE-185, CWE-1289",
+      "github_advisory_id": "GHSA-xrhx-7g5j-rcj5",
+      "url": "https://github.com/advisories/GHSA-xrhx-7g5j-rcj5"
+    },
+    "1120083": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1120083,
+      "title": "Hono: Cookie helper does not sanitize sameSite and priority, allowing Set-Cookie injection",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.21",
+      "patched_versions": ">=4.12.21",
+      "severity": "moderate",
+      "cwe": "CWE-113, CWE-1287",
+      "github_advisory_id": "GHSA-3hrh-pfw6-9m5x",
+      "url": "https://github.com/advisories/GHSA-3hrh-pfw6-9m5x"
+    },
+    "1120084": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1120084,
+      "title": "Hono: JWT middleware accepts any Authorization scheme, not only Bearer",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.21",
+      "patched_versions": ">=4.12.21",
+      "severity": "moderate",
+      "cwe": "CWE-285",
+      "github_advisory_id": "GHSA-f577-qrjj-4474",
+      "url": "https://github.com/advisories/GHSA-f577-qrjj-4474"
+    },
+    "1120085": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1120085,
+      "title": "Hono: app.mount() strips mount prefix using undecoded path, causing incorrect routing for percent-encoded paths",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.21",
+      "patched_versions": ">=4.12.21",
+      "severity": "moderate",
+      "cwe": "CWE-444, CWE-693",
+      "github_advisory_id": "GHSA-2gcr-mfcq-wcc3",
+      "url": "https://github.com/advisories/GHSA-2gcr-mfcq-wcc3"
+    },
+    "1120370": {
+      "findings": [
+        {
+          "version": "4.17.21",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/cst-dts-gen>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>@chevrotain/gast>lodash",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@mrleebo/prisma-ast>chevrotain>lodash"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1120370,
+      "title": "Lodash has Prototype Pollution Vulnerability in `_.unset` and `_.omit` functions",
+      "module_name": "lodash",
+      "vulnerable_versions": ">=4.0.0 <=4.17.22",
+      "patched_versions": ">=4.17.23",
+      "severity": "moderate",
+      "cwe": "CWE-1321",
+      "github_advisory_id": "GHSA-xxjr-mmjv-4gpg",
+      "url": "https://github.com/advisories/GHSA-xxjr-mmjv-4gpg"
+    },
+    "1121418": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1121418,
+      "title": "hono Improperly Handles JSX Attribute Names Allows HTML Injection in hono/jsx SSR",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.14",
+      "patched_versions": ">=4.12.14",
+      "severity": "moderate",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-458j-xx4x-4375",
+      "url": "https://github.com/advisories/GHSA-458j-xx4x-4375"
+    },
+    "1123997": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1123997,
+      "title": "hono: Body Limit Middleware can be bypassed on AWS Lambda by understating `Content-Length`",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.25",
+      "patched_versions": ">=4.12.25",
+      "severity": "moderate",
+      "cwe": "CWE-345",
+      "github_advisory_id": "GHSA-rv63-4mwf-qqc2",
+      "url": "https://github.com/advisories/GHSA-rv63-4mwf-qqc2"
+    },
+    "1123998": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1123998,
+      "title": "hono: Lambda@Edge adapter keeps only the last value of a repeated request header, dropping the rest",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.25",
+      "patched_versions": ">=4.12.25",
+      "severity": "moderate",
+      "cwe": "CWE-348",
+      "github_advisory_id": "GHSA-wgpf-jwqj-8h8p",
+      "url": "https://github.com/advisories/GHSA-wgpf-jwqj-8h8p"
+    },
+    "1123999": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1123999,
+      "title": "hono: CORS Middleware reflects any Origin with credentials when `origin` defaults to the wildcard",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.25",
+      "patched_versions": ">=4.12.25",
+      "severity": "high",
+      "cwe": "CWE-942",
+      "github_advisory_id": "GHSA-88fw-hqm2-52qc",
+      "url": "https://github.com/advisories/GHSA-88fw-hqm2-52qc"
+    },
+    "1124000": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1124000,
+      "title": "hono: Path traversal in `serve-static` on Windows via encoded backslash (`%5C`)",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.25",
+      "patched_versions": ">=4.12.25",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-wwfh-h76j-fc44",
+      "url": "https://github.com/advisories/GHSA-wwfh-h76j-fc44"
+    },
+    "1124001": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1124001,
+      "title": "hono: AWS Lambda adapter merges multiple `Set-Cookie` headers into one value, dropping cookies on ALB single-header and Lattice",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.25",
+      "patched_versions": ">=4.12.25",
+      "severity": "moderate",
+      "cwe": "CWE-116",
+      "github_advisory_id": "GHSA-j6c9-x7qj-28xf",
+      "url": "https://github.com/advisories/GHSA-j6c9-x7qj-28xf"
+    },
+    "1124005": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1124005,
+      "title": "Hono: API Gateway v1 adapter can drop a distinct repeated request header value during de-duplication",
+      "module_name": "hono",
+      "vulnerable_versions": ">=4.3.3 <4.12.27",
+      "patched_versions": ">=4.12.27",
+      "severity": "moderate",
+      "cwe": "CWE-348",
+      "github_advisory_id": "GHSA-xgm2-5f3f-mvvc",
+      "url": "https://github.com/advisories/GHSA-xgm2-5f3f-mvvc"
+    },
+    "1124010": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1124010,
+      "title": "Hono: Server-Side XSS via JSX Escaping Bypass in cx() Utility",
+      "module_name": "hono",
+      "vulnerable_versions": ">=4.0.0 <4.12.27",
+      "patched_versions": ">=4.12.27",
+      "severity": "moderate",
+      "cwe": "CWE-79, CWE-116",
+      "github_advisory_id": "GHSA-w62v-xxxg-mg59",
+      "url": "https://github.com/advisories/GHSA-w62v-xxxg-mg59"
+    },
+    "1124298": {
+      "findings": [
+        {
+          "version": "1.2.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>valibot",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>valibot",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>valibot",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>valibot"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1124298,
+      "title": "Valibot: record() issue paths can make flatten() throw for inherited Object property names",
+      "module_name": "valibot",
+      "vulnerable_versions": "<=1.4.1",
+      "patched_versions": ">=1.4.2",
+      "severity": "moderate",
+      "cwe": "CWE-755",
+      "github_advisory_id": "GHSA-5qjj-4xww-7phc",
+      "url": "https://github.com/advisories/GHSA-5qjj-4xww-7phc"
+    },
+    "1130733": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1130733,
+      "title": "Hono: ReDoS in CORS middleware via Access-Control-Request-Headers",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.34",
+      "patched_versions": ">=4.12.34",
+      "severity": "moderate",
+      "cwe": "CWE-1333",
+      "github_advisory_id": "GHSA-8j4g-w8fx-2239",
+      "url": "https://github.com/advisories/GHSA-8j4g-w8fx-2239"
+    },
+    "1138771": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1138771,
+      "title": "Hono: `memo()` retains SSR output across requests, leading to cross-user data disclosure",
+      "module_name": "hono",
+      "vulnerable_versions": ">=3.8.0 <4.12.34",
+      "patched_versions": ">=4.12.34",
+      "severity": "moderate",
+      "cwe": "CWE-488",
+      "github_advisory_id": "GHSA-f23p-vx2j-j53r",
+      "url": "https://github.com/advisories/GHSA-f23p-vx2j-j53r"
+    },
+    "1138772": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1138772,
+      "title": "Hono: Proxy Helper does not remove response headers listed in the `Connection` header",
+      "module_name": "hono",
+      "vulnerable_versions": ">=4.7.0 <4.12.34",
+      "patched_versions": ">=4.12.34",
+      "severity": "low",
+      "cwe": "CWE-200",
+      "github_advisory_id": "GHSA-79qm-7rj5-m7r9",
+      "url": "https://github.com/advisories/GHSA-79qm-7rj5-m7r9"
+    },
+    "1139322": {
+      "findings": [
+        {
+          "version": "1.19.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1139322,
+      "title": "Node.js Adapter for Hono: Path traversal in `serve-static` on Windows via encoded backslash (`%5C`)",
+      "module_name": "@hono/node-server",
+      "vulnerable_versions": "<1.19.15",
+      "patched_versions": ">=1.19.15",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-frvp-7c67-39w9",
+      "url": "https://github.com/advisories/GHSA-frvp-7c67-39w9"
+    },
+    "1158506": {
+      "findings": [
+        {
+          "version": "6.15.3",
+          "paths": [
+            "apps__api>express>body-parser>qs",
+            "apps__api>express>qs",
+            "apps__api>supertest>superagent>qs"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1158506,
+      "title": "qs array-limit bypass via bracket-key comma parsing",
+      "module_name": "qs",
+      "vulnerable_versions": ">=6.14.2 <=6.15.3",
+      "patched_versions": ">=6.15.4",
+      "severity": "moderate",
+      "cwe": "CWE-770",
+      "github_advisory_id": "GHSA-x5fp-wj9c-mxmx",
+      "url": "https://github.com/advisories/GHSA-x5fp-wj9c-mxmx"
+    },
+    "1158507": {
+      "findings": [
+        {
+          "version": "6.15.3",
+          "paths": [
+            "apps__api>express>body-parser>qs",
+            "apps__api>express>qs",
+            "apps__api>supertest>superagent>qs"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1158507,
+      "title": "qs: Denial of Service via Attacker Controlled isBuffer",
+      "module_name": "qs",
+      "vulnerable_versions": ">=2.2.5 <6.16.0",
+      "patched_versions": ">=6.16.0",
+      "severity": "moderate",
+      "cwe": "CWE-248, CWE-703",
+      "github_advisory_id": "GHSA-4mjr-xmp4-gh2g",
+      "url": "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g"
+    },
+    "1193727": {
+      "findings": [
+        {
+          "version": "4.3.1",
+          "paths": [
+            "apps__web>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>eslint-plugin-react-hooks>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>eslint-plugin-react-refresh>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/parser>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/utils>@eslint-community/eslint-utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/utils>@eslint-community/eslint-utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/parser>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/utils>@eslint-community/eslint-utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>@typescript-eslint/utils>eslint>@eslint/eslintrc>js-yaml",
+            "apps__web>typescript-eslint>eslint>@eslint/eslintrc>js-yaml"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1193727,
+      "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+      "module_name": "js-yaml",
+      "vulnerable_versions": ">=4.0.0 <4.3.2",
+      "patched_versions": ">=4.3.2",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-407",
+      "github_advisory_id": "GHSA-2883-xcg3-v3hh",
+      "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh"
+    },
+    "1193729": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1193729,
+      "title": "Hono: Incomplete fix for CVE-2026-39408: `toSSG()` still writes files outside the output directory",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.13.5",
+      "patched_versions": ">=4.13.5",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-gqvv-2mrq-wpjv",
+      "url": "https://github.com/advisories/GHSA-gqvv-2mrq-wpjv"
+    },
+    "1193730": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1193730,
+      "title": "Hono: Unbounded dot-notation nesting in `parseBody()` can cause memory exhaustion",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.13.5",
+      "patched_versions": ">=4.13.5",
+      "severity": "moderate",
+      "cwe": "CWE-400",
+      "github_advisory_id": "GHSA-g6gw-c38x-mqfc",
+      "url": "https://github.com/advisories/GHSA-g6gw-c38x-mqfc"
+    },
+    "1193731": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1193731,
+      "title": "Hono: Query parser reads parameters after the URL fragment, causing cache-key and proxy interpretation differentials",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.13.5",
+      "patched_versions": ">=4.13.5",
+      "severity": "moderate",
+      "cwe": "CWE-444",
+      "github_advisory_id": "GHSA-crvj-82cr-hjcx",
+      "url": "https://github.com/advisories/GHSA-crvj-82cr-hjcx"
+    },
+    "1239764": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1239764,
+      "title": "Hono missing validation of cookie name on write path in setCookie()",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.12",
+      "patched_versions": ">=4.12.12",
+      "severity": "moderate",
+      "cwe": "CWE-20, CWE-113",
+      "github_advisory_id": "GHSA-26pp-8wgv-hjvm",
+      "url": "https://github.com/advisories/GHSA-26pp-8wgv-hjvm"
+    },
+    "1239933": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1239933,
+      "title": "undici vulnerable to Denial of Service via unhandled error in WebSocket permessage-deflate decompression",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.28.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "moderate",
+      "cwe": "CWE-248",
+      "github_advisory_id": "GHSA-3wwx-pv8p-q78v",
+      "url": "https://github.com/advisories/GHSA-3wwx-pv8p-q78v"
+    },
+    "1240036": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240036,
+      "title": "undici vulnerable to Denial of Service via orphaned RetryHandler response body",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.11.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "moderate",
+      "cwe": "CWE-772",
+      "github_advisory_id": "GHSA-pmjh-fq2x-6v4x",
+      "url": "https://github.com/advisories/GHSA-pmjh-fq2x-6v4x"
+    },
+    "1240038": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240038,
+      "title": "undici vulnerable to downstream response splitting via retry interceptor",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.0.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "low",
+      "cwe": "CWE-444",
+      "github_advisory_id": "GHSA-r53p-7pc4-xj5r",
+      "url": "https://github.com/advisories/GHSA-r53p-7pc4-xj5r"
+    },
+    "1240041": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240041,
+      "title": "undici vulnerable to Denial of Service via unrequested WebSocket subprotocol",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.0.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "high",
+      "cwe": "CWE-248, CWE-252",
+      "github_advisory_id": "GHSA-rfgv-xxqx-mfg5",
+      "url": "https://github.com/advisories/GHSA-rfgv-xxqx-mfg5"
+    },
+    "1240044": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240044,
+      "title": "undici vulnerable to Denial of Service via unbounded decompression of compressed responses",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.15.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "moderate",
+      "cwe": "CWE-770",
+      "github_advisory_id": "GHSA-3xpg-4rpp-hhhm",
+      "url": "https://github.com/advisories/GHSA-3xpg-4rpp-hhhm"
+    },
+    "1240046": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240046,
+      "title": "undici vulnerable to cross-user cookie disclosure via Set-Cookie caching in shared caches",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.0.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "moderate",
+      "cwe": "CWE-200, CWE-524",
+      "github_advisory_id": "GHSA-2jfj-6hjv-fm6j",
+      "url": "https://github.com/advisories/GHSA-2jfj-6hjv-fm6j"
+    },
+    "1240048": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240048,
+      "title": "undici vulnerable to response truncation via oversized chunked responses in the dump interceptor",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.1.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "low",
+      "cwe": "CWE-20, CWE-248",
+      "github_advisory_id": "GHSA-2gqq-gqf2-x968",
+      "url": "https://github.com/advisories/GHSA-2gqq-gqf2-x968"
+    },
+    "1240050": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240050,
+      "title": "undici vulnerable to TLS certificate validation bypass via dropped connect options in BalancedPool",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.24.1 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "high",
+      "cwe": "CWE-295",
+      "github_advisory_id": "GHSA-w293-vg96-wgc3",
+      "url": "https://github.com/advisories/GHSA-w293-vg96-wgc3"
+    },
+    "1240052": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240052,
+      "title": "undici vulnerable to caching and replay of unsafe HTTP method responses",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.0.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "low",
+      "cwe": "CWE-345",
+      "github_advisory_id": "GHSA-8436-99hf-9mmv",
+      "url": "https://github.com/advisories/GHSA-8436-99hf-9mmv"
+    },
+    "1240055": {
+      "findings": [
+        {
+          "version": "7.29.0",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>undici",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>undici"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240055,
+      "title": "undici vulnerable to Denial of Service via WebSocketStream unclean close",
+      "module_name": "undici",
+      "vulnerable_versions": ">=7.0.0 <7.29.1",
+      "patched_versions": ">=7.29.1",
+      "severity": "moderate",
+      "cwe": "CWE-248, CWE-754",
+      "github_advisory_id": "GHSA-rx4f-c7p8-82vq",
+      "url": "https://github.com/advisories/GHSA-rx4f-c7p8-82vq"
+    },
+    "1240100": {
+      "findings": [
+        {
+          "version": "1.1.18",
+          "paths": [
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240100,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": "<1.1.21",
+      "patched_versions": ">=1.1.21",
+      "severity": "moderate",
+      "cwe": "CWE-400, CWE-407",
+      "github_advisory_id": "GHSA-q2hr-2g5m-vwhr",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+    },
+    "1240103": {
+      "findings": [
+        {
+          "version": "5.0.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240103,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": ">=4.0.0 <5.0.12",
+      "patched_versions": ">=5.0.12",
+      "severity": "moderate",
+      "cwe": "CWE-400, CWE-407",
+      "github_advisory_id": "GHSA-q2hr-2g5m-vwhr",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr"
+    },
+    "1240104": {
+      "findings": [
+        {
+          "version": "1.1.18",
+          "paths": [
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240104,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": "<1.1.20",
+      "patched_versions": ">=1.1.20",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-674",
+      "github_advisory_id": "GHSA-qhr7-859c-m2p7",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+    },
+    "1240107": {
+      "findings": [
+        {
+          "version": "5.0.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240107,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": ">=4.0.0 <5.0.11",
+      "patched_versions": ">=5.0.11",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-674",
+      "github_advisory_id": "GHSA-qhr7-859c-m2p7",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7"
+    },
+    "1240108": {
+      "findings": [
+        {
+          "version": "1.1.18",
+          "paths": [
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/reporters>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>babel-jest>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-circus>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-config>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-resolve-dependencies>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/globals>@jest/expect>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-runtime>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>glob>minimatch>brace-expansion",
+            "apps__api>jest>jest-cli>@jest/core>jest-snapshot>@jest/transform>babel-plugin-istanbul>test-exclude>minimatch>brace-expansion"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240108,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": "<1.1.19",
+      "patched_versions": ">=1.1.19",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-674",
+      "github_advisory_id": "GHSA-6j4f-fj2g-mc7p",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+    },
+    "1240111": {
+      "findings": [
+        {
+          "version": "5.0.9",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>@prisma/client>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__api>prisma>@prisma/compute-sdk>@vercel/nft>glob>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/type-utils>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/eslint-plugin>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/typescript-estree>minimatch>brace-expansion",
+            "apps__web>typescript-eslint>@typescript-eslint/utils>@typescript-eslint/typescript-estree>minimatch>brace-expansion"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240111,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "module_name": "brace-expansion",
+      "vulnerable_versions": ">=4.0.0 <5.0.10",
+      "patched_versions": ">=5.0.10",
+      "severity": "high",
+      "cwe": "CWE-400, CWE-674",
+      "github_advisory_id": "GHSA-6j4f-fj2g-mc7p",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p"
+    },
+    "1240112": {
+      "findings": [
+        {
+          "version": "6.6.9",
+          "paths": [
+            "apps__api>socket.io>engine.io",
+            "apps__api>@types/socket.io>socket.io>engine.io"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240112,
+      "title": "Socket.IO: Engine.IO Protocol Revision Mismatch DoS",
+      "module_name": "engine.io",
+      "vulnerable_versions": ">=6.6.0 <6.6.10",
+      "patched_versions": ">=6.6.10",
+      "severity": "high",
+      "cwe": "CWE-248",
+      "github_advisory_id": "GHSA-2gc4-cqfq-p2gv",
+      "url": "https://github.com/advisories/GHSA-2gc4-cqfq-p2gv"
+    },
+    "1240640": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240640,
+      "title": "hono/jsx renders plain strings unescaped in boundary components, leading to XSS",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.13.7",
+      "patched_versions": ">=4.13.7",
+      "severity": "moderate",
+      "cwe": "CWE-79",
+      "github_advisory_id": "GHSA-hxh3-vqpv-xpqv",
+      "url": "https://github.com/advisories/GHSA-hxh3-vqpv-xpqv"
+    },
+    "1240979": {
+      "findings": [
+        {
+          "version": "4.11.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@prisma/dev>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>@hono/node-server>hono",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@prisma/dev>hono"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1240979,
+      "title": "Hono vulnerable to Prototype Pollution possible through __proto__ key allowed in parseBody({ dot: true })",
+      "module_name": "hono",
+      "vulnerable_versions": "<4.12.7",
+      "patched_versions": ">=4.12.7",
+      "severity": "moderate",
+      "cwe": "CWE-1321",
+      "github_advisory_id": "GHSA-v8w9-8mx6-g223",
+      "url": "https://github.com/advisories/GHSA-v8w9-8mx6-g223"
+    },
+    "1241209": {
+      "findings": [
+        {
+          "version": "1.2.1",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite>postcss>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/compute-sdk>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>c12>magicast>source-map-js",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite>postcss>source-map-js",
+            "apps__api>prisma>@prisma/composer-cli>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/compute-sdk>magicast>source-map-js",
+            "apps__api>prisma>@prisma/orm-toolchain>@prisma/cli-engine>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/orm-toolchain>c12>magicast>source-map-js",
+            "apps__api>prisma>@prisma/orm-toolchain>vite>postcss>source-map-js",
+            "apps__web>@tailwindcss/vite>@tailwindcss/node>source-map-js",
+            "apps__web>@tailwindcss/vite>vite>postcss>source-map-js",
+            "apps__web>@vitejs/plugin-react>vite>postcss>source-map-js",
+            "apps__web>autoprefixer>postcss>source-map-js",
+            "apps__web>postcss>source-map-js",
+            "apps__web>vite>postcss>source-map-js"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241209,
+      "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+      "module_name": "source-map-js",
+      "vulnerable_versions": ">=1.0.0 <1.2.2",
+      "patched_versions": ">=1.2.2",
+      "severity": "high",
+      "cwe": "CWE-1284",
+      "github_advisory_id": "GHSA-68fv-2mgg-jv7q",
+      "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q"
+    },
+    "1241210": {
+      "findings": [
+        {
+          "version": "2.0.7",
+          "paths": [
+            "apps__api>express>proxy-addr"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241210,
+      "title": "proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet",
+      "module_name": "proxy-addr",
+      "vulnerable_versions": ">=1.1.0 <2.0.8",
+      "patched_versions": ">=2.0.8",
+      "severity": "critical",
+      "cwe": "CWE-290, CWE-348, CWE-697",
+      "github_advisory_id": "GHSA-jqcg-44mw-7w3h",
+      "url": "https://github.com/advisories/GHSA-jqcg-44mw-7w3h"
+    },
+    "1241331": {
+      "findings": [
+        {
+          "version": "0.35.4",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>sharp",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>sharp",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>sharp",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>sharp"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241331,
+      "title": "sharp : Vulnerability in librsvg dependency CVE-2026-96889",
+      "module_name": "sharp",
+      "vulnerable_versions": "<0.35.5",
+      "patched_versions": ">=0.35.5",
+      "severity": "high",
+      "cwe": "CWE-416, CWE-1395",
+      "github_advisory_id": "GHSA-wq5f-xc86-pv6w",
+      "url": "https://github.com/advisories/GHSA-wq5f-xc86-pv6w"
+    },
+    "1241332": {
+      "findings": [
+        {
+          "version": "1.9.0",
+          "paths": [
+            ".>concurrently>shell-quote"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241332,
+      "title": "shell-quote: `quote()` command injection via a line terminator in a token after a `{ comment }` token",
+      "module_name": "shell-quote",
+      "vulnerable_versions": ">=1.8.4 <1.11.0",
+      "patched_versions": ">=1.11.0",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "github_advisory_id": "GHSA-pqg4-j6r4-53mv",
+      "url": "https://github.com/advisories/GHSA-pqg4-j6r4-53mv"
+    },
+    "1241676": {
+      "findings": [
+        {
+          "version": "4.7.9",
+          "paths": [
+            "apps__api>ts-jest>handlebars"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241676,
+      "title": "Handlebars: JavaScript Injection via Unsafe Inline Embedding of Precompiled Templates",
+      "module_name": "handlebars",
+      "vulnerable_versions": ">=4.0.0 <=4.7.9",
+      "patched_versions": ">=4.7.10",
+      "severity": "moderate",
+      "cwe": "CWE-116",
+      "github_advisory_id": "GHSA-xw65-4hp5-5hc7",
+      "url": "https://github.com/advisories/GHSA-xw65-4hp5-5hc7"
+    },
+    "1241677": {
+      "findings": [
+        {
+          "version": "4.7.9",
+          "paths": [
+            "apps__api>ts-jest>handlebars"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1241677,
+      "title": "Handlebars: JavaScript Injection via AST Type Confusion in compile (bypass of CVE-2026-33937)",
+      "module_name": "handlebars",
+      "vulnerable_versions": ">=4.0.0 <=4.7.9",
+      "patched_versions": ">=4.7.10",
+      "severity": "critical",
+      "cwe": "CWE-94, CWE-843",
+      "github_advisory_id": "GHSA-8r5x-fm3f-whwj",
+      "url": "https://github.com/advisories/GHSA-8r5x-fm3f-whwj"
+    },
+    "1242173": {
+      "findings": [
+        {
+          "version": "4.7.9",
+          "paths": [
+            "apps__api>ts-jest>handlebars"
+          ],
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242173,
+      "title": "Handlebars: JavaScript Injection via Own Property Check Bypass",
+      "module_name": "handlebars",
+      "vulnerable_versions": ">=3.0.0 <=4.7.9",
+      "patched_versions": ">=4.7.10",
+      "severity": "critical",
+      "cwe": "CWE-184, CWE-1289",
+      "github_advisory_id": "GHSA-p8wg-vrv2-v86f",
+      "url": "https://github.com/advisories/GHSA-p8wg-vrv2-v86f"
+    },
+    "1242604": {
+      "findings": [
+        {
+          "version": "1.16.0",
+          "paths": [
+            "apps__api>axios>follow-redirects"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242604,
+      "title": "follow-redirects array-form headers bypass cross-origin credential stripping",
+      "module_name": "follow-redirects",
+      "vulnerable_versions": ">=1.16.0 <1.16.1",
+      "patched_versions": ">=1.16.1",
+      "severity": "high",
+      "cwe": "CWE-200, CWE-212",
+      "github_advisory_id": "GHSA-q3jh-wrc6-jgq8",
+      "url": "https://github.com/advisories/GHSA-q3jh-wrc6-jgq8"
+    },
+    "1242605": {
+      "findings": [
+        {
+          "version": "1.16.0",
+          "paths": [
+            "apps__api>axios>follow-redirects"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242605,
+      "title": "follow-redirects sensitiveHeaders regex escaping can expose credential headers",
+      "module_name": "follow-redirects",
+      "vulnerable_versions": ">=1.16.0 <1.16.1",
+      "patched_versions": ">=1.16.1",
+      "severity": "high",
+      "cwe": "CWE-185, CWE-200",
+      "github_advisory_id": "GHSA-8r9p-f939-6h3c",
+      "url": "https://github.com/advisories/GHSA-8r9p-f939-6h3c"
+    },
+    "1242622": {
+      "findings": [
+        {
+          "version": "6.4.3",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>prisma>@prisma/orm-toolchain>vite",
+            "apps__web>@tailwindcss/vite>vite",
+            "apps__web>@vitejs/plugin-react>vite",
+            "apps__web>vite"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242622,
+      "title": "launch-editor: escapeCmdArgs() omits % escaping on Windows",
+      "module_name": "vite",
+      "vulnerable_versions": "<=6.4.3",
+      "patched_versions": ">=6.4.4",
+      "severity": "moderate",
+      "cwe": "CWE-78",
+      "github_advisory_id": "GHSA-698v-4r3x-3vcv",
+      "url": "https://github.com/advisories/GHSA-698v-4r3x-3vcv"
+    },
+    "1242651": {
+      "findings": [
+        {
+          "version": "6.4.3",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>prisma>@prisma/orm-toolchain>vite",
+            "apps__web>@tailwindcss/vite>vite",
+            "apps__web>@vitejs/plugin-react>vite",
+            "apps__web>vite"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242651,
+      "title": "launch-editor: Editor CLI flag misinterpretation causing arbitrary command execution for some editors",
+      "module_name": "vite",
+      "vulnerable_versions": "<=6.4.3",
+      "patched_versions": ">=6.4.4",
+      "severity": "moderate",
+      "cwe": "CWE-88",
+      "github_advisory_id": "GHSA-r825-w8mm-5pxw",
+      "url": "https://github.com/advisories/GHSA-r825-w8mm-5pxw"
+    },
+    "1242658": {
+      "findings": [
+        {
+          "version": "6.4.3",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>prisma>@prisma/orm-toolchain>vite",
+            "apps__web>@tailwindcss/vite>vite",
+            "apps__web>@vitejs/plugin-react>vite",
+            "apps__web>vite"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242658,
+      "title": "launch-editor: `fs.existsSync()` existence check can be bypassed on Windows",
+      "module_name": "vite",
+      "vulnerable_versions": "<=6.4.3",
+      "patched_versions": ">=6.4.4",
+      "severity": "high",
+      "cwe": "CWE-77",
+      "github_advisory_id": "GHSA-587h-7wmj-h5pm",
+      "url": "https://github.com/advisories/GHSA-587h-7wmj-h5pm"
+    },
+    "1242724": {
+      "findings": [
+        {
+          "version": "6.4.3",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>prisma>@prisma/orm-toolchain>vite",
+            "apps__web>@tailwindcss/vite>vite",
+            "apps__web>@vitejs/plugin-react>vite",
+            "apps__web>vite"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242724,
+      "title": "Vite: Cross origin script execution through Vite custom middleware",
+      "module_name": "vite",
+      "vulnerable_versions": "<=6.4.3",
+      "patched_versions": ">=6.4.4",
+      "severity": "low",
+      "cwe": "CWE-80",
+      "github_advisory_id": "GHSA-9jrq-w75r-8gcw",
+      "url": "https://github.com/advisories/GHSA-9jrq-w75r-8gcw"
+    },
+    "1242730": {
+      "findings": [
+        {
+          "version": "6.4.3",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>@prisma/client>prisma>@prisma/orm-toolchain>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@alchemy.run/cloudflare-runtime>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>vite",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>vite",
+            "apps__api>prisma>@prisma/orm-toolchain>vite",
+            "apps__web>@tailwindcss/vite>vite",
+            "apps__web>@vitejs/plugin-react>vite",
+            "apps__web>vite"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242730,
+      "title": "Vite: Files outside `server.fs.allow` could be served when project paths match system paths on non-Windows machine",
+      "module_name": "vite",
+      "vulnerable_versions": "<=6.4.3",
+      "patched_versions": ">=6.4.4",
+      "severity": "moderate",
+      "cwe": "CWE-22, CWE-284",
+      "github_advisory_id": "GHSA-rq7h-c2jc-7f22",
+      "url": "https://github.com/advisories/GHSA-rq7h-c2jc-7f22"
+    },
+    "1242767": {
+      "findings": [
+        {
+          "version": "4.1.11",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242767,
+      "title": "Vitest: Code injection via unauthenticated manual mock registration",
+      "module_name": "@vitest/mocker",
+      "vulnerable_versions": ">=2.1.0-beta.7 <4.1.12",
+      "patched_versions": ">=4.1.12",
+      "severity": "moderate",
+      "cwe": "CWE-94, CWE-116, CWE-306",
+      "github_advisory_id": "GHSA-qxg6-89mg-rqv8",
+      "url": "https://github.com/advisories/GHSA-qxg6-89mg-rqv8"
+    },
+    "1242769": {
+      "findings": [
+        {
+          "version": "4.1.11",
+          "paths": [
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>@prisma/client>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>prisma>@prisma/composer-cli>@prisma/composer>alchemy>@effect/vitest>vitest>@vitest/mocker",
+            "apps__api>prisma>@prisma/composer-cli>alchemy>@effect/vitest>vitest>@vitest/mocker"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242769,
+      "title": "Vitest: Windows backslash traversal bypasses the @vitest/mocker redirect allowlist fix",
+      "module_name": "@vitest/mocker",
+      "vulnerable_versions": ">=4.1.11 <4.1.12",
+      "patched_versions": ">=4.1.12",
+      "severity": "moderate",
+      "cwe": "CWE-22",
+      "github_advisory_id": "GHSA-xp26-3454-mjgp",
+      "url": "https://github.com/advisories/GHSA-xp26-3454-mjgp"
+    },
+    "1243066": {
+      "findings": [
+        {
+          "version": "4.4.3",
+          "paths": [
+            "apps__api>zod"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1243066,
+      "title": "Zod can exhaust memory while validating oversized constrained collections",
+      "module_name": "zod",
+      "vulnerable_versions": "<4.6.6",
+      "patched_versions": ">=4.6.6",
+      "severity": "high",
+      "cwe": "CWE-770",
+      "github_advisory_id": "GHSA-mrhx-c7xc-m3w5",
+      "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 7,
+      "moderate": 53,
+      "high": 18,
+      "critical": 4
+    },
+    "dependencies": 571,
+    "devDependencies": 393,
+    "optionalDependencies": 174,
+    "totalDependencies": 1125
+  }
+}

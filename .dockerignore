@@ -1,0 +1,16 @@
+**/node_modules
+**/dist
+**/venv
+**/.venv
+**/__pycache__
+**/.env*
+!**/.env.example
+**/*.egg-info
+ai/build
+**/*.pyc
+.git
+.pnpm-store
+.audit-runtime
+artifacts
+test-results
+playwright-report

@@ -18,17 +18,4 @@ void initMPU6050() {
     }
 }
 
-int readSteps() {
-    sensors_event_t a, g, temp;
-    mpu.getEvent(&a, &g, &temp);
-    
-    // Very basic pedometer logic (threshold-based)
-    float acc_mag = sqrt(a.acceleration.x*a.acceleration.x + a.acceleration.y*a.acceleration.y + a.acceleration.z*a.acceleration.z);
-    static int steps = 0;
-    if (acc_mag > 12.0) { // Step threshold
-        steps++;
-    }
-    return steps;
-}
-
 #endif

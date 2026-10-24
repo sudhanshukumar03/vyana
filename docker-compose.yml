@@ -1,16 +1,63 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:15
+    image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python scripts/setup_env.py}
       POSTGRES_DB: healthguard
-    ports:
-      - "5432:5432"
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Run python scripts/setup_env.py}
+    ports: ["127.0.0.1:5433:5432"]
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+      - ./infra/init-db.sh:/docker-entrypoint-initdb.d/01-app-role.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d healthguard"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      DATABASE_URL: postgresql://healthguard_app:${APP_DB_PASSWORD}@db:5432/healthguard
+      MIGRATION_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/healthguard
+      JWT_SECRET: ${JWT_SECRET:?Run python scripts/setup_env.py}
+      AI_INTERNAL_SECRET: ${AI_INTERNAL_SECRET:?Run python scripts/setup_env.py}
+      AI_URL: http://ai:8001
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:8080}
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      db: {condition: service_healthy}
+      ai: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  ai:
+    build: ./ai
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      AI_INTERNAL_SECRET: ${AI_INTERNAL_SECRET:?Run python scripts/setup_env.py}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health/live')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports: ["127.0.0.1:8080:80"]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 volumes:
   pgdata:

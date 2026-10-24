@@ -1,26 +1,28 @@
-def get_deterministic_insights(vitals, activity):
-    insights = []
-    
-    if vitals and 'heart_rate' in vitals:
-        hr = vitals['heart_rate']
-        if hr > 100:
-            insights.append({"type": "warning", "title": "Elevated Heart Rate", "detail": "Your resting heart rate is above 100 bpm. Consider resting."})
-        elif hr < 60:
-            insights.append({"type": "info", "title": "Low Heart Rate", "detail": "Your heart rate is quite low. If you are an athlete, this may be normal."})
-            
-    if vitals and 'spo2' in vitals:
-        spo2 = vitals['spo2']
-        if spo2 < 95:
-            insights.append({"type": "warning", "title": "Slightly Low Oxygen", "detail": "Your SpO2 is below 95%. Taking deep breaths may help."})
-            
-    if activity and 'steps' in activity:
-        if activity['steps'] > 10000:
-            insights.append({"type": "success", "title": "Activity Goal Met", "detail": "You've exceeded 10,000 steps today. Great job!"})
-        elif activity['steps'] < 2000:
-            insights.append({"type": "info", "title": "Low Activity", "detail": "You've been mostly stationary today. A short walk could boost energy."})
-            
-    if not insights:
-        insights.append({"type": "success", "title": "Stable Vitals", "detail": "Your vitals are stable and within optimal ranges."})
-        
-    # Limit to 3 insights max
-    return insights[:3]
+"""Project threshold rules; these are not clinical diagnoses."""
+import math
+
+
+def get_deterministic_insights(vitals, activity=None, fresh=True):
+    vitals = vitals or {}
+    required = ("heart_rate", "spo2", "temperature")
+    if not fresh or not all(isinstance(vitals.get(k), (float, int)) and math.isfinite(vitals[k]) for k in required):
+        return [{"type": "info", "title": "Insufficient current data", "detail": "Fresh, complete readings are needed for a wellness summary."}]
+    hr, oxygen, temp = (vitals[k] for k in required)
+    flags = []
+    if hr > 150 or hr < 40:
+        flags.append(("critical", "Heart rate threshold", f"Heart rate: {hr} bpm."))
+    elif hr > 120 or hr < 45:
+        flags.append(("warning", "Heart rate threshold", f"Heart rate: {hr} bpm."))
+    if oxygen < 88:
+        flags.append(("critical", "Oxygen threshold", f"SpO2: {oxygen}%."))
+    elif oxygen < 92:
+        flags.append(("warning", "Oxygen threshold", f"SpO2: {oxygen}%."))
+    if temp > 39.5:
+        flags.append(("critical", "Temperature threshold", f"Temperature: {temp} C."))
+    elif temp > 38 or temp < 35:
+        flags.append(("warning", "Temperature threshold", f"Temperature: {temp} C."))
+    if vitals.get("ecg_status") != "Normal":
+        flags.append(("warning", "ECG status needs review", f"Status: {vitals.get('ecg_status', 'Unknown')}. No rhythm interpretation is available."))
+    if flags:
+        return [{"type": severity, "title": title, "detail": detail + " Review the reading and consult a qualified clinician if concerned."} for severity, title, detail in flags]
+    return [{"type": "info", "title": "Current readings received", "detail": "No configured threshold alert was triggered. This is not a clinical assessment."}]

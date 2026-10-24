@@ -1,0 +1,107 @@
+# Audit status
+
+The local remediation is substantially complete. Release checks remain open below. This ledger records observed evidence; it does not establish clinical suitability.
+
+The [audit](2026-10-24.md) is the historical baseline. The [plan](PLAN.md) defines completion. Detailed dated metadata is in [evidence-2026-10-24.json](evidence-2026-10-24.json); its source hashes refer to that snapshot, before the 25 October cleanup.
+
+## Recorded verification — 24 October
+
+| Evidence | Observed result |
+|---|---|
+| E1: software suite | Node 24.22.1, frozen pnpm and fresh hash-locked Python; types/lint/build passed; 28 API + 16 frontend + 29 Python tests passed |
+| E2: browser | Seven Chromium tests passed: 320/390/768/1440 px, keyboard/modal, profile, SOS/logout, reduced motion, axe, pagination and source switching |
+| E3: firmware | ESP32 compile passed; three native transport tests passed; static RAM 85,504/327,680 bytes, flash 1,220,431/1,310,720 bytes |
+| E4: dependencies/secrets | JS graph and Python runtime scans reported zero known advisories; exported source passed Gitleaks with narrow reviewed non-secret exceptions; an unexpected-key sentinel was rejected |
+| E5: data operations | PostgreSQL 16.15/18.4 migration, legacy quarantine/import, ownership, restricted role, backup/restore, retention baseline and failed-startup checks passed |
+| E6: load | 30 minutes, 10 devices/20 clients; 518,400 vitals + 518,400 activity seeded; 10,800 successful ingests, 300 duplicate replays, zero errors/leaks; acknowledged records reconciled |
+| E7: fault recovery | Actual DB/AI stop/start passed; liveness, JSON 503s, retryable socket auth, logout cookie clearing and pool recovery worked without an API restart |
+| E8: containers/proxy | Final API/web/AI images built from locks and all four services became healthy; nginx CSP/socket/viewport checks passed; 10 MiB report accepted, +1 byte returned 413, MIME mismatch returned 400 |
+| E9: real simulator | Eight owned vitals + eight activity records, heartbeat, consistent session and increasing counters passed |
+| Provider smoke | Gemini returned 401 for the configured key; no successful live-generation result is claimed |
+
+E1 includes real database/HTTP/socket tests, not only mocks. API lint is a TypeScript check. Python tests emit an upstream Starlette/httpx deprecation warning.
+
+E6 ran on Windows, Intel Core i5-12500H, about 16 GiB RAM, PostgreSQL 18.4 and Node 24.14.0. Each client requested summary/history/activity/alerts in parallel every five seconds. The complete four-endpoint snapshot p95 was **350.28 ms**, and socket delivery p95 was **125 ms**, over 7,200 snapshots and 7,194 non-durable deliveries. REST provides stream recovery. These measurements exclude failed resource-pressure attempts.
+
+Node was subsequently upgraded to 24.22.1; E1 and E8 passed on that patched runtime. E6 was not repeated on it. Entry JS fell from about 781 kB to 364 kB minified; charts moved to a deferred roughly 384 kB chunk.
+
+Local outputs and synthetic backups are ignored under `artifacts/`. Existing user databases were not upgraded, reassigned or deleted in these rehearsals.
+
+## Finding closure
+
+“Verified” means the reported software defect has supporting evidence. A pending release check still needs the named environment/manual evidence.
+
+| ID | Repair and evidence | Status |
+|---|---|---|
+| F01 | Required distinct secrets; expiring session-bound JWTs; forgery/expiry/revocation tests (E1) | Verified |
+| F02 | Owner-scoped data/context and restricted legacy records; two-account and import/restore tests (E1/E5) | Verified |
+| F03 | Authenticated owner/session socket rooms and revocation (E1/E2) | Verified |
+| F04 | Transactional episodes, immediate critical escalation, failed-write rollback/concurrent replay (E1) | Verified |
+| F05 | Complete Python metadata, hashed locks, wheel and non-root image (E1/E8) | Verified |
+| F06 | Obsolete orchestrator import removed; package imports/tests run (E1) | Verified |
+| F07 | Missing/stale data cannot fabricate normal status or score (E1/E2) | Verified |
+| F08 | Reconciled JS/Python locks and advisory scans (E4) | Verified at scan date |
+| F09 | Hashed per-device credentials, ownership and revocation tests (E1/E9) | Verified |
+| F10 | Same-origin API/socket and nginx proxy (E2/E8) | External HTTPS pending |
+| F11 | Consistent ports/templates and idempotent secret setup (E1/E8) | Verified |
+| F12 | Pinned tools, frozen JS and hashed Python installs (E1/E8) | Verified |
+| F13 | Async boundaries, sanitized JSON failures and DB recovery (E1/E7) | Verified |
+| F14 | Locked checksum migrations before listening; startup failure tests (E1/E5) | Verified |
+| F15 | Sorted/deduplicated live window and composite-cursor pages, including 105 equal-time records (E1/E2) | Verified |
+| F16 | Activity/summary resync, profile refresh and active-source replacement (E1/E2) | Verified |
+| F17 | Heartbeat expiry, freshness and nullable scores/unknown device states (E1/E2) | Verified |
+| F18 | Memory bearer, rotating sessions, cancellation and complete logout reset (E1/E2) | Verified |
+| F19 | Persistent owned alerts, critical ordering and acknowledgement/resolution (E1/E2) | Verified |
+| F20 | Owner/material-context cache isolation, invalidation and coalescing (E1) | Verified |
+| F21 | Bounded validated AI request/output shapes and malformed-output fallbacks (E1) | Verified |
+| F22 | Encoded/decoded report budgets, strict encoding/signature checks and capacity limits (E1/E8) | Verified |
+| F23 | Storage-compatible numbers, dates, IDs, text and enums (E1) | Verified |
+| F24 | Transactional profile merge preserves omitted notes; null clears optional fields (E1/E2) | Verified |
+| F25 | Acquisition/receipt UTC and producer replay identity (E1/E5/E9) | Software verified; physical clock/replay pending |
+| F26 | 2xx-only acknowledgement and explicit retry/error classes (E3) | Physical HTTP/network bench pending |
+| F27 | Bounded firmware/simulator queues, overflow tests and static memory (E3/E9) | Physical heap/reconnect duration pending |
+| F28 | Bounded SQL aggregation/indexes/pool; dense load, plans and retention (E5/E6) | Verified for recorded workload |
+| F29 | Root checks and populated software/browser/firmware CI (E1–E3) | Hosted CI pending |
+| F30 | Shared wire contracts, strict API types and lint/schema checks (E1) | Verified |
+| F31 | Modal focus containment/restore, inert background, Escape and mobile scrolling (E2) | Manual screen-reader check pending |
+| F32 | Reachable labeled synthetic ECG with pause, stale and reduced-motion behavior (E1/E2) | Verified as illustration |
+| F33 | Lazy routes/deferred charts and bounded live history (E1) | Verified |
+| F34 | Current guides and successful local install/upgrade/container rehearsals (E1/E5/E8) | Verified locally; cleanup recorded below |
+| F35 | Consistent status rules, live feedback, form types and motion/focus behavior (E1/E2) | Automated checks passed; manual AT pending |
+| F36 | BMI classification before rounding; age boundary (E1) | Verified |
+
+## Follow-up closure
+
+| ID | Repair and evidence | Status |
+|---|---|---|
+| A01 | Session-aware daily deltas, old baseline and timezone/reset fixtures (E1/E5) | Verified |
+| A02 | Authenticated activity/heartbeat and explicit simulated source (E3/E9) | Software verified; physical producer pending |
+| A03 | Auth lifecycle, encrypted operator sink, rate/concurrency bounds and closed production signup (E1) | Verified for closed prototype |
+| A04 | Random local secrets, loopback/private services, restricted role and TLS configuration (E1/E5/E8) | Local verified; external TLS pending |
+| A05 | Structured roles, bounded context/output and finite policy tests (E1) | Live adversarial evaluation/human review pending |
+| A06 | Honest Reports/Settings copy; Assistant upload remains discoverable (E1/E2) | Verified product boundary |
+| A07 | Status-aware chat/report/SOS/profile/contact errors and retry feedback (E1/E2) | Verified |
+| A08 | UTC storage, explicit legacy timezone and IANA profile timezone (E1/E5) | Verified |
+| A09 | Generated bytecode/package metadata removed from tracking | Verified |
+| A10 | Obsolete root move script removed; versioned migrations documented | Verified |
+| A11 | Tool pins, aggregate checks and locked installs (E1/E8) | Local verified; hosted CI pending |
+
+## Remaining checks
+
+| Check | Next evidence / owner | Current state |
+|---|---|---|
+| Hosted CI | Maintainer: run the reviewed branch workflow | Public push is held for the requested cleanup; no hosted run claimed |
+| Live AI | Operator: resolve provider authorization; maintainer: synthetic adversarial evaluation and human review | Configured key received 401; finite rules/fallbacks tested |
+| Physical ESP32 | Hardware owner: clock, sensor absence, queue/retry/heap, reboot and reconnect bench | Deferred by user; components unavailable |
+| External HTTPS | Deployment owner: hostname/certificate, private routing, secure cookies and second-computer HTTP/socket test | Deferred by user |
+| Manual accessibility | Reviewer: real screen-reader announcements, focus restoration and mobile navigation | Keyboard/axe/reduced-motion automation passed |
+
+Repeat recovery/load checks on an intended deployment if its topology differs from the local rehearsal. Do not count deferred checks as passed.
+
+## Cleanup — 25 October
+
+Unused source/assets and overlapping documentation were removed after a reference review. Active routes, the Vyana brand mark, versioned migrations, tests and dated machine evidence are retained. Current guides now have a [single index](../README.md); audit history stays in this folder.
+
+After cleanup, all 83 tests passed (28 API, 16 frontend, 29 Python, seven browser and three native firmware), along with types/lint/build, the ESP32 compile, frozen install, reference checks and the source secret scan. The final JS dependency scan reported zero known advisories. An initial axe analysis-page timeout passed in isolation and on the final complete browser run.
+
+The original documents and removed drafts/assets are preserved in an ignored local backup. [The cleanup record](cleanup-2026-10-25.json) lists removal totals and verification. This cleanup does not authorize a public push. Commit `69c2f52` is the earlier review snapshot and does not include these changes.

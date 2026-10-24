@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 
-#define ECG_PIN 34 // ADC1_CH6
 #define LO_PLUS 35 // Leads off detection +
 #define LO_MINUS 32 // Leads off detection -
 
@@ -17,9 +16,6 @@ String readECGStatus() {
     if((digitalRead(LO_PLUS) == 1) || (digitalRead(LO_MINUS) == 1)) {
         return "Leads Off";
     }
-    
-    // int ecgValue = analogRead(ECG_PIN);
-    // Process ECG array...
     
     return "Normal";
 }

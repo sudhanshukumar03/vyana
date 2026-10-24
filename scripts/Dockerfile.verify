@@ -1,0 +1,13 @@
+FROM node:24.22.1-bookworm-slim
+WORKDIR /repo
+RUN npm install -g pnpm@11.18.0
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/api/package.json apps/api/package.json
+COPY apps/web/package.json apps/web/package.json
+COPY shared/package.json shared/package.json
+RUN pnpm install --frozen-lockfile
+COPY apps/api apps/api
+COPY apps/web apps/web
+COPY shared shared
+COPY scripts scripts
+CMD ["sh", "-c", "pnpm typecheck && pnpm lint && pnpm test && pnpm build"]

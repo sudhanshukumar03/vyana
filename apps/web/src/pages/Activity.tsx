@@ -20,7 +20,7 @@ export default function Activity() {
   const chartData = historicalActivity.map(a => ({
     date: new Date(a.timestamp).toLocaleDateString([], { weekday: 'short' }),
     steps: a.steps
-  })).reverse();
+  }));
 
   return (
     <div className="space-y-6 p-6">
@@ -28,7 +28,7 @@ export default function Activity() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
+          <div className="p-3 bg-surface-soft text-brand rounded-lg">
             <Footprints className="w-6 h-6" />
           </div>
           <div>
@@ -38,7 +38,7 @@ export default function Activity() {
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-green-50 text-green-600 rounded-lg">
+          <div className="p-3 bg-success-bg text-success rounded-lg">
             <Map className="w-6 h-6" />
           </div>
           <div>
@@ -58,7 +58,7 @@ export default function Activity() {
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-purple-50 text-purple-600 rounded-lg">
+          <div className="p-3 bg-surface-soft text-brand rounded-lg">
             <Clock className="w-6 h-6" />
           </div>
           <div>

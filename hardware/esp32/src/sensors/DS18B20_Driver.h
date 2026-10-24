@@ -19,7 +19,7 @@ float readTemperature() {
     if(tempC != DEVICE_DISCONNECTED_C) {
         return tempC;
     }
-    return 36.6; // Fallback
+    return NAN; // An unavailable sensor must not be reported as a normal temperature.
 }
 
 #endif

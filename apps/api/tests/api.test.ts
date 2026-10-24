@@ -1,27 +1,20 @@
-import request from 'supertest';
-import express from 'express';
-// import { app } from '../src/index'; // Assuming app is exported from index.ts
-// For this basic test, we'll setup a simple express app mimicking the API
+import { vitalAlerts } from '../src/alerts';
 
-const app = express();
-app.use(express.json());
-app.post('/api/v1/ingest/vitals', (req, res) => {
-  res.status(200).json({ status: 'success', message: 'Vitals ingested successfully' });
-});
+describe('vitalAlerts thresholds', () => {
+  it('flags a critically high heart rate', () => {
+    const a = vitalAlerts(165, 98, 36.7);
+    expect(a).toHaveLength(1);
+    expect(a[0]).toMatchObject({ metric: 'heart_rate', severity: 'critical' });
+  });
 
-describe('API Endpoints', () => {
-  it('should ingest vitals', async () => {
-    const res = await request(app)
-      .post('/api/v1/ingest/vitals')
-      .send({
-        userId: '1234',
-        heartRate: 75,
-        bloodOxygen: 98,
-        bodyTemp: 36.6,
-        timestamp: new Date().toISOString()
-      });
-      
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('status', 'success');
+  it('flags low SpO₂ as warning and high temperature as critical', () => {
+    const a = vitalAlerts(80, 90, 39.8);
+    const flags = a.map((x) => `${x.metric}:${x.severity}`);
+    expect(flags).toContain('spo2:warning');
+    expect(flags).toContain('temperature:critical');
+  });
+
+  it('returns no alerts for normal vitals', () => {
+    expect(vitalAlerts(72, 98, 36.7)).toHaveLength(0);
   });
 });

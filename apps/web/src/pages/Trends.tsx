@@ -9,17 +9,17 @@ export default function Trends() {
     time: new Date(v.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
     hr: v.heart_rate,
     spo2: v.spo2
-  })).reverse();
+  }));
 
   const activityData = historicalActivity.map(a => ({
     time: new Date(a.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' }),
     steps: a.steps
-  })).reverse();
+  }));
 
   return (
     <div className="space-y-6 p-6">
       <div className="flex items-center space-x-3">
-        <TrendingUp className="w-8 h-8 text-indigo-600" />
+        <TrendingUp className="w-8 h-8 text-brand" />
         <h1 className="text-2xl font-bold text-gray-900">Health Trends</h1>
       </div>
 
@@ -30,7 +30,7 @@ export default function Trends() {
               <h3 className="text-lg font-medium text-gray-900">Heart Rate & SpO2 Trend</h3>
               <p className="text-sm text-gray-500">How your vitals have been tracking recently</p>
             </div>
-            <Activity className="text-gray-400 w-5 h-5" />
+            <Activity className="text-gray-600 w-5 h-5" />
           </div>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">

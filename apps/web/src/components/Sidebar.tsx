@@ -1,46 +1,66 @@
-import { LayoutDashboard, Activity, Target, Settings, TrendingUp, Brain, FileText, ShieldPlus } from 'lucide-react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Activity, Target, Settings, TrendingUp, Brain, FileText, Clock, AlertTriangle, Sparkles } from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { BrandLogo } from './BrandLogo';
 
-export function Sidebar() {
-  const location = useLocation();
-
-  const navItems = [
-    { name: 'Dashboard', path: '/', icon: LayoutDashboard },
+const sections = [
+  { label: 'Overview', items: [{ name: 'Dashboard', path: '/', icon: LayoutDashboard }] },
+  { label: 'Monitoring', items: [
     { name: 'Health Vitals', path: '/vitals', icon: Activity },
     { name: 'Activity', path: '/activity', icon: Target },
     { name: 'Trends', path: '/trends', icon: TrendingUp },
+    { name: 'History', path: '/history', icon: Clock },
+  ] },
+  { label: 'Insights', items: [
     { name: 'Mental Well-being', path: '/wellness', icon: Brain },
+    { name: 'AI Assistant', path: '/assistant', icon: Sparkles },
     { name: 'Reports', path: '/reports', icon: FileText },
-    { name: 'Settings', path: '/settings', icon: Settings },
-  ];
+  ] },
+  { label: 'Safety', items: [{ name: 'Emergency', path: '/emergency', icon: AlertTriangle }] },
+  { label: 'Account', items: [{ name: 'Settings', path: '/settings', icon: Settings }] },
+];
+
+export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const location = useLocation();
 
   return (
     <div className="w-[260px] bg-transparent flex flex-col h-screen shrink-0">
-      <div className="px-6 py-8 flex items-center gap-3">
-        <div className="bg-emerald-500 p-1.5 rounded-lg flex items-center justify-center">
-           <Activity className="text-white w-5 h-5" strokeWidth={3} />
-        </div>
-        <span className="text-[20px] font-bold text-gray-900 tracking-tight">HealthGuard</span>
+      <div className="px-5 pt-7 pb-6">
+        <Link
+          to="/"
+          onClick={onNavigate}
+
+          className="inline-flex min-h-14 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+        >
+          <BrandLogo />
+        </Link>
       </div>
-      
-      <nav className="flex-1 px-4 py-2 space-y-2 overflow-y-auto">
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              className={`flex items-center gap-3.5 px-4 py-3 rounded-[14px] text-[15px] font-medium transition-all ${
-                isActive
-                  ? 'bg-gray-200/60 text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
-              }`}
-            >
-              <item.icon size={18} strokeWidth={isActive ? 2.5 : 1.5} className={isActive ? "text-gray-900" : "text-gray-500"} />
-              {item.name}
-            </NavLink>
-          );
-        })}
+
+      <nav className="flex-1 px-4 py-2 overflow-y-auto space-y-5">
+        {sections.map((section) => (
+          <div key={section.label}>
+            <p className="px-4 mb-1.5 text-[11px] font-semibold text-slate">{section.label}</p>
+            <div className="space-y-1">
+              {section.items.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <NavLink
+                    key={item.name}
+                    to={item.path}
+                    onClick={onNavigate}
+                    className={`flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                      isActive
+                        ? 'bg-ink/[0.06] text-ink'
+                        : 'text-slate hover:text-ink hover:bg-ink/[0.04]'
+                    }`}
+                  >
+                    <item.icon size={18} strokeWidth={isActive ? 2.4 : 1.6} className={isActive ? 'text-brand' : 'text-muted'} />
+                    {item.name}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
     </div>
   );

@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-24",
+  "scope": "local prototype remediation; external gates remain",
+  "ledger_items": 47,
+  "node_release": "24.22.1",
+  "python_container": "3.12.15",
+  "postgresql_container": "16.15",
+  "pnpm": "11.18.0",
+  "tests": {
+    "api": 28,
+    "frontend": 16,
+    "python": 29,
+    "browser": 7,
+    "firmware_native": 3,
+    "firmware_compile": true,
+    "root_verify": true
+  },
+  "javascript_advisories": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0
+  },
+  "python_runtime_advisories": 0,
+  "load": {
+    "duration_seconds": 1800,
+    "users": 10,
+    "socket_clients": 20,
+    "ingest_success": 10800,
+    "duplicates": 300,
+    "owner_leaks": 0,
+    "errors": [],
+    "seed_rows_per_kind": 518400,
+    "snapshot_interval_seconds": 5,
+    "summary_samples": 7200,
+    "delivery_samples": 7194,
+    "summary_p95_ms": 350.2836999997962,
+    "delivery_p95_ms": 125,
+    "budgets_met": true
+  },
+  "operations": {
+    "passed": true,
+    "postgresql": 18,
+    "counts": {
+      "users": 2,
+      "profile": 1,
+      "emergency_contact": 1,
+      "devices": 1,
+      "vitals": 1,
+      "activity": 1,
+      "alerts": 1
+    },
+    "checks": [
+      "pre-upgrade backup",
+      "legacy quarantine",
+      "idempotent migrations",
+      "password hash preserved",
+      "explicit owner/timezone import",
+      "repeat mapping refused",
+      "custom-format restore/counts/ownership",
+      "restricted runtime role",
+      "retention preserves activity baseline and originals",
+      "failed migration prevents startup"
+    ]
+  },
+  "recovery": {
+    "passed": true,
+    "checks": [
+      "AI stop/start with explicit fallback",
+      "core summary independent of AI",
+      "DB outage JSON 503 and liveness",
+      "retryable socket authentication outage",
+      "logout cookie cleared despite DB outage",
+      "DB pool recovers without API restart",
+      "owner-scoped socket delivery resumes"
+    ]
+  },
+  "proxy": {
+    "passed": true,
+    "origin": "http://127.0.0.1:18080",
+    "viewports": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "websocket_deliveries": 2,
+    "csp_violations": 0,
+    "report_exact_10_mib": 200,
+    "report_plus_one_byte": 413,
+    "mime_mismatch": 400
+  },
+  "simulator": {
+    "passed": true,
+    "vitals": 8,
+    "activity": 8,
+    "source": "Simulator",
+    "session_consistent": true,
+    "counters_increase": true
+  },
+  "live_ai": {
+    "error_type": "ClientError",
+    "provider_code": 401,
+    "provider_status": null
+  },
+  "remaining_gates": [
+    "valid-provider adversarial evaluation and human review",
+    "physical ESP32 bench",
+    "external HTTPS/second-host verification",
+    "manual screen-reader review",
+    "hosted CI run"
+  ],
+  "source_sha256": {
+    "package.json": "b21f08b4872698e432fd13ae2dacebdcf3a5a46943c948bb9e880dc6ce78dd30",
+    "pnpm-lock.yaml": "166af6642f669b11bdb08a4de8eb496e68def4898e2096fdf7f8d02297313631",
+    "apps/api/src/app.ts": "bde5f2338804754f5ac9b9d3e028a01089bfd3b4d53764f26ce48f9fb3787ca4",
+    "apps/api/src/auth.ts": "563aa00d37ec1f58cf60f34e7e505021ba7730b488eafd8dc41f92bdf115e7ff",
+    "apps/api/src/telemetry.ts": "9a446a8c0ffe547b0bf810a9e1e1940dd2475d54988103121474a6dd8833c5e0",
+    "apps/api/src/schemas.ts": "28cdcebc9edf9b63c7abd38b0d99930be4667651001a2c5be374a505dd75a940",
+    "apps/web/src/store/useHealthStore.ts": "0c305853a1bda0ed1f3ac57a21f3320a9fba5261f69da072517a9bccf82927b0",
+    "apps/web/src/services/api.ts": "e3b8e07add4ba374023f7b8a12f5f4fe4f99b2eb174d2f98d85acee5a51c4892",
+    "ai/main.py": "e38a66ff75c398fccf865b06d315bb2bd62290f74538dfdf2440ad59c597f7b2",
+    "ai/services/policy.py": "3b2a9d61bf5f69df02e9f7b763c38c082e00a288f37e0580944bb0c68ef75e73",
+    "ai/requirements.lock": "5ff4fba74fefea991364d32a18941cd04bc45c8ca64a223a0dbd2d3b3f3a183e",
+    "ai/requirements-test.lock": "d706b55940904294ecebebddd320a7b62efd683f05abee26e9a000289d83def3",
+    "apps/api/Dockerfile": "11372555a802c119b215030da351358418e74e1338393e4fbde85944f3db5119",
+    "apps/web/Dockerfile": "9b8acf32ecc885ac0963d0f77e192a0e43e0dd86571c4d9f6a906b33e4d49dff",
+    "ai/Dockerfile": "1c1ce1022293fd2602b28cfbae1b6a9d1837518fa13f91e9f78f2d1f5b59e01d",
+    "hardware/esp32/platformio.ini": "62c91878cc5cc518fbd40610c7bd907d4153ee073a841a0a61f06dfacb03a6b4",
+    "hardware/esp32/src/main.cpp": "6c7f05619f04200f22faee0e9e986f71ed632adb15265eff9bb9785e5b5617e3",
+    ".github/workflows/ci.yml": "0f5942440c609a43b61b235298abe3c3038d10c8504ea3a5bcd6aed0b0df1382",
+    "docker-compose.yml": "5fc25db413aef4a4b26a378de54e6b497b3c8e8d8d6a43ba9cf050eae24f136d",
+    "apps/web/nginx.conf": "5a39796a618744aa31c6d3e777dae415374c8756fc15c087e06d094d74030b86",
+    "apps/api/migrations/001_owned_data.sql": "48b9e050a32012d606583b762f52445b6ebf630bf51b37c6dfe476b44e5bdd38",
+    "apps/api/migrations/002_application_role.sql": "8f0309dbabd36f6af7feccd82b56851699f65f17e91e24837754d621253aaf7f",
+    "apps/api/migrations/003_active_history_indexes.sql": "6acec0ddec7d14912cc29cd5444ba6727c7ee4ae9bf4a79c6ad48a48061dfbeb",
+    "shared/types/health.ts": "aed79219a7b4763b6be63a2dffdeac78431235f25d537e85bae0e7dcd4dd77d1",
+    ".gitleaks.toml": "e202d1dfcf27704abc8c71e9dae1c7e73d084e295e346c80085c7e8dcc4de1c0"
+  },
+  "deferred_by_user": {
+    "date": "2026-10-24",
+    "gates": [
+      "physical ESP32 bench",
+      "external HTTPS/second-host verification"
+    ]
+  },
+  "release_secret_scan": {
+    "scanner": "Gitleaks",
+    "image_digest": "sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f",
+    "findings_after_narrow_exceptions": 0,
+    "unexpected_key_probe_detected": true
+  }
+}

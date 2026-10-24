@@ -1,0 +1,24 @@
+title = "Vyana release secret checks"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Exact public synthetic credentials in isolated test runners"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)(?:apps/api/tests/integration\.test\.ts|scripts/verification-server\.cjs|scripts/verify-failures\.cjs)$''']
+regexes = [
+  '''^integration-test-signing-key-at-least-32-characters$''',
+  '''^integration-internal-key-at-least-32-characters$''',
+  '''^synthetic-verification-signing-key-at-least-32-characters$''',
+  '''^synthetic-verification-internal-key-at-least-32-characters$'''
+]
+
+[[allowlists]]
+description = "SHA-256 source fingerprints in the verification ledger"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)docs/audit/evidence-\d{4}-\d{2}-\d{2}\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"(?:apps/api/src/auth\.ts|apps/web/src/services/api\.ts)": "[a-f0-9]{64}",?\s*$''']

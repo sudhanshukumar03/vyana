@@ -1,13 +1,24 @@
 {
-    "name":  "healthguard-monorepo",
-    "private":  true,
-    "scripts":  {
-                    "dev":  "pnpm --filter \"./apps/**\" dev",
-                    "build":  "pnpm --filter \"./apps/**\" build",
-                    "lint":  "pnpm --filter \"./apps/**\" lint"
-                },
-    "devDependencies":  {
-                            "concurrently":  "^9.1.2",
-                            "typescript":  "^5.0.0"
-                        }
+  "name": "healthguard-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/**\" dev",
+    "build": "pnpm --filter \"./apps/**\" build",
+    "typecheck": "pnpm --filter \"./apps/**\" typecheck",
+    "lint": "pnpm --filter \"./apps/**\" lint",
+    "test": "pnpm --filter \"./apps/**\" test",
+    "test:ai": "python -m pytest -c ai/pyproject.toml ai/tests",
+    "lint:ai": "python -m ruff check --config ai/pyproject.toml ai simulator scripts/setup_env.py",
+    "verify": "pnpm check:project && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm test:ai && pnpm lint:ai",
+    "test:e2e": "pnpm --dir apps/web exec playwright test",
+    "check:project": "node scripts/check-project.cjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=24.22.1 <25",
+    "pnpm": ">=11.18 <12"
+  }
 }

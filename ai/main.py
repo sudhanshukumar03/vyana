@@ -1,51 +1,119 @@
-from dotenv import load_dotenv
-load_dotenv()
+"""Authenticated internal AI API. Run with uvicorn main:app inside ai/."""
+import hashlib
+import json
 import os
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import uvicorn
-from services.gemini import generate_insights
-from services.deterministic import get_deterministic_insights
+import threading
 import time
+from collections import OrderedDict
+from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException, Request
+from services.boundary import InternalBoundary
+from services.models import HealthData, ChatRequest, ReportRequest, InsightResponse, ChatResponse, ReportResponse
+from services.gemini import generate_insights
+from services.assistant import chat_reply, analyze_report
+from services.deterministic import get_deterministic_insights
 
-app = FastAPI()
+load_dotenv()
 
-class HealthData(BaseModel):
-    vitals: dict = None
-    activity: dict = None
-    alerts: list = None
-    wellness_score: int = 100
 
-_insight_cache = {
-    "timestamp": 0,
-    "insights": []
-}
+@asynccontextmanager
+async def lifespan(_app):
+    if len(os.environ.get("AI_INTERNAL_SECRET", "")) < 32:
+        raise RuntimeError("AI_INTERNAL_SECRET must contain at least 32 characters")
+    yield
+
+
+app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+_cache = OrderedDict()
+_cache_lock = threading.Lock()
+_inflight = {}
 CACHE_TTL_SECONDS = 300
 
-@app.post("/api/ai/insights")
-def get_insights(data: HealthData):
-    global _insight_cache
-    now = time.time()
-    
-    if _insight_cache["insights"] and (now - _insight_cache["timestamp"] < CACHE_TTL_SECONDS):
-        return {"insights": _insight_cache["insights"]}
-        
-    v = data.vitals or {}
-    a = data.activity or {}
-    al = data.alerts or []
-    
-    gemini_insights = generate_insights(v, a, al, data.wellness_score)
-    
-    if not gemini_insights or gemini_insights[0].get("title") in ["AI Offline", "AI Unavailable"]:
-        deterministic = get_deterministic_insights(v, a)
-        insights = gemini_insights + deterministic if gemini_insights else deterministic
-    else:
-        insights = gemini_insights
-        
-    _insight_cache["timestamp"] = now
-    _insight_cache["insights"] = insights
-    
-    return {"insights": insights}
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8001)
+app.add_middleware(InternalBoundary)
+
+
+@app.get("/health/live")
+def health():
+    return {"status": "alive"}
+
+
+def _insight_signature(data):
+    vitals = {key: data.vitals.get(key) for key in ("heart_rate", "spo2", "temperature", "ecg_status")}
+    activity = {key: data.activity.get(key) for key in ("steps", "calories", "distance_km", "active_minutes")}
+    profile = {key: value for key, value in data.profile.items() if key not in ("id", "user_id", "created_at", "updated_at")}
+    alerts = [{key: alert.get(key) for key in ("metric", "severity", "status")} for alert in data.alerts if isinstance(alert, dict)]
+    history = {key: value for key, value in data.historical_vitals.items() if key != 'sample_count'}
+    values = [data.owner_id, vitals, activity, profile, alerts, history, data.wellness_score, data.bmi, data.fresh, int(time.time() // 30)]
+    return hashlib.sha256(json.dumps(values, sort_keys=True, default=str).encode()).hexdigest()
+
+
+def _check_owner(request, owner_id):
+    if request.headers.get("x-owner-id") != owner_id:
+        raise HTTPException(status_code=403, detail="Owner mismatch")
+
+
+@app.post("/api/ai/insights", response_model=InsightResponse)
+def get_insights(data: HealthData, request: Request):
+    _check_owner(request, data.owner_id)
+    fallback = get_deterministic_insights(data.vitals, data.activity, data.fresh)
+    if not data.fresh:
+        return {"insights": fallback, "offline": True}
+    key = _insight_signature(data)
+    with _cache_lock:
+        cached = _cache.get(key)
+        if cached and time.monotonic() - cached[0] < CACHE_TTL_SECONDS:
+            _cache.move_to_end(key)
+            return {"insights": cached[1], "offline": cached[2]}
+        event = _inflight.get(key)
+        leader = event is None
+        if leader:
+            if len(_inflight) >= 8:
+                return {"insights": fallback, "offline": True}
+            event = _inflight[key] = threading.Event()
+    if not leader:
+        event.wait(timeout=9)
+        with _cache_lock:
+            cached = _cache.get(key)
+            return {"insights": cached[1] if cached else fallback, "offline": cached[2] if cached else True}
+    try:
+        try:
+            generated = generate_insights(data.vitals, data.activity, data.alerts, data.wellness_score, data.profile, data.bmi, data.historical_vitals)
+            validated = InsightResponse.model_validate({"insights": generated})
+            generated = [entry.model_dump() for entry in validated.insights]
+            # Keep deterministic threshold warnings visible even when the model omits them.
+            warnings = [entry for entry in fallback if entry["type"] in ("warning", "critical")]
+            insights = (warnings + generated)[:8]
+            offline = False
+        except Exception:
+            insights = fallback
+            offline = True
+        with _cache_lock:
+            _cache[key] = (time.monotonic(), insights, offline)
+            while len(_cache) > 128:
+                _cache.popitem(last=False)
+        return {"insights": insights, "offline": offline}
+    finally:
+        with _cache_lock:
+            _inflight.pop(key, None)
+            event.set()
+
+
+@app.post("/api/ai/chat", response_model=ChatResponse)
+def post_chat(data: ChatRequest, request: Request):
+    _check_owner(request, data.owner_id)
+    context = data.model_dump(exclude={"history", "message", "owner_id"})
+    return chat_reply(data.message, [turn.model_dump() for turn in data.history], context)
+
+
+@app.post("/api/ai/report", response_model=ReportResponse)
+def post_report(data: ReportRequest, request: Request):
+    _check_owner(request, data.owner_id)
+    try:
+        raw = data.decode()
+    except OverflowError as exc:
+        raise HTTPException(status_code=413, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return analyze_report(raw, data.mime_type)
