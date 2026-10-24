@@ -9,8 +9,16 @@
 ai/build
 **/*.pyc
 .git
+.claude
+.codex
+.agents
+.aws
 .pnpm-store
 .audit-runtime
 artifacts
+output
+**/.pio
+**/.pytest_cache
+**/.ruff_cache
 test-results
 playwright-report

@@ -107,7 +107,7 @@ const webText = walk(absolute('apps/web/src')).filter(file => /\.(?:tsx?|css)$/.
 const extraTextFiles = ['ai/main.py', 'ai/__init__.py', 'apps/web/index.html', 'apps/web/src/index.css']
   .map(absolute).concat(['ai/services', 'ai/tests', 'simulator', 'scripts', 'hardware/esp32/src', 'hardware/esp32/test']
     .flatMap(directory => walk(absolute(directory)))
-    .filter(file => /\.(?:py|cjs|h|cpp)$/.test(file) && path.basename(file) !== 'config.h'));
+    .filter(file => /\.(?:py|cjs|ps1|h|cpp)$/.test(file) && path.basename(file) !== 'config.h'));
 for (const file of extraTextFiles) checkEncoding(file, fs.readFileSync(file, 'utf8'));
 const assets = walk(absolute('apps/web/public')).filter(file => /\.(?:png|jpe?g|gif|svg|webp|ico)$/i.test(file));
 for (const match of webText.matchAll(/["'`]\/(?!\/)([^"'`\s]+\.(?:png|jpe?g|gif|svg|webp|ico))["'`]/gi)) {

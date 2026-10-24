@@ -4,6 +4,20 @@ The local remediation is substantially complete. Release checks remain open belo
 
 The [audit](2026-10-24.md) is the historical baseline. The [plan](PLAN.md) defines completion. Detailed dated metadata is in [evidence-2026-10-24.json](evidence-2026-10-24.json); its source hashes refer to that snapshot, before the 25 October cleanup.
 
+## Current local configuration — 25 October
+
+**Configured and verified for local development/demo use.** The normal `vyana-local` Compose stack is healthy at **http://localhost:18082**; API and database host ports are 18002 and 55435. AI stays private. `python scripts/check_config.py --services` passes. The prior environment files are backed up privately, and the original database volume and unrelated projects remain untouched.
+
+The final suite has **104 passing tests**: 39 API, 16 frontend, 39 Python, seven browser and three native firmware tests. Types/lint/build, ESP32 compilation, frozen JS installation, a fresh hash-locked `.venv`, `pip check` and zero-advisory JS/Python runtime scans also passed. Both Docker and host API/AI/Vite startup/login/session flows were exercised. The Windows Node launcher selects 24.22.1 while preserving the older global installation.
+
+The regular configuration now has aligned service secrets, separate runtime/migration database roles, encoded passwords and dedicated loopback ports. Setup preserves existing credentials and rejects conflicts. Startup rejects malformed deployment settings. Migration checks accept identical LF/CRLF SQL while still rejecting changed checksums. Compose explicitly receives model/freshness settings, and Docker contexts exclude private settings and tool caches.
+
+The actual simulator, two-account socket isolation, replay, warning-to-critical escalation, recovery, SOS, profile preservation and all eleven pages passed smoke checks. Actual AI/database stop/start recovered without an API restart; a custom-format backup restored with matching record counts. Unavailable scores now use a neutral dash. Demo login details are in the ignored local `.audit-runtime/local-demo.json`; `simulator/.env` is configured for that synthetic account. Run `.venv/Scripts/python.exe simulator/main.py` to produce new readings.
+
+The final source export passed Gitleaks. Four exact synthetic configuration-test values have path-scoped exceptions; an unexpected credential in the same test path was correctly rejected. Private environments, backups and demo credentials are excluded from the review snapshot.
+
+See the [configuration evidence](configuration-2026-10-25.json). Production sign-off still needs the release checks below; local success does not close them.
+
 ## Recorded verification — 24 October
 
 | Evidence | Observed result |

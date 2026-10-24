@@ -7,6 +7,7 @@ Browser base path: `/api/v1` on the web origin. Errors return `{error, request_i
 | 400 | Invalid input |
 | 401 / 403 | Authentication / origin denied |
 | 404 | Owned resource not found |
+| 409 | Account details already in use |
 | 413 | Body or decoded report too large |
 | 429 | Rate or capacity limit |
 | 503 | Dependency unavailable |

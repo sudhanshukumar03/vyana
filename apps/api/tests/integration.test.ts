@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { randomUUID } from 'crypto';
+import { createHash, randomUUID } from 'crypto';
 import jwt from 'jsonwebtoken';
 import { io as connect, Socket } from 'socket.io-client';
 import { Pool } from 'pg';
@@ -8,6 +8,8 @@ import { createApplication } from '../src/app';
 import { loadConfig } from '../src/config';
 import { AddressInfo } from 'net';
 import { digest } from '../src/auth';
+import fs from 'fs';
+import path from 'path';
 
 const describeDatabase=process.env.TEST_DATABASE_URL?describe:describe.skip;
 describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
@@ -42,6 +44,22 @@ describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
     expect((await pool.query('SELECT full_name FROM legacy.profile')).rows[0].full_name).toBe('Legacy unassigned');
     expect((await pool.query('SELECT * FROM profile')).rows).toHaveLength(0);
     await migrate(pool);
+  });
+  it('accepts identical Windows/Linux migration text while rejecting checksum changes',async()=>{
+    const {rows}=await pool.query('SELECT name,checksum FROM schema_migrations ORDER BY name LIMIT 1');
+    const original=rows[0];
+    const sql=fs.readFileSync(path.join(__dirname,'../migrations',original.name),'utf8').replace(/\r\n/g,'\n');
+    const canonical=createHash('sha256').update(sql).digest('hex');
+    expect(original.checksum).toBe(canonical);
+    const windows=createHash('sha256').update(sql.replace(/\n/g,'\r\n')).digest('hex');
+    try {
+      await pool.query('UPDATE schema_migrations SET checksum=$1 WHERE name=$2',[windows,original.name]);
+      await migrate(pool);
+      await pool.query('UPDATE schema_migrations SET checksum=$1 WHERE name=$2',['tampered-checksum',original.name]);
+      await expect(migrate(pool)).rejects.toThrow('Migration checksum mismatch');
+    } finally {
+      await pool.query('UPDATE schema_migrations SET checksum=$1 WHERE name=$2',[original.checksum,original.name]);
+    }
   });
   it('creates isolated accounts with hashed refresh sessions',async()=>{
     const a=await api().post('/api/v1/auth/register').send({email:'alice@example.test',password:'password-for-tests'}).expect(201);

@@ -29,7 +29,7 @@ export function TrendsChart({ data }: { data: {time: string; heartRate: number; 
         </div>
 
         <div className="flex items-center gap-2 px-3 py-1.5 text-[13px] font-medium text-slate">
-          <span>Recent readings ? {format(new Date(), 'MMM d, yyyy')}</span>
+          <span>Recent readings · {format(new Date(), 'MMM d, yyyy')}</span>
         </div>
       </div>
 

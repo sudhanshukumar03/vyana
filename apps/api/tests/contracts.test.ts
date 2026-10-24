@@ -9,6 +9,23 @@ test('BMI categories use unrounded values and require supported age',()=>{
 test('signing secrets are mandatory',()=>{
   expect(()=>loadConfig({DATABASE_URL:'postgresql://localhost/test'})).toThrow('JWT_SECRET');
 });
+
+test.each([
+  {WEB_ORIGIN:'https://example.test/path'},
+  {WEB_ORIGIN:'https://example.test/'},
+  {WEB_ORIGIN:'https://user:password@example.test'},
+  {NODE_ENV:'production',WEB_ORIGIN:'http://example.test'},
+  {NODE_ENV:'prod'},
+  {PUBLIC_REGISTRATION:'yes'},
+  {DATABASE_URL:'https://example.test/database'},
+  {AI_URL:'file:///tmp/ai'},
+  {AI_URL:'http://user:password@example.test'},
+  {JWT_SECRET:'a whitespace secret that exceeds thirty two characters'},
+])('invalid deployment settings fail at startup: %j',patch=>{
+  expect(()=>loadConfig({DATABASE_URL:'postgresql://localhost/config_test',
+    JWT_SECRET:'configured-signing-key-at-least-32-characters',
+    AI_INTERNAL_SECRET:'configured-internal-key-at-least-32-characters',...patch})).toThrow();
+});
 test('storage types, strings and acquisition metadata are enforced',()=>{
   const envelope={session_id:randomUUID(),sequence:1,observed_at:new Date().toISOString(),source:'test'};
   expect(vitalsSchema.safeParse({...envelope,heart_rate:72.5,spo2:98,temperature:36.7,ecg_status:'Normal'}).success).toBe(false);

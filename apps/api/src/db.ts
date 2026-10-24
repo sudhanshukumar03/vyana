@@ -30,10 +30,13 @@ export async function migrate(pool: Pool) {
     const directory = path.join(__dirname, '../migrations');
     for (const name of fs.readdirSync(directory).filter((file) => file.endsWith('.sql')).sort()) {
       const sql = fs.readFileSync(path.join(directory, name), 'utf8');
-      const checksum = createHash('sha256').update(sql).digest('hex');
+      // Git/Windows line endings must not make identical migrations incompatible.
+      const canonical = sql.replace(/\r\n/g, '\n');
+      const checksum = createHash('sha256').update(canonical).digest('hex');
+      const windowsChecksum = createHash('sha256').update(canonical.replace(/\n/g, '\r\n')).digest('hex');
       const applied = await client.query('SELECT checksum FROM schema_migrations WHERE name=$1', [name]);
       if (applied.rows.length) {
-        if (applied.rows[0].checksum !== checksum) throw new Error(`Migration checksum mismatch: ${name}`);
+        if (![checksum, windowsChecksum].includes(applied.rows[0].checksum)) throw new Error(`Migration checksum mismatch: ${name}`);
         continue;
       }
       await client.query(sql);

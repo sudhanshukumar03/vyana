@@ -5,7 +5,8 @@ import { BmiCard } from '../components/BmiCard';
 export default function Wellness() {
   const { wellnessScore, insights, insightsOffline } = useHealthStore();
 
-  const getScoreColor = (score: number) => {
+  const getScoreColor = (score: number | null) => {
+    if (score === null) return 'text-muted';
     if (score >= 80) return 'text-success';
     if (score >= 60) return 'text-warn';
     return 'text-critical';
@@ -41,8 +42,8 @@ export default function Wellness() {
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center mb-8">
         <h2 className="text-lg font-medium text-gray-500 mb-2">Prototype Wellness Score</h2>
         <div className="flex items-center justify-center">
-          <span className={`text-6xl font-bold ${getScoreColor(wellnessScore ?? 0)}`}>
-            {wellnessScore ?? '?'}
+          <span className={`text-6xl font-bold ${getScoreColor(wellnessScore)}`}>
+            {wellnessScore ?? '—'}
           </span>
           <span className="text-2xl text-gray-600 font-medium ml-1">/100</span>
         </div>

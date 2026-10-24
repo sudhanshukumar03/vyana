@@ -15,6 +15,8 @@ pnpm --dir apps/api legacy-import account@example.test Asia/Kolkata --confirm-ba
 
 Use the original timezone of naive timestamps. The import is atomic, preserves originals and refuses repeated assignment. Keep backups until the upgrade and restore checks pass. Preserve existing volumes.
 
+Migration checksums use canonical LF line endings. Existing hashes for identical CRLF files are accepted so Windows/Linux checkouts remain compatible; changed SQL still fails verification.
+
 ## Backup, restore and retention
 
 Use PostgreSQL operator tools to dump a consistent database and inspect the archive. Restore into a new disposable database; compare record counts, ownership and application behavior before switching traffic.
@@ -40,6 +42,8 @@ Recovery/verification requests create single-use, 30-minute tokens in an encrypt
 `/health/live` reports API liveness; `/health/ready` checks the database after initialization. Core summaries do not wait for Gemini. Logs use request IDs/error codes. `STALE_SECONDS` defaults to 30 and accepts 10–3600.
 
 External HTTPS is deferred by the user. Before external deployment, configure an HTTPS ingress, `NODE_ENV=production`, the exact HTTPS `WEB_ORIGIN`, managed secrets and restricted DB access. Keep AI, database and internal API ports private. Proxy `/api/` and `/socket.io/` on the same origin, including WebSocket upgrades and the 15 MiB encoded report budget.
+
+The supplied Compose file is a loopback development stack and explicitly sets development mode. Production needs a reviewed deployment override; adding `NODE_ENV=production` to the root `.env` alone does not change that service setting.
 
 Production refresh cookies use Secure, HttpOnly and SameSite=Strict. Cookie mutations also require the accepted origin and client header. Verify the complete browser flow from a second computer before recording the transport gate as passed.
 

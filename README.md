@@ -8,17 +8,19 @@ Install Docker and Python 3.12, then run:
 
 ```powershell
 python scripts/setup_env.py
-docker compose up --build -d
+python scripts/check_config.py
+docker compose up --build -d --wait
+python scripts/check_config.py --services
 ```
 
-Open http://localhost:8080, create a local account and complete your profile. To send simulated readings:
+Open the web origin printed by setup (default http://localhost:8080), create a local account and complete your profile. To send simulated readings:
 
 ```powershell
 docker compose exec api node dist/provision.js account@example.test "Virtual wristband"
 python -m pip install -r simulator/requirements.txt
 ```
 
-Copy [the simulator example](simulator/.env.example) to `simulator/.env`, save the one-time credential as `DEVICE_KEY`, and set `API_BASE_URL=http://127.0.0.1:8000/api/v1`. Run `python simulator/main.py`.
+Copy [the simulator example](simulator/.env.example) to `simulator/.env`, save the one-time credential as `DEVICE_KEY`, and set `API_BASE_URL` to your local API address plus `/api/v1` (default `http://127.0.0.1:8000/api/v1`). Run `python simulator/main.py`.
 
 The local stack binds to loopback. If you already have a database, follow [the upgrade procedure](docs/OPERATIONS.md#upgrade-an-existing-database) before starting a newer version.
 

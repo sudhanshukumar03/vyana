@@ -16,6 +16,18 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "Exact non-secret credentials used to test environment preservation and conflicts"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)ai/tests/test_setup\.py$''']
+regexes = [
+  '''^existing-signing-secret-at-least-32-characters$''',
+  '''^existing-internal-secret-at-least-32-characters$''',
+  '''^same-secret-for-both-at-least-32-characters$''',
+  '''^mismatched-signing-secret-at-least-32-characters$'''
+]
+
+[[allowlists]]
 description = "SHA-256 source fingerprints in the verification ledger"
 targetRules = ["generic-api-key"]
 condition = "AND"

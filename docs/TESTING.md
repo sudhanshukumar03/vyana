@@ -2,6 +2,8 @@
 
 Use Node 24.22.1 or newer within 24.x, pnpm 11.18.0 and Python 3.12. Install JS with `pnpm install --frozen-lockfile` and Python with `--require-hashes -r ai/requirements-test.lock`.
 
+Check a configured local installation with `python scripts/check_config.py --services`. This is separate from CI: clean CI jobs test configuration fixtures without depending on private `.env` files. On Windows, `./scripts/with-node.ps1 pnpm verify` uses the supported project Node when available; activate Python first.
+
 ## Software and browser checks
 
 Create an empty, disposable PostgreSQL database whose name ends in `_test`. The integration suite resets its contents. Set its actual URL and explicitly allow the reset:

@@ -8,7 +8,7 @@
     "lint": "pnpm --filter \"./apps/**\" lint",
     "test": "pnpm --filter \"./apps/**\" test",
     "test:ai": "python -m pytest -c ai/pyproject.toml ai/tests",
-    "lint:ai": "python -m ruff check --config ai/pyproject.toml ai simulator scripts/setup_env.py",
+    "lint:ai": "python -m ruff check --config ai/pyproject.toml ai simulator scripts/setup_env.py scripts/check_config.py",
     "verify": "pnpm check:project && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm test:ai && pnpm lint:ai",
     "test:e2e": "pnpm --dir apps/web exec playwright test",
     "check:project": "node scripts/check-project.cjs"

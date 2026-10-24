@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-25",
+  "verdict": "Configured and verified for local development/demo use",
+  "local_configured": true,
+  "production_signoff": false,
+  "published": false,
+  "local_stack": {
+    "project": "vyana-local",
+    "web_origin": "http://localhost:18082",
+    "api_port": 18002,
+    "database_port": 55435,
+    "ai_public_port": null,
+    "healthy_services": 4,
+    "runtime_database_role": "healthguard_app",
+    "legacy_access": false,
+    "migration_metadata_write": false
+  },
+  "runtime": {
+    "node": "24.22.1",
+    "host_python": "3.12.10",
+    "container_python": "3.12.15",
+    "postgresql": "16.15",
+    "pnpm": "11.18.0",
+    "host_venv": ".venv",
+    "global_node_preserved": "24.14.0",
+    "host_node_launcher": "scripts/with-node.ps1"
+  },
+  "tests": {
+    "api": 39,
+    "frontend": 16,
+    "python": 39,
+    "browser": 7,
+    "firmware_native": 3,
+    "total": 104,
+    "firmware_compile": true,
+    "types_lint_build": true
+  },
+  "configuration_regressions": [
+    "Missing regular environment secrets",
+    "Legacy database/occupied-port mismatch",
+    "Credential preservation and conflict rejection",
+    "Compose/Node/Python quoting compatibility",
+    "Encoded database passwords",
+    "Malformed deployment settings rejected at startup",
+    "LF/CRLF migration compatibility with tamper rejection",
+    "Explicit Compose model/freshness settings",
+    "Supported host Node selection and child exit codes",
+    "Unavailable score shown neutrally"
+  ],
+  "verification": {
+    "frozen_javascript_install": true,
+    "fresh_hash_locked_python_install": true,
+    "pip_check": true,
+    "javascript_advisories": 0,
+    "python_runtime_advisories": 0,
+    "export_secret_scan": true,
+    "unexpected_secret_probe_rejected": true,
+    "local_markdown_links": 70,
+    "audit_finding_ids": 47,
+    "plan_regression_cases": 22,
+    "normal_compose_configuration": true,
+    "configuration_doctor_services": true,
+    "all_eleven_browser_routes": true,
+    "viewports": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "host_development_startup": true,
+    "simulator": true,
+    "owned_socket_events": 11,
+    "foreign_socket_events": 0,
+    "alert_and_replay_checks": true,
+    "database_ai_stop_start": true,
+    "backup_restore": true,
+    "restored_counts": [
+      2,
+      8,
+      3,
+      1,
+      2
+    ],
+    "private_ai_auth_and_fallback": true
+  },
+  "preserved": {
+    "legacy_database_volume": true,
+    "unrelated_projects": true,
+    "provider_credential": true,
+    "prior_environment_backup": ".audit-runtime/environment-before-local-configuration-2026-10-25.zip",
+    "user_working_branch_and_staging_area": true
+  },
+  "private_local_files": {
+    "demo_login": ".audit-runtime/local-demo.json",
+    "simulator": "simulator/.env",
+    "synthetic_backup": "artifacts/vyana-local-configuration.dump"
+  },
+  "remaining_release_checks": [
+    "Hosted CI after reviewed publication",
+    "Live-provider authorization/adversarial review",
+    "Manual screen-reader review",
+    "Physical ESP32 bench (user deferred)",
+    "External HTTPS (user deferred)"
+  ],
+  "notes": [
+    "Earlier load/query-plan evidence remains dated; the telemetry queries did not change.",
+    "No physical hardware or external HTTPS result is claimed.",
+    "Only synthetic records were used in new local tests. Temporary host processes were stopped."
+  ]
+}
