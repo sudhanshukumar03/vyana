@@ -63,4 +63,4 @@ The original local/staging budgets are core-summary p95 ≤500 ms and ingest-to-
 
 ## Remaining work
 
-The [status ledger](STATUS.md#remaining-checks) is the current checklist. Hardware and external HTTPS are deferred by the user. Hosted CI is waiting for a reviewed public push; provider and manual accessibility checks require their own evidence. The 25 October cleanup is local and does not authorize publication.
+The [status ledger](STATUS.md#remaining-checks) is the current checklist. Hardware and external HTTPS are deferred by the user. Hosted CI passed after the reviewed branch was published; provider and manual accessibility checks still require their own evidence. Publication and its CI result are recorded in the status ledger.

@@ -3,7 +3,7 @@
   "verdict": "Configured and verified for local development/demo use",
   "local_configured": true,
   "production_signoff": false,
-  "published": false,
+  "published": true,
   "local_stack": {
     "project": "vyana-local",
     "web_origin": "http://localhost:18082",
@@ -96,7 +96,6 @@
     "synthetic_backup": "artifacts/vyana-local-configuration.dump"
   },
   "remaining_release_checks": [
-    "Hosted CI after reviewed publication",
     "Live-provider authorization/adversarial review",
     "Manual screen-reader review",
     "Physical ESP32 bench (user deferred)",
@@ -106,5 +105,21 @@
     "Earlier load/query-plan evidence remains dated; the telemetry queries did not change.",
     "No physical hardware or external HTTPS result is claimed.",
     "Only synthetic records were used in new local tests. Temporary host processes were stopped."
-  ]
+  ],
+  "publication": {
+    "repository": "sudhanshukumar03/vyana",
+    "branch": "codex/audit-cleanup-2026-10-25",
+    "branch_url": "https://github.com/sudhanshukumar03/vyana/tree/codex/audit-cleanup-2026-10-25",
+    "checked_commit": "3e9282b757e22e10d3f66884ec7a823ca33e5772",
+    "workflow_run": 40168534380,
+    "workflow_url": "https://github.com/sudhanshukumar03/vyana/actions/runs/40168534380",
+    "conclusion": "success",
+    "jobs": {
+      "software": "success",
+      "firmware": "success",
+      "secrets": "success"
+    },
+    "ci_health_command_quoting": "corrected after the initial hosted run",
+    "main_merged": false
+  }
 }

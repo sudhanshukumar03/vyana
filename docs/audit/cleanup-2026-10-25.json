@@ -162,5 +162,6 @@
     "project_references": "passed",
     "backup_and_historical_evidence": "passed",
     "published": false
-  }
+  },
+  "record_kind": "Historical local checkpoint before publication; current publication status is in configuration-2026-10-25.json"
 }
