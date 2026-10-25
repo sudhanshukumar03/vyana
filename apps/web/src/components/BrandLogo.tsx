@@ -7,6 +7,7 @@ interface BrandLogoProps {
 export function BrandLogo({ variant = 'compact', className = '' }: BrandLogoProps) {
   const small = variant === 'small';
   const full = variant === 'full';
+  const markSize = full ? 64 : small ? 32 : 40;
 
   return (
     <span
@@ -17,11 +18,11 @@ export function BrandLogo({ variant = 'compact', className = '' }: BrandLogoProp
       <img
         src="/brand/vyana-mark.svg"
         alt=""
-        width={80}
-        height={72}
-        className={`shrink-0 object-contain ${full ? 'w-20 h-18' : small ? 'w-9 h-9' : 'w-12 h-12'}`}
+        width={markSize}
+        height={markSize}
+        className="shrink-0 object-contain"
       />
-      <span aria-hidden="true" className="flex flex-col whitespace-nowrap">
+      <span aria-hidden="true" className="flex flex-col items-start whitespace-nowrap text-left">
         <span className={`font-display font-bold leading-none tracking-[-0.04em] text-ink ${full ? 'text-[44px]' : small ? 'text-[23px]' : 'text-[30px]'}`}>
           Vyana
         </span>

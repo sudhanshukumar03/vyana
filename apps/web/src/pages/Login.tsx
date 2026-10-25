@@ -41,7 +41,7 @@ export default function Login() {
     <div className="min-h-screen bg-canvas font-sans flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center text-center mb-8">
-          <BrandLogo variant="full" className="mb-7" />
+          <BrandLogo variant="full" className="mb-5" />
           <h1 className="sr-only">{isRegister ? 'Create your Vyana account' : 'Sign in to Vyana'}</h1>
           <p className="text-[14px] text-muted">
             {isRegister ? 'Create your account to begin monitoring.' : 'Sign in to your health dashboard.'}
