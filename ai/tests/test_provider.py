@@ -264,3 +264,12 @@ def test_explicit_brief_answers_do_not_gain_unrequested_supporting_sections(mode
     model[1].return_value.text=json.dumps({**ANSWER,"sections":[{"title":"Extra detail","items":["Unrequested expansion"]}]})
     result=chat_reply("Explain step count in two sentences.")
     assert result["source"] == "gemini" and result["sections"] == []
+
+
+def test_insights_use_the_same_age_only_context_as_chat_and_reports(model):
+    model[1].return_value.text=json.dumps({"insights":[{"type":"info","title":"Synthetic","detail":"Recorded observations only."}]})
+    gemini.generate_insights({"heart_rate":72,"spo2":98,"temperature":36.7}, {}, [], None, {"dob":"1990-01-01"})
+    prompt=model[1].call_args.kwargs["contents"]
+    context=json.loads(prompt.split("Untrusted context:\n",1)[1])
+    assert "dob" not in context["profile"] and context["profile"]["age_group"] == "adult"
+    assert context["vitals"]["heart_rate"] == 72

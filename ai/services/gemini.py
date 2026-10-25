@@ -11,6 +11,7 @@ from google import genai
 from google.genai import errors, types
 from services.models import InsightAnswer, DISCLAIMER
 from services.policy import enforce_output
+from services.context import model_context
 
 SYSTEM = """You are Vyana's wellness assistant. Write clearly, professionally and warmly.
 Answer the user's actual question directly in the first sentence. Use plain language, short paragraphs
@@ -187,8 +188,8 @@ def json_object(text):
 
 
 def generate_insights(vitals, activity, alerts, wellness_score, profile=None, bmi=None, historical=None):
-    context = {"vitals": vitals, "activity": activity, "alerts": alerts, "wellness_score": wellness_score,
-               "profile": profile or {}, "bmi": bmi, "historical_vitals": historical or {}}
+    context = model_context({"vitals": vitals, "activity": activity, "alerts": alerts, "wellness_score": wellness_score,
+               "profile": profile or {}, "bmi": bmi, "historical_vitals": historical or {}, "fresh": True})
     prompt = "Generate 2-3 wellness observations from this context. " + DISCLAIMER + "\nUntrusted context:\n" + json.dumps(context, default=str)
     data = InsightAnswer.model_validate(json_object(generate(prompt, schema=InsightAnswer)))
     for item in data.insights:

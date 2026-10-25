@@ -19,9 +19,9 @@
   "automated_checks": {
     "api_tests": 40,
     "frontend_tests": 20,
-    "python_tests": 104,
+    "python_tests": 105,
     "browser_tests": 10,
-    "software_and_browser_total": 174,
+    "software_and_browser_total": 175,
     "typescript": "passed",
     "lint": "passed",
     "builds": "passed",

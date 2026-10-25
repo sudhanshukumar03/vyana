@@ -1,25 +1,12 @@
 """Wellness chat and report adapters with structured conversation roles."""
 import json
 import re
-from datetime import date, datetime, timezone
 from google.genai import types
 from services.gemini import generate, json_object, GenerationUnavailable
 from services.models import ChatAnswer, ChatResponse, ReportAnswer, ReportResponse
 from services.policy import restricted_request, enforce_output
-from services.deterministic import get_deterministic_insights, has_current_vitals
-
-
-def age_context(context):
-    profile = (context or {}).get("profile") or {}
-    try:
-        born = date.fromisoformat(str(profile.get("dob", ""))[:10])
-        today = datetime.now(timezone.utc).date()
-        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-        if age < 0 or age > 130:
-            raise ValueError("Invalid age")
-    except (TypeError, ValueError):
-        return {"age_group": "unknown", "age_years": None}
-    return {"age_group": "adult" if age >= 20 else "under_20", "age_years": age}
+from services.deterministic import get_deterministic_insights
+from services.context import age_context, model_context
 
 
 def age_limit(message, context):
@@ -32,18 +19,6 @@ def age_limit(message, context):
     if group == "under_20":
         return "Vyana doesn't apply adult BMI categories or personal weight and calorie targets to people under 20. A qualified clinician can assess age-appropriate growth and nutrition needs. Focus on varied meals and enjoyable activity rather than a target number."
     return None
-
-
-def model_context(context):
-    value = dict(context or {})
-    value["profile"] = {key: item for key, item in (value.get("profile") or {}).items() if key != "dob"}
-    value["profile"].update(age_context(context))
-    vitals = value.get("vitals") or {}
-    if not has_current_vitals(vitals, value.get("fresh", False)):
-        value.update(fresh=False, wellness_score=None,
-            vitals={"source": vitals.get("source"), "observed_at": vitals.get("observed_at"),
-                    "status": "No fresh complete readings; do not assess current health."})
-    return value
 
 
 def failure_metadata(exc):
