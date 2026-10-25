@@ -101,7 +101,7 @@ def main():
     root['COMPOSE_MIGRATION_DATABASE_URL'] = f"postgresql://postgres:{quote(root['POSTGRES_PASSWORD'], safe='')}@db:5432/healthguard"
     if not root.get('GEMINI_API_KEY'):
         root['GEMINI_API_KEY'] = ai.get('GEMINI_API_KEY', '')
-    root['GEMINI_MODEL'] = root.get('GEMINI_MODEL') or ai.get('GEMINI_MODEL') or 'gemini-2.5-flash'
+    root['GEMINI_MODEL'] = root.get('GEMINI_MODEL') or ai.get('GEMINI_MODEL') or 'gemini-3.1-flash-lite'
     ai['GEMINI_MODEL'] = ai.get('GEMINI_MODEL') or root['GEMINI_MODEL']
     api.update({'JWT_SECRET': root['JWT_SECRET'], 'AI_INTERNAL_SECRET': root['AI_INTERNAL_SECRET']})
     if not api.get('DATABASE_URL'):

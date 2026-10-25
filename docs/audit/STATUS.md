@@ -8,7 +8,7 @@ The [audit](2026-10-24.md) is the historical baseline. The [plan](PLAN.md) defin
 
 **Configured and verified for local development/demo use.** The normal `vyana-local` Compose stack is healthy at **http://localhost:18082**; API and database host ports are 18002 and 55435. AI stays private. `python scripts/check_config.py --services` passes. The prior environment files are backed up privately, and the original database volume and unrelated projects remain untouched.
 
-The final suite has **104 passing tests**: 39 API, 16 frontend, 39 Python, seven browser and three native firmware tests. Types/lint/build, ESP32 compilation, frozen JS installation, a fresh hash-locked `.venv`, `pip check` and zero-advisory JS/Python runtime scans also passed. Both Docker and host API/AI/Vite startup/login/session flows were exercised. The Windows Node launcher selects 24.22.1 while preserving the older global installation.
+The original configuration checkpoint passed **104 tests**: 39 API, 16 frontend, 39 Python, seven browser and three native firmware tests. Types/lint/build, ESP32 compilation, frozen JS installation, a fresh hash-locked `.venv`, `pip check` and zero-advisory JS/Python runtime scans also passed. Both Docker and host API/AI/Vite startup/login/session flows were exercised. The Windows Node launcher selects 24.22.1 while preserving the older global installation. The AI follow-up below records the newer test counts.
 
 The regular configuration now has aligned service secrets, separate runtime/migration database roles, encoded passwords and dedicated loopback ports. Setup preserves existing credentials and rejects conflicts. Startup rejects malformed deployment settings. Migration checks accept identical LF/CRLF SQL while still rejecting changed checksums. Compose explicitly receives model/freshness settings, and Docker contexts exclude private settings and tool caches.
 
@@ -18,7 +18,19 @@ The final source export passed Gitleaks. Four exact synthetic configuration-test
 
 See the [configuration evidence](configuration-2026-10-25.json). Production sign-off still needs the release checks below; local success does not close them.
 
-## GitHub publication — 25 October
+## AI implementation follow-up — 25 October
+
+Live Gemini access is working with the operator's updated private credential and `gemini-3.1-flash-lite`. The root/host environments were synchronized. Provider diagnostics now distinguish authentication, permissions, quota, model availability, network, timeout and invalid output without exposing credentials or raw provider messages.
+
+Chat uses a direct answer plus useful supporting sections and honors explicit brevity requests. The UI labels Gemini, rules and fallback responses. Report review receives account-scoped context, keeps document findings separate from device data and dates, and offers questions to ask a clinician. Birth dates become age context before generation; unknown age is distinct from under 20. Stale/incomplete vitals cannot become current measurements. Uploads and failed replies stay out of later chat context.
+
+The updated checks pass **174 software/browser tests**: 40 API, 20 frontend, 104 Python and ten browser. Types, lint, builds and `pip check` passed. Thirteen finite live synthetic cases covered missing/stale/simulated data, age limits, an injected profile instruction, restricted medical requests, urgent symptoms and PDF/PNG/JPEG review. Wording review led to fixes for unknown-age assumptions, invented Bluetooth controls and duplicated/misdirected report questions.
+
+The actual local app returned Gemini chat and synthetic PDF review, with successful login/refresh/logout checks. At 320/390/768/1440 px the composer had no horizontal overflow and all its controls met the 44 px minimum. Cancellation, duplicate submission, escaped text rendering, reduced motion and automated accessibility checks passed. An initial empty-session refresh correctly returned 401; there were no unhandled page errors. Timeout budgets now increase through provider/API/proxy/browser at 30/35/40/45 seconds. The former nginx limit cut off valid longer reviews and has been corrected.
+
+The [AI evidence record](ai-implementation-2026-10-25.json) separates this finite evaluation from broader qualified human review. It does not establish clinical validation.
+
+## Earlier GitHub publication — 25 October
 
 The reviewed changes are on the [audit branch](https://github.com/sudhanshukumar03/vyana/tree/codex/audit-cleanup-2026-10-25); `main` remains unchanged. [Hosted CI](https://github.com/sudhanshukumar03/vyana/actions/runs/40168534380) passed at `3e9282b`: software/PostgreSQL/browser checks, firmware compile/native tests and the secret scan all succeeded. The initial run exposed incorrect PostgreSQL health-command quoting; the follow-up commit corrected it.
 
@@ -96,7 +108,7 @@ Local outputs and synthetic backups are ignored under `artifacts/`. Existing use
 | A02 | Authenticated activity/heartbeat and explicit simulated source (E3/E9) | Software verified; physical producer pending |
 | A03 | Auth lifecycle, encrypted operator sink, rate/concurrency bounds and closed production signup (E1) | Verified for closed prototype |
 | A04 | Random local secrets, loopback/private services, restricted role and TLS configuration (E1/E5/E8) | Local verified; external TLS pending |
-| A05 | Structured roles, bounded context/output and finite policy tests (E1) | Live adversarial evaluation/human review pending |
+| A05 | Structured roles, schemas, decoded scope checks, age rules and finite live evaluation | Live access verified; broader qualified human review pending |
 | A06 | Honest Reports/Settings copy; Assistant upload remains discoverable (E1/E2) | Verified product boundary |
 | A07 | Status-aware chat/report/SOS/profile/contact errors and retry feedback (E1/E2) | Verified |
 | A08 | UTC storage, explicit legacy timezone and IANA profile timezone (E1/E5) | Verified |
@@ -108,7 +120,7 @@ Local outputs and synthetic backups are ignored under `artifacts/`. Existing use
 
 | Check | Next evidence / owner | Current state |
 |---|---|---|
-| Live AI | Operator: resolve provider authorization; maintainer: synthetic adversarial evaluation and human review | Configured key received 401; finite rules/fallbacks tested |
+| AI review | Qualified reviewer: broader adversarial and clinical-scope evaluation | Live access and 13 synthetic cases verified; comprehensive safety/clinical suitability unestablished |
 | Physical ESP32 | Hardware owner: clock, sensor absence, queue/retry/heap, reboot and reconnect bench | Deferred by user; components unavailable |
 | External HTTPS | Deployment owner: hostname/certificate, private routing, secure cookies and second-computer HTTP/socket test | Deferred by user |
 | Manual accessibility | Reviewer: real screen-reader announcements, focus restoration and mobile navigation | Keyboard/axe/reduced-motion automation passed |

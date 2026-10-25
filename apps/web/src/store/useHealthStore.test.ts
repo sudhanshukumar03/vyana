@@ -9,6 +9,14 @@ beforeEach(async()=>{vi.resetModules();store=(await import('./useHealthStore')).
 afterEach(()=>{vi.unstubAllGlobals();vi.useRealTimers();});
 
 describe('health state regressions',()=>{
+  it('logout also aborts requests that supply their own cancellation signal',async()=>{
+    let supplied:AbortSignal|undefined;
+    vi.mocked(fetch).mockImplementation(async(_url,init)=>{supplied=init?.signal as AbortSignal;return new Response('{}');});
+    const local=new AbortController();api.setToken('old');
+    await api.apiFetch('/assistant/chat',{signal:local.signal});
+    api.clearToken();
+    expect(supplied?.aborted).toBe(true);expect(local.signal.aborted).toBe(false);
+  });
   it('keeps readings 2–21 instead of dropping the newest prior sample',async()=>{
     const {mergeHistory}=await import('./useHealthStore');
     expect(mergeHistory(Array.from({length:20},(_,index)=>reading(index+1)),[reading(21)]).map(row=>row.id)).toEqual(Array.from({length:20},(_,index)=>index+2));

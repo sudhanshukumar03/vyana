@@ -2,12 +2,17 @@
 import math
 
 
+def has_current_vitals(vitals, fresh):
+    ranges = {"heart_rate": (0, 300), "spo2": (0, 100), "temperature": (20, 45)}
+    return bool(fresh and all(type(vitals.get(key)) in (float, int) and math.isfinite(vitals[key])
+        and low <= vitals[key] <= high for key, (low, high) in ranges.items()))
+
+
 def get_deterministic_insights(vitals, activity=None, fresh=True):
     vitals = vitals or {}
-    required = ("heart_rate", "spo2", "temperature")
-    if not fresh or not all(isinstance(vitals.get(k), (float, int)) and math.isfinite(vitals[k]) for k in required):
+    if not has_current_vitals(vitals, fresh):
         return [{"type": "info", "title": "Insufficient current data", "detail": "Fresh, complete readings are needed for a wellness summary."}]
-    hr, oxygen, temp = (vitals[k] for k in required)
+    hr, oxygen, temp = (vitals[k] for k in ("heart_rate", "spo2", "temperature"))
     flags = []
     if hr > 150 or hr < 40:
         flags.append(("critical", "Heart rate threshold", f"Heart rate: {hr} bpm."))

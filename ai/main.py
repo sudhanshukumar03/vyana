@@ -12,7 +12,7 @@ from services.boundary import InternalBoundary
 from services.models import HealthData, ChatRequest, ReportRequest, InsightResponse, ChatResponse, ReportResponse
 from services.gemini import generate_insights
 from services.assistant import chat_reply, analyze_report
-from services.deterministic import get_deterministic_insights
+from services.deterministic import get_deterministic_insights, has_current_vitals
 
 load_dotenv()
 
@@ -58,7 +58,7 @@ def _check_owner(request, owner_id):
 def get_insights(data: HealthData, request: Request):
     _check_owner(request, data.owner_id)
     fallback = get_deterministic_insights(data.vitals, data.activity, data.fresh)
-    if not data.fresh:
+    if not has_current_vitals(data.vitals, data.fresh):
         return {"insights": fallback, "offline": True}
     key = _insight_signature(data)
     with _cache_lock:
@@ -73,7 +73,7 @@ def get_insights(data: HealthData, request: Request):
                 return {"insights": fallback, "offline": True}
             event = _inflight[key] = threading.Event()
     if not leader:
-        event.wait(timeout=9)
+        event.wait(timeout=31)
         with _cache_lock:
             cached = _cache.get(key)
             return {"insights": cached[1] if cached else fallback, "offline": cached[2] if cached else True}
@@ -116,4 +116,5 @@ def post_report(data: ReportRequest, request: Request):
         raise HTTPException(status_code=413, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    return analyze_report(raw, data.mime_type)
+    context = data.model_dump(exclude={"data_base64", "mime_type", "filename", "owner_id"})
+    return analyze_report(raw, data.mime_type, context)

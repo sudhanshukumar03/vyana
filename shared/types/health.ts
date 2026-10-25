@@ -1,4 +1,12 @@
 /** Wire contracts. All patient data is scoped by authenticated ownership. */
+export interface AnswerSection { title: string; items: string[] }
+export type AiFailureReason = 'not_configured' | 'configuration' | 'authentication' | 'permission' | 'quota' | 'timeout' |
+  'network' | 'model_unavailable' | 'busy' | 'invalid_response' | 'safety' | 'unavailable';
+export interface AiResponseMetadata { source: 'gemini' | 'rules' | 'fallback'; reason: AiFailureReason | null;
+  retry_after_seconds: number | null; sections: AnswerSection[]; disclaimer: string; offline: boolean }
+export interface ChatResponse extends AiResponseMetadata { reply: string }
+export interface ReportResponse extends AiResponseMetadata { summary: string; discussion_points: string[];
+  document_status: 'readable' | 'unreadable' | 'not_health_report' | 'not_reviewed' }
 export interface Reading { id: number; device_id: string; session_id: string; sequence: number; timestamp: string; observed_at: string; received_at: string; source: string }
 export interface VitalReading extends Reading { heart_rate: number; spo2: number; temperature: number; ecg_status: 'Normal' | 'Irregular' | 'Leads Off' | 'Unknown' }
 export interface ActivityReading extends Reading { steps: number; distance_km: number; calories: number; active_minutes: number }

@@ -35,7 +35,8 @@ export async function apiFetch(path: string, init: RequestInit = {}): Promise<Re
     const headers = new Headers(init.headers);
     headers.set('Content-Type', 'application/json'); headers.set('X-HealthGuard-Client', 'web');
     if (token) headers.set('Authorization', `Bearer ${token}`);
-    return fetch(`${API_BASE_URL}${path}`, { ...init, headers, credentials: 'include', signal: init.signal || controller.signal });
+    return fetch(`${API_BASE_URL}${path}`, { ...init, headers, credentials: 'include',
+      signal: init.signal ? AbortSignal.any([init.signal, controller.signal]) : controller.signal });
   };
   let res = await execute();
   if (started !== epoch) throw new DOMException('Obsolete session', 'AbortError');

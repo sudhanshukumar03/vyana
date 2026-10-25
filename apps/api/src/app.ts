@@ -10,7 +10,7 @@ import { randomUUID } from 'crypto';
 import { z } from 'zod';
 import { Config } from './config';
 import { authServices, asyncRoute, digest, HttpError, randomToken } from './auth';
-import { activitySchema, bmi, chatSchema, contactSchema, deviceSchema, insightsSchema, profileSchema, reportSchema, validateReport, vitalsSchema } from './schemas';
+import { activitySchema, bmi, chatSchema, chatResponseSchema, contactSchema, deviceSchema, insightsSchema, profileSchema, reportSchema, reportResponseSchema, validateReport, vitalsSchema } from './schemas';
 import { ingest, summary } from './telemetry';
 import { transaction } from './db';
 
@@ -167,11 +167,16 @@ export function createApplication(pool: Pool, config: Config) {
     const history=await pool.query(`SELECT COUNT(*)::int AS sample_count,AVG(heart_rate)::float AS average_heart_rate,
       AVG(spo2)::float AS average_spo2,MIN(temperature)::float AS minimum_temperature,
       MAX(temperature)::float AS maximum_temperature FROM vitals WHERE user_id=$1 AND observed_at>=NOW()-INTERVAL '7 days'`,[owner]);
-    return {owner_id:String(owner),vitals:data.vitals||{},activity:data.activity||{},profile:data.profile||{},bmi:bmi(data.profile||{}),
+    // Send only relevant profile fields. Names and account/database identifiers have no role in generation.
+    const profile=data.profile;
+    const safeProfile=profile?{dob:profile.dob,sex:profile.sex,height_cm:profile.height_cm,weight_kg:profile.weight_kg,
+      conditions:profile.conditions,medications:profile.medications,allergies:profile.allergies,
+      activity_level:profile.activity_level,goal:profile.goal,timezone:profile.timezone}:{};
+    return {owner_id:String(owner),vitals:data.vitals||{},activity:data.activity||{},profile:safeProfile,bmi:bmi(data.profile||{}),
       alerts:data.alerts,historical_vitals:{period_days:7,...history.rows[0]},wellness_score:data.wellness_score,fresh:data.freshness.state==='fresh'};
   }
   async function callAI(owner:number,path:string,body:object,signal:AbortSignal) {
-    const result=await axios.post(`${config.aiUrl}/api/ai/${path}`,body,{timeout:12000,maxBodyLength:15*1024*1024,
+    const result=await axios.post(`${config.aiUrl}/api/ai/${path}`,body,{timeout:35000,maxBodyLength:15*1024*1024,
       maxContentLength:100000,signal,headers:{'X-AI-Key':config.internalSecret,'X-Owner-Id':String(owner)}});
     return result.data;
   }
@@ -183,16 +188,16 @@ export function createApplication(pool: Pool, config: Config) {
   app.post('/api/v1/assistant/chat',aiLimit,aiCapacity,asyncRoute(async(req,res)=>{
     const input=chatSchema.parse(req.body),context=await aiContext(userId(res));
     try {
-      const data=z.object({reply:z.string().max(16000),disclaimer:z.string().max(500),offline:z.boolean()}).parse(await callAI(userId(res),'chat',{...context,...input},res.locals.aiSignal));res.json(data);
-    } catch {res.json({reply:'The assistant is unavailable. Please try again later.',disclaimer:'AI wellness guidance only; not professional medical care.',offline:true});}
+      const data=chatResponseSchema.parse(await callAI(userId(res),'chat',{...context,...input},res.locals.aiSignal));res.json(data);
+    } catch {res.json({reply:'I could not reach AI analysis. Please try again later. No AI assessment was produced.',sections:[],source:'fallback',reason:'unavailable',retry_after_seconds:5,disclaimer:'AI wellness guidance only; not professional medical care.',offline:true});}
   }));
   app.post('/api/v1/assistant/report',aiLimit,aiCapacity,express.json({limit:'15mb'}),asyncRoute(async(req,res)=>{
     const input=reportSchema.parse(req.body);
     try {validateReport(input);}catch(error){throw new HttpError((error as {status?:number}).status||400,(error as Error).message);}
+    const context=await aiContext(userId(res));
     try {
-      const data=z.object({summary:z.string().max(16000),discussion_points:z.array(z.string().max(1000)).max(20),
-        disclaimer:z.string().max(500),offline:z.boolean()}).parse(await callAI(userId(res),'report',{...input,owner_id:String(userId(res))},res.locals.aiSignal));res.json(data);
-    } catch {res.json({summary:'Report analysis is unavailable. Please try again later.',discussion_points:[],disclaimer:'AI wellness guidance only; not professional medical care.',offline:true});}
+      const data=reportResponseSchema.parse(await callAI(userId(res),'report',{...context,...input},res.locals.aiSignal));res.json(data);
+    } catch {res.json({summary:'I could not review the report because AI analysis is unavailable. No findings were extracted. Please try again later or discuss the original report with a clinician.',sections:[],source:'fallback',reason:'unavailable',retry_after_seconds:5,document_status:'not_reviewed',discussion_points:[],disclaimer:'AI wellness guidance only; not professional medical care.',offline:true});}
   }));
   app.use((_req,_res,next)=>next(new HttpError(404,'Route not found')));
   app.use((error:unknown,_req:Request,res:Response,_next:NextFunction)=>{

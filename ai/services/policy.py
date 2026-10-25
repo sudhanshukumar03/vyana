@@ -9,7 +9,10 @@ import unicodedata
 
 def restricted_request(message):
     text = unicodedata.normalize("NFKC", message)
-    if re.search(r"\b(?:diagnos\w*|prescrib\w*|dosages?|how many pills|how much medication)\b", text, re.I):
+    if re.search(r"\b(?:chest pain|chest pressure)\b", text, re.I) and re.search(r"\b(?:sudden|severe|short of breath|can.?t breathe|cannot breathe|sweat\w*|faint\w*)\b", text, re.I):
+        return "Chest pain with severe or sudden symptoms or difficulty breathing needs immediate medical attention. Call your local emergency number or ask someone nearby to help. Do not wait for an AI reply. Vyana cannot assess the cause or contact emergency services for you."
+    educational = bool(re.search(r"\b(?:what (?:is|does)|explain|define)\b", text, re.I)) and not re.search(r"\b(?:my|me|I)\b", text, re.I)
+    if (not educational and re.search(r"\b(?:diagnos\w*|prescrib\w*|dosages?|how many pills|how much medication)\b", text, re.I)) or re.search(r"\b(?:what dose|how (?:much|many)\b.{0,80}\b(?:take|medicine|medication|pills?))\b", text, re.I):
         return "A qualified clinician should assess diagnosis and medication decisions. I can help you prepare questions for that conversation."
     if re.search(r"\b(?:call|contact|dispatch)\b.{0,40}\b(?:ambulance|emergency services)\b", text, re.I):
         return "Use the Emergency page to call a listed contact or log an in-app SOS. This app cannot dispatch services."

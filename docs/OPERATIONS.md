@@ -39,6 +39,38 @@ Recovery/verification requests create single-use, 30-minute tokens in an encrypt
 
 ## Health and deployment
 
+### Resolve Gemini access
+
+Run the operator-only probe from the project root. It reads the selected private environment file and prints only allowlisted status fields. The optional generation sends a short synthetic question, consumes normal provider quota and contains no health data.
+
+```powershell
+.\.venv\Scripts\python.exe ai/check_provider.py --generate
+.\.venv\Scripts\python.exe ai/check_provider.py --env-file ai/.env --generate
+.\.venv\Scripts\python.exe ai/check_provider.py --list-models
+docker compose exec ai python check_provider.py --environment --generate
+```
+
+Both configuration sources must agree for host and Compose runs. A successful model-access check alone does not prove generation works. The probe exits nonzero on failure and reports the failed stage.
+
+| Probe reason | Operator action |
+|---|---|
+| `authentication` | Check the copied key, its AI Studio project and bound service account; replace a disabled/revoked or incorrectly copied key locally. New authorization-key formats are supported. |
+| `permission` | Confirm Gemini is enabled. Review restrictions and service identity permissions in Google Cloud, plus account and region eligibility. |
+| `quota` | Check API quota, credits and billing; wait before retrying. |
+| `model_unavailable` | Select an available model supporting generateContent, JSON schema and PDF/image input; update `GEMINI_MODEL`. |
+| `configuration` | Check key formatting, model ID and supported parameters. |
+| `network` / `timeout` / `unavailable` | Check connectivity or provider status, then retry. |
+
+After a private key/model change, recreate the AI service with `docker compose up -d --no-deps --force-recreate ai`. Verify chat and a synthetic PDF/image through the signed-in app, including the displayed source. Never paste credentials into chat, command arguments, logs or Git. See [Google's key guide](https://ai.google.dev/gemini-api/docs/api-key).
+
+The first 2026-10-25 probe returned HTTP 401 / `ACCESS_TOKEN_TYPE_UNSUPPORTED`. The operator replaced the local key and the root/host configurations were synchronized. Both then passed model access and synthetic structured generation with `gemini-3.1-flash-lite`. The old `gemini-2.5-flash` generation route was unavailable; `gemini-3.8-flash` timed out during bounded probes. Flash Lite is the tested default and supports text, image, PDF and structured output; see its [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite).
+
+Each generation has a thirty-second provider timeout and one attempt within the API's thirty-five-second timeout. Nginx allows forty seconds; the browser stops waiting after forty-five seconds and offers immediate cancellation. The previous eight-second deadline was rejected by the provider's ten-second minimum; a ten-second probe subsequently timed out. The proxy's former twenty-second timeout also cut off longer valid report reviews. Repeated access failures pause generation for 60 seconds; quota failures for 30 seconds; transient failures for three seconds. A changed credential/model clears the process-local cooldown. There are no automatic paid retries; the user can retry after the displayed delay. Core summaries remain independent of AI. See [Google's retry guidance](https://ai.google.dev/gemini-api/docs/troubleshooting).
+
+Stopping a response or leaving the page cancels the browser request and discards late results. An in-flight provider call may still finish within its deadline and consume quota.
+
+### Service health
+
 `/health/live` reports API liveness; `/health/ready` checks the database after initialization. Core summaries do not wait for Gemini. Logs use request IDs/error codes. `STALE_SECONDS` defaults to 30 and accepts 10–3600.
 
 External HTTPS is deferred by the user. Before external deployment, configure an HTTPS ingress, `NODE_ENV=production`, the exact HTTPS `WEB_ORIGIN`, managed secrets and restricted DB access. Keep AI, database and internal API ports private. Proxy `/api/` and `/socket.io/` on the same origin, including WebSocket upgrades and the 15 MiB encoded report budget.

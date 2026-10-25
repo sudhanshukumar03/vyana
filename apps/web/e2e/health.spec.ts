@@ -2,6 +2,10 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 async function account(page:Page) {
+  // A new context has no session. Stub only this empty-cookie bootstrap so repeated
+  // fixture creation does not consume the real 20/min authentication limit.
+  // Reload/refresh/logout behavior below still exercises the real API.
+  await page.route('**/api/v1/auth/refresh',route=>route.fulfill({status:401,json:{error:'Authentication required'}}),{times:1});
   await page.goto('/');
   await page.getByRole('button',{name:'Create one'}).click();
   await page.getByLabel('Email',{exact:true}).fill(`browser-${Date.now()}-${Math.random().toString(16).slice(2)}@example.test`);
@@ -78,4 +82,75 @@ test('history browses beyond the live window without losing equal-time records',
   await expect(page.getByRole('status').filter({hasText:'Page 1'})).toHaveText('Page 1 · 1 readings');
   await expect(page.locator('tbody tr')).toHaveCount(1);
   await expect(page.locator('tbody tr td').nth(1)).toHaveText('80');
+});
+
+const aiMetadata={source:'gemini',reason:null,retry_after_seconds:null,offline:false,disclaimer:'Wellness guidance only'};
+test('assistant displays structured answers safely and fits supported viewports',async({page})=>{
+  await account(page);await onboard(page);await page.goto('/assistant');
+  await page.route('**/api/v1/assistant/chat',route=>route.fulfill({json:{...aiMetadata,
+    reply:'Your device records activity; it cannot establish your overall health.',
+    sections:[{title:'Next steps',items:['Review the source and observation time.','<img src=x onerror=alert(1)>']} ]}}));
+  await page.getByRole('button',{name:'What do my latest readings show?',exact:true}).click();
+  await expect(page.getByText('Gemini response',{exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Next steps',exact:true})).toBeVisible();
+  await expect(page.getByText('<img src=x onerror=alert(1)>',{exact:true})).toBeVisible();
+  expect(await page.getByRole('log').locator('img').count()).toBe(0);
+  for(const width of [320,390,768,1440]) {
+    await page.setViewportSize({width,height:800});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    const form=page.getByLabel('Message the assistant');
+    const size=await form.boundingBox();expect(size?.width).toBeGreaterThan(80);
+    for(const name of ['Send message','Upload a health report (PDF or image)']) {
+      const rect=await page.getByRole('button',{name,exact:true}).boundingBox();
+      expect(rect!.width).toBeGreaterThanOrEqual(44);expect(rect!.height).toBeGreaterThanOrEqual(44);
+    }
+  }
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const audit=await new AxeBuilder({page}).include('main').analyze();
+  expect(audit.violations.filter(item=>['serious','critical'].includes(item.impact||'')).map(item=>item.id)).toEqual([]);
+});
+
+test('assistant stops pending work, prevents duplicate sends and labels fallbacks',async({page})=>{
+  await account(page);await onboard(page);await page.goto('/assistant');
+  let calls=0;
+  await page.route('**/api/v1/assistant/chat',async route=>{
+    calls++;
+    if(calls===1){await new Promise(resolve=>setTimeout(resolve,1000));await route.fulfill({json:{...aiMetadata,reply:'Late response must be discarded',sections:[]}}).catch(()=>{});}
+    else await route.fulfill({json:{...aiMetadata,source:'fallback',offline:true,reason:'authentication',retry_after_seconds:60,
+      reply:'AI analysis is unavailable. Fresh readings are needed for a summary.',sections:[]}});
+  });
+  const input=page.getByLabel('Message the assistant');await input.fill('Explain my readings');
+  await page.getByRole('button',{name:'Send message',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Stop response',exact:true})).toBeVisible();
+  await input.press('Enter');
+  await page.getByRole('button',{name:'Stop response',exact:true}).click();
+  await expect(page.getByText('Request stopped.',{exact:false})).toBeVisible();
+  await expect(input).toBeFocused();
+  await input.fill('Try again');await input.press('Enter');
+  await expect(page.getByText('Limited guidance · AI unavailable',{exact:true})).toBeVisible();
+  await expect(page.getByText('Wait at least 60 seconds before trying again.',{exact:true})).toBeVisible();
+  await expect(page.getByText('Late response must be discarded',{exact:true})).toHaveCount(0);
+  expect(calls).toBe(2);
+});
+
+test('assistant handles upload boundaries and excludes report content from later chat',async({page})=>{
+  await account(page);await onboard(page);await page.goto('/assistant');
+  const upload=page.locator('input[type=file]');
+  await upload.setInputFiles({name:'empty.pdf',mimeType:'application/pdf',buffer:Buffer.alloc(0)});
+  await expect(page.getByText('Choose a nonempty report no larger than 10 MiB.',{exact:true})).toBeVisible();
+  await page.route('**/api/v1/assistant/report',route=>route.fulfill({json:{...aiMetadata,summary:'Synthetic report summary.',
+    sections:[{title:'Review limits',items:['Report dates and device times may differ.']}],
+    discussion_points:['What follow-up is appropriate?'],document_status:'readable'}}));
+  await upload.setInputFiles({name:'synthetic-report.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-synthetic')});
+  await expect(page.getByText('Synthetic report summary.',{exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Questions for your clinician',exact:true})).toBeVisible();
+  let history:unknown;
+  await page.route('**/api/v1/assistant/chat',route=>{
+    history=route.request().postDataJSON().history;
+    return route.fulfill({json:{...aiMetadata,reply:'A fresh question starts without the uploaded document.',sections:[]}});
+  });
+  await page.getByLabel('Message the assistant').fill('Explain step count');
+  await page.getByRole('button',{name:'Send message',exact:true}).click();
+  await expect(page.getByText('A fresh question starts without the uploaded document.',{exact:true})).toBeVisible();
+  expect(history).toEqual([]);
 });

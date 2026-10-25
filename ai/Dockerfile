@@ -3,7 +3,7 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 COPY requirements.lock ./
 RUN pip install --no-cache-dir --require-hashes -r requirements.lock
-COPY main.py ./
+COPY main.py check_provider.py ./
 COPY services ./services
 RUN useradd --create-home healthguard
 USER healthguard

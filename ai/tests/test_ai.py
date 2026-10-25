@@ -18,7 +18,9 @@ VITALS = {"heart_rate": 72, "spo2": 98, "temperature": 36.7, "ecg_status": "Norm
 
 @pytest.fixture(autouse=True)
 def isolated():
+    from services.gemini import _circuit
     _cache.clear()
+    _circuit.update(identity=None, until=0.0)
     with patch.dict(os.environ, {"GEMINI_API_KEY": ""}):
         yield
 
@@ -95,6 +97,25 @@ def test_report_boundary_and_signature(client):
         assert client.post("/api/ai/report", headers=HEADERS, json=data).status_code in (413, 422)
         assert model.call_count == 1
     assert client.post("/api/ai/report", headers=HEADERS, json={"owner_id": "1", "data_base64": "%%%%", "mime_type": "image/png"}).status_code == 400
+
+
+def test_report_context_is_owner_checked_and_binary_is_excluded(client):
+    data = payload(data_base64=base64.b64encode(b"%PDF-synthetic").decode(), mime_type="application/pdf", filename="private-report.pdf")
+    with patch("main.analyze_report", return_value={"summary": "Synthetic report", "offline": False, "source": "gemini"}) as model:
+        assert client.post("/api/ai/report", headers=HEADERS, json={**data, "owner_id": "2"}).status_code == 403
+        model.assert_not_called()
+        result = client.post("/api/ai/report", headers=HEADERS, json=data)
+        assert result.status_code == 200
+        context = model.call_args.args[2]
+        assert context["vitals"] == VITALS
+        assert not set(context) & {"owner_id", "data_base64", "mime_type", "filename"}
+
+
+def test_incomplete_fresh_context_never_requests_model_insights(client):
+    with patch("main.generate_insights") as model:
+        result = client.post("/api/ai/insights", headers=HEADERS, json=payload(vitals={"heart_rate": 72}))
+        assert result.status_code == 200 and result.json()["offline"]
+        model.assert_not_called()
 
 
 def test_concurrent_identical_requests_coalesce(client):
@@ -190,7 +211,8 @@ def test_general_wellness_output_passes_scope_checks():
     answer = "Your recorded activity includes 100 steps. You could discuss your activity goals with a qualified clinician."
     with patch.dict(os.environ, {"GEMINI_API_KEY": "synthetic-provider-key"}):
         with patch("services.gemini.genai.Client") as factory:
-            factory.return_value.__enter__.return_value.models.generate_content.return_value = SimpleNamespace(text=answer)
+            import json
+            factory.return_value.__enter__.return_value.models.generate_content.return_value = SimpleNamespace(text=json.dumps({"answer": answer, "sections": []}))
             response = chat_reply("Help me prepare general questions for my clinician")
     assert response["reply"] == answer
     assert response["offline"] is False

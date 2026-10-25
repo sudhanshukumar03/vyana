@@ -1,0 +1,66 @@
+{
+  "record_kind": "dated_ai_implementation_verification",
+  "date": "2026-10-25",
+  "scope": "Local Vyana implementation; finite synthetic model evaluation, not clinical validation",
+  "provider": {
+    "model": "gemini-3.1-flash-lite",
+    "authorization_verified": true,
+    "structured_generation_verified": true,
+    "root_and_host_configuration_synchronized": true,
+    "credentials_included_in_record": false,
+    "initial_failure": "401 ACCESS_TOKEN_TYPE_UNSUPPORTED; operator replaced local credential",
+    "compatibility_fixes": [
+      "Explicit Gemini Developer API backend and HTTPS endpoint",
+      "Current available model supporting JSON schema, PDF and images",
+      "Provider minimum deadline respected",
+      "Provider/API/nginx/browser deadlines aligned at 30/35/40/45 seconds"
+    ]
+  },
+  "automated_checks": {
+    "api_tests": 40,
+    "frontend_tests": 20,
+    "python_tests": 104,
+    "browser_tests": 10,
+    "software_and_browser_total": 174,
+    "typescript": "passed",
+    "lint": "passed",
+    "builds": "passed",
+    "pip_check": "passed",
+    "firmware": "unchanged; three native tests and compilation recorded at earlier checkpoint"
+  },
+  "live_synthetic_evaluation": {
+    "passed": 13,
+    "total": 13,
+    "cases": [
+      "general explanation", "missing readings", "simulator readings", "stale readings",
+      "under-20 personal targets", "unknown-age personal targets", "profile instruction injection",
+      "diagnosis request", "medication dose request", "urgent chest symptoms",
+      "synthetic PDF", "synthetic PNG", "synthetic JPEG"
+    ],
+    "review_corrections": [
+      "Unknown age is not treated as under 20",
+      "Prompt reflects Wi-Fi/simulator capabilities and excludes invented Bluetooth controls",
+      "Discussion points are deduplicated questions for a clinician, not questions addressed to the user",
+      "Brief-answer requests omit unrequested generated sections"
+    ],
+    "limits": "Finite cases and wording review cannot establish comprehensive model safety"
+  },
+  "local_app": {
+    "web_origin": "http://localhost:18082",
+    "live_chat_source": "gemini",
+    "live_pdf_source": "gemini",
+    "login_refresh_logout_verified": true,
+    "viewport_widths": [320, 390, 768, 1440],
+    "horizontal_overflow": false,
+    "minimum_composer_target_width_px": 44,
+    "minimum_composer_target_height_px": 44,
+    "unhandled_page_errors": 0,
+    "expected_initial_authentication_response": "401 for empty-session refresh"
+  },
+  "remaining_release_checks": [
+    "Broader qualified human review of clinical scope and adversarial cases",
+    "Physical ESP32 bench tests, deferred by user",
+    "External HTTPS, deferred by user",
+    "Manual screen-reader review"
+  ]
+}

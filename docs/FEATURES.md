@@ -34,9 +34,13 @@ The wellness score is a project heuristic. Missing/stale data or unsupported ECG
 
 ## Assistant and reports
 
-Assistant provides bounded chat and PDF/PNG/JPEG analysis up to 10 MiB decoded. Account context is supplied by the server; model output is validated. The interface distinguishes model guidance from deterministic fallback guidance.
+Assistant provides bounded chat and PDF/PNG/JPEG analysis up to 10 MiB decoded. The server supplies the signed-in account's relevant profile fields, readings, activity, alerts and seven-day aggregates. Names and profile/account identifiers are omitted from the profile context. Reports receive this context too; document findings and device observations remain separate, with explicit identity/timing limits.
 
-Structured roles, finite request/output rules and concurrency limits reduce specific failure modes. They do not establish comprehensive model safety. The configured provider returned 401 during the recorded smoke test; live adversarial evaluation remains pending.
+Answers lead with the main point and use structured supporting sections when useful. The UI renders text safely and labels Gemini responses, Vyana rules and limited fallback guidance. Missing, invalid or stale vitals are withheld as current measurements. Fixed threshold warnings remain available when AI fails. An unavailable model never produces an invented report summary.
+
+Requests can be stopped; route changes and logout discard pending results. Chat history is bounded by bytes and turn count. Uploaded reports, their summaries and failed replies are excluded from subsequent chat context. Reports are reviewed once and are not saved for later questions or export.
+
+Structured roles, JSON schemas, decoded-string scope checks and concurrency limits reduce specific failure modes. Unknown age and under-20 profiles receive distinct rules-based replies for personal BMI/weight/calorie targets. Full birth dates are replaced with age context before generation. These controls do not establish comprehensive model safety. The updated credential and `gemini-3.1-flash-lite` passed live generation and a finite synthetic evaluation; clinical suitability and broader human review remain unestablished. Follow the [provider recovery procedure](OPERATIONS.md#resolve-gemini-access).
 
 Reports links to Assistant. Export and custom settings/thresholds are unavailable and labeled accordingly.
 

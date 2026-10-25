@@ -90,6 +90,10 @@ Editable profile fields: `full_name`, `dob` (ISO date), `sex`, `height_cm`, `wei
 
 Reports undergo strict base64, decoded-size, MIME and file-signature checks before model work. These checks do not establish that a document is clinically interpretable.
 
+Chat returns `reply`; report review returns `summary`, `discussion_points` and `document_status` (`readable`, `unreadable`, `not_health_report` or `not_reviewed`). Provider failure means `not_reviewed`, not that the file itself is unreadable. Both include `sections:[{title,items}]`, a server-set `disclaimer`, `offline`, `source` (`gemini`, `rules`, `fallback`), an optional allowlisted `reason`, and nullable `retry_after_seconds`. A rules-only scope response can have `offline:false` without a Gemini call; use `source` to distinguish it. Provider errors never expose raw bodies, credentials or URLs.
+
+Account context for chat/report comes from the authenticated API, not client fields. The browser cannot select an owner or inject profile/sensor context. Model output is schema-validated before display. Unreadable/unrelated documents receive a recovery message rather than extracted findings. Uploads are not stored or available to later chat requests.
+
 Shared browser contracts are in [health.ts](../shared/types/health.ts); runtime validation is in [schemas.ts](../apps/api/src/schemas.ts). `timestamp` aliases `observed_at`; `received_at` is ingestion time. Data and scores may be null. See [features](FEATURES.md) for freshness, activity and alert semantics.
 
 ## Socket.IO and private AI

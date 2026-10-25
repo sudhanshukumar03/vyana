@@ -24,6 +24,16 @@ For JS checks in Linux, build `docker build -f scripts/Dockerfile.verify -t heal
 
 ## Operational rehearsals
 
+### AI edge cases
+
+`ai/tests/test_provider.py` uses synthetic responses to check authentication/permission/quota/model failures, timeouts, network errors, cooldown recovery, credential changes, explicit endpoint selection, concurrency exhaustion, strict JSON/schema validation, truncated/blocked output, Unicode-escaped unsafe claims, untrusted conversation roles, incomplete/stale readings, report context and unreadable/unrelated documents. Operator probe tests verify redaction and stop generation when access fails.
+
+API tests verify owner-derived report context, omitted identifying profile fields and fallback on invalid responses. Frontend/browser tests cover Unicode history budgets, upload boundaries, source labels, structured text rendering without HTML execution, cancellation, duplicate submission, responsive layouts and logout cancellation.
+
+These checks cover known regression cases; they do not prove all possible model behavior. Before enabling live use, run the [provider probe](OPERATIONS.md#resolve-gemini-access), then evaluate synthetic chat/report cases for missing data, minors/unknown age, medication/diagnosis requests, prompt injection, conflicting dates/identities and urgent symptoms. Check the actual wording for useful answers, correct source attribution and no unsupported clinical claims. Record live results separately from mocked tests. The narrow urgent chest-pain rule follows [NHS guidance](https://www.nhs.uk/symptoms/chest-pain/); it is not a symptom classifier or dispatch service.
+
+### Disposable operations stack
+
 The extra runners require `VERIFY_DISPOSABLE=1` and exactly:
 
 ```text

@@ -88,3 +88,32 @@ test('a socket authentication database outage is reported as retryable, not an i
     expect(result).toEqual({message:'Service temporarily unavailable',status:503});
   }finally{socket.disconnect();await new Promise<void>(resolve=>runtime.io.close(()=>resolve()));}
 });
+
+test('report analysis receives only authenticated account context and preserves response metadata',async()=>{
+  const query=jest.fn(async(sql:string,params?:unknown[])=>{
+    if(sql.includes('FROM vitals'))expect(params).toEqual([1]);
+    return {rows:sql.includes('JOIN sessions')?[owner]:[{sample_count:5,average_heart_rate:72}]};
+  });
+  const runtime=createApplication({query} as unknown as Pool,config);
+  jest.mocked(summary).mockResolvedValue({vitals:null,activity:null,profile:{full_name:'Private name',user_id:1,goal:'General wellness'},
+    alerts:[],insights:[],wellness_score:null,device:null,wellness_version:'prototype-v2',
+    freshness:{state:'missing',age_seconds:null,stale_seconds:30},server_time:new Date().toISOString()} as Awaited<ReturnType<typeof summary>>);
+  const response={summary:'Synthetic report review',sections:[{title:'Limits',items:['Readings are missing']}],
+    discussion_points:['What follow-up is appropriate?'],document_status:'readable',source:'gemini',reason:null,
+    retry_after_seconds:null,offline:false,disclaimer:'Wellness guidance'};
+  jest.mocked(axios.post).mockResolvedValue({data:response});
+  const input={data_base64:Buffer.from('%PDF-synthetic').toString('base64'),mime_type:'application/pdf',filename:'report.pdf'};
+  try {
+    await request(runtime.app).post('/api/v1/assistant/report').set(headers).send({...input,owner_id:'2'}).expect(400);
+    const result=await request(runtime.app).post('/api/v1/assistant/report').set(headers).send(input).expect(200);
+    expect(result.body).toEqual(response);
+    const context=jest.mocked(axios.post).mock.calls.at(-1)![1] as {owner_id:string;profile:Record<string,unknown>;fresh:boolean};
+    expect(context.owner_id).toBe('1');expect(context.fresh).toBe(false);
+    expect(context.profile.goal).toBe('General wellness');expect(context.profile.full_name).toBeUndefined();
+    expect(context.profile.user_id).toBeUndefined();
+    jest.mocked(axios.post).mockResolvedValue({data:{...response,summary:'   '}});
+    const fallback=await request(runtime.app).post('/api/v1/assistant/report').set(headers).send(input).expect(200);
+    expect(fallback.body.source).toBe('fallback');expect(fallback.body.offline).toBe(true);
+    expect(fallback.body.summary).toContain('No findings');
+  }finally{runtime.io.close();}
+});

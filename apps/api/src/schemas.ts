@@ -37,6 +37,20 @@ export const reportSchema = z.object({ data_base64: z.string().min(1).max(139810
   mime_type: z.enum(['application/pdf','image/png','image/jpeg']), filename: z.string().max(255).default('') }).strict();
 export const insightSchema = z.object({ type: z.enum(['info','warning','success','critical']), title: z.string().max(120), detail: z.string().max(2000) });
 export const insightsSchema = z.object({ insights: z.array(insightSchema).min(1).max(8), offline: z.boolean().default(true) });
+export const answerSectionSchema = z.object({title:z.string().trim().min(1).max(100),
+  items:z.array(z.string().trim().min(1).max(1000)).min(1).max(6)}).strict();
+const responseMetadata = {
+  source:z.enum(['gemini','rules','fallback']).default('fallback'),
+  reason:z.enum(['not_configured','configuration','authentication','permission','quota','timeout','network',
+    'model_unavailable','busy','invalid_response','safety','unavailable']).nullable().default(null),
+  retry_after_seconds:z.number().int().min(1).max(300).nullable().default(null),
+  sections:z.array(answerSectionSchema).max(6).default([]),
+  disclaimer:z.string().min(1).max(500),offline:z.boolean(),
+};
+export const chatResponseSchema = z.object({...responseMetadata,reply:z.string().trim().min(1).max(16000)});
+export const reportResponseSchema = z.object({...responseMetadata,summary:z.string().trim().min(1).max(16000),
+  discussion_points:z.array(z.string().trim().min(1).max(1000)).max(20),
+  document_status:z.enum(['readable','unreadable','not_health_report','not_reviewed']).default('not_reviewed')});
 export function bmi(profile: { height_cm?: number; weight_kg?: number; dob?: string | Date }) {
   if (!profile.height_cm || !profile.weight_kg) return null;
   const raw = profile.weight_kg / (profile.height_cm / 100) ** 2;
