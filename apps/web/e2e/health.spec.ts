@@ -89,9 +89,12 @@ test('assistant displays structured answers safely and fits supported viewports'
   await account(page);await onboard(page);await page.goto('/assistant');
   await page.route('**/api/v1/assistant/chat',route=>route.fulfill({json:{...aiMetadata,
     reply:'Your device records activity; it cannot establish your overall health.',
-    sections:[{title:'Next steps',items:['Review the source and observation time.','<img src=x onerror=alert(1)>']} ]}}));
+    sections:[{title:'Next steps',items:['Review the source and observation time.','<img src=x onerror=alert(1)>','Long observation. '.repeat(35)]} ]}}));
   await page.getByRole('button',{name:'What do my latest readings show?',exact:true}).click();
   await expect(page.getByText('Gemini response',{exact:true})).toBeVisible();
+  await expect(page.getByRole('status').filter({hasText:'Response ready.'})).toHaveAttribute('aria-atomic','true');
+  await expect(page.getByRole('log')).toHaveAttribute('aria-relevant','additions');
+  await expect(page.getByRole('log')).toHaveAttribute('aria-atomic','false');
   await expect(page.getByRole('heading',{name:'Next steps',exact:true})).toBeVisible();
   await expect(page.getByText('<img src=x onerror=alert(1)>',{exact:true})).toBeVisible();
   expect(await page.getByRole('log').locator('img').count()).toBe(0);
@@ -104,6 +107,11 @@ test('assistant displays structured answers safely and fits supported viewports'
       const rect=await page.getByRole('button',{name,exact:true}).boundingBox();
       expect(rect!.width).toBeGreaterThanOrEqual(44);expect(rect!.height).toBeGreaterThanOrEqual(44);
     }
+    if(width===320) {
+      const log=page.getByRole('log');await log.focus();await log.evaluate(element=>{element.scrollTop=0;});
+      await page.keyboard.press('PageDown');
+      await expect.poll(()=>log.evaluate(element=>element.scrollTop)).toBeGreaterThan(0);
+    }
   }
   await page.emulateMedia({reducedMotion:'reduce'});
   const audit=await new AxeBuilder({page}).include('main').analyze();
@@ -113,24 +121,38 @@ test('assistant displays structured answers safely and fits supported viewports'
 test('assistant stops pending work, prevents duplicate sends and labels fallbacks',async({page})=>{
   await account(page);await onboard(page);await page.goto('/assistant');
   let calls=0;
+  let releaseCompletion:(()=>void)|undefined;
   await page.route('**/api/v1/assistant/chat',async route=>{
     calls++;
     if(calls===1){await new Promise(resolve=>setTimeout(resolve,1000));await route.fulfill({json:{...aiMetadata,reply:'Late response must be discarded',sections:[]}}).catch(()=>{});}
-    else await route.fulfill({json:{...aiMetadata,source:'fallback',offline:true,reason:'authentication',retry_after_seconds:60,
+    else if(calls===2) await route.fulfill({json:{...aiMetadata,source:'fallback',offline:true,reason:'authentication',retry_after_seconds:60,
       reply:'AI analysis is unavailable. Fresh readings are needed for a summary.',sections:[]}});
+    else {
+      await new Promise<void>(resolve=>{releaseCompletion=resolve;});
+      await route.fulfill({json:{...aiMetadata,reply:'The response is ready.',sections:[]}});
+    }
   });
   const input=page.getByLabel('Message the assistant');await input.fill('Explain my readings');
   await page.getByRole('button',{name:'Send message',exact:true}).click();
   await expect(page.getByRole('button',{name:'Stop response',exact:true})).toBeVisible();
   await input.press('Enter');
   await page.getByRole('button',{name:'Stop response',exact:true}).click();
-  await expect(page.getByText('Request stopped.',{exact:false})).toBeVisible();
+  await expect(page.getByRole('log').getByText('Request stopped.',{exact:false})).toBeVisible();
+  await expect(page.getByRole('status').filter({hasText:'Request stopped.'})).toBeVisible();
   await expect(input).toBeFocused();
   await input.fill('Try again');await input.press('Enter');
   await expect(page.getByText('Limited guidance · AI unavailable',{exact:true})).toBeVisible();
   await expect(page.getByText('Wait at least 60 seconds before trying again.',{exact:true})).toBeVisible();
   await expect(page.getByText('Late response must be discarded',{exact:true})).toHaveCount(0);
   expect(calls).toBe(2);
+  try {
+    await input.fill('Complete this request');await page.getByRole('button',{name:'Send message',exact:true}).click();
+    await expect.poll(()=>Boolean(releaseCompletion)).toBe(true);
+    await page.getByRole('button',{name:'Stop response',exact:true}).focus();
+    releaseCompletion?.();
+    await expect(page.getByRole('status').filter({hasText:'Response ready.'})).toBeVisible();
+    await expect(input).toBeFocused();
+  }finally{releaseCompletion?.();}
 });
 
 test('assistant handles upload boundaries and excludes report content from later chat',async({page})=>{
@@ -138,12 +160,18 @@ test('assistant handles upload boundaries and excludes report content from later
   const upload=page.locator('input[type=file]');
   await upload.setInputFiles({name:'empty.pdf',mimeType:'application/pdf',buffer:Buffer.alloc(0)});
   await expect(page.getByText('Choose a nonempty report no larger than 10 MiB.',{exact:true})).toBeVisible();
+  await expect(page.getByRole('status').filter({hasText:'Upload not sent.'})).toBeVisible();
   await page.route('**/api/v1/assistant/report',route=>route.fulfill({json:{...aiMetadata,summary:'Synthetic report summary.',
     sections:[{title:'Review limits',items:['Report dates and device times may differ.']}],
     discussion_points:['What follow-up is appropriate?'],document_status:'readable'}}));
   await upload.setInputFiles({name:'synthetic-report.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-synthetic')});
   await expect(page.getByText('Synthetic report summary.',{exact:true})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Questions for your clinician',exact:true})).toBeVisible();
+  await page.unroute('**/api/v1/assistant/report');
+  await page.route('**/api/v1/assistant/report',route=>route.fulfill({json:{...aiMetadata,source:'rules',summary:'The file has no readable content.',
+    sections:[],discussion_points:[],document_status:'unreadable'}}));
+  await upload.setInputFiles({name:'blank.png',mimeType:'image/png',buffer:Buffer.from('synthetic browser fixture')});
+  await expect(page.getByRole('status').filter({hasText:'Report not reviewed. Check the file message.'})).toBeVisible();
   let history:unknown;
   await page.route('**/api/v1/assistant/chat',route=>{
     history=route.request().postDataJSON().history;

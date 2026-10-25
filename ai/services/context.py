@@ -1,6 +1,6 @@
 """Shared data minimization and freshness handling for every model request."""
 from datetime import date, datetime, timezone
-from services.deterministic import has_current_vitals
+from services.deterministic import has_current_vitals, get_deterministic_insights
 
 
 def age_context(context):
@@ -25,4 +25,8 @@ def model_context(context):
         value.update(fresh=False, wellness_score=None,
             vitals={"source": vitals.get("source"), "observed_at": vitals.get("observed_at"),
                     "status": "No fresh complete readings; do not assess current health."})
+    elif any(entry["type"] == "critical" for entry in get_deterministic_insights(vitals)):
+        value.update(fresh=False, wellness_score=None,
+            vitals={"source": vitals.get("source"), "observed_at": vitals.get("observed_at"),
+                "status": "Critical project threshold flags exist. The server appends the factual snapshot. Do not infer physical symptoms, diagnoses or exercise readiness from these prototype values."})
     return value

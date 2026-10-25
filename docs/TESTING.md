@@ -30,6 +30,10 @@ For JS checks in Linux, build `docker build -f scripts/Dockerfile.verify -t heal
 
 API tests verify owner-derived report context, omitted identifying profile fields and fallback on invalid responses. Frontend/browser tests cover Unicode history budgets, upload boundaries, source labels, structured text rendering without HTML execution, cancellation, duplicate submission, responsive layouts and logout cancellation.
 
+`ai/tests/test_documents.py` exercises real image/PDF parsing, including transparent/blank images, blank text/scanned PDFs, encrypted/corrupt files, pixel/page limits, parser capacity, timeouts and cleanup failures. Critical chat/insights never ask a model to turn project thresholds into physical symptoms. Extended live cases cover document instruction injection, a different identity/future date, forged history, Hindi explanation, unrelated receipts and unreadable files. Initial failures involving a blank-image hallucination and simulator-derived symptom claims are recorded in the [AI evidence](audit/ai-implementation-2026-10-25.json).
+
+Browser checks also verify keyboard scrolling through a long conversation, atomic completion/error status, focus recovery from Stop and accurate status when no report review was possible. These follow [W3C status-message guidance](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html); automated markup/focus checks do not replace listening with a real screen reader.
+
 These checks cover known regression cases; they do not prove all possible model behavior. Before enabling live use, run the [provider probe](OPERATIONS.md#resolve-gemini-access), then evaluate synthetic chat/report cases for missing data, minors/unknown age, medication/diagnosis requests, prompt injection, conflicting dates/identities and urgent symptoms. Check the actual wording for useful answers, correct source attribution and no unsupported clinical claims. Record live results separately from mocked tests. The narrow urgent chest-pain rule follows [NHS guidance](https://www.nhs.uk/symptoms/chest-pain/); it is not a symptom classifier or dispatch service.
 
 ### Disposable operations stack

@@ -38,7 +38,13 @@ Assistant provides bounded chat and PDF/PNG/JPEG analysis up to 10 MiB decoded. 
 
 Answers lead with the main point and use structured supporting sections when useful. The UI renders text safely and labels Gemini responses, Vyana rules and limited fallback guidance. Missing, invalid or stale vitals are withheld as current measurements. Fixed threshold warnings remain available when AI fails. An unavailable model never produces an invented report summary.
 
+Fresh critical project thresholds use fixed chat/insight guidance instead of asking Gemini to infer symptoms. Their source, values and limitations remain visible, including for brief or unrelated questions. Critical values are also withheld from report-model interpretation; the server appends their factual snapshot. Simulated readings cannot establish exercise readiness or a medical emergency.
+
+Reports receive structural and blank-content checks before any model call. Blank, corrupt, encrypted, oversized or excessively complex files receive a recovery message without extracted findings. Text and scanned PDFs are supported within the review limits: 20 pages, 12 million pixels per image and 24 million pixels across scanned PDF images, in addition to the 10 MiB file limit. These checks do not verify the accuracy of model-generated findings.
+
 Requests can be stopped; route changes and logout discard pending results. Chat history is bounded by bytes and turn count. Uploaded reports, their summaries and failed replies are excluded from subsequent chat context. Reports are reviewed once and are not saved for later questions or export.
+
+The conversation supports keyboard scrolling. Completion, cancellation, failed uploads and unavailable reviews have contextual status messages; focus returns to the composer when a pending control becomes unavailable. Actual screen-reader speech still needs manual review.
 
 Structured roles, JSON schemas, decoded-string scope checks and concurrency limits reduce specific failure modes. Unknown age and under-20 profiles receive distinct rules-based replies for personal BMI/weight/calorie targets. Full birth dates are replaced with age context before generation. These controls do not establish comprehensive model safety. The updated credential and `gemini-3.1-flash-lite` passed live generation and a finite synthetic evaluation; clinical suitability and broader human review remain unestablished. Follow the [provider recovery procedure](OPERATIONS.md#resolve-gemini-access).
 

@@ -1,7 +1,7 @@
 import type { AiResponseMetadata } from '../../../../shared/types/health';
 
 export type AssistantMessage = { role: 'user' | 'assistant'; content: string; kind: 'chat' | 'report' | 'error';
-  metadata?: AiResponseMetadata };
+  metadata?: AiResponseMetadata; reviewed?: boolean };
 
 export function conversationHistory(messages: AssistantMessage[]) {
   const result: {role: 'user' | 'assistant'; content: string}[] = [];

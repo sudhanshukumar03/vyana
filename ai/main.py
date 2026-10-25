@@ -58,7 +58,7 @@ def _check_owner(request, owner_id):
 def get_insights(data: HealthData, request: Request):
     _check_owner(request, data.owner_id)
     fallback = get_deterministic_insights(data.vitals, data.activity, data.fresh)
-    if not has_current_vitals(data.vitals, data.fresh):
+    if not has_current_vitals(data.vitals, data.fresh) or any(entry["type"] == "critical" for entry in fallback):
         return {"insights": fallback, "offline": True}
     key = _insight_signature(data)
     with _cache_lock:

@@ -24,7 +24,7 @@ def isolated():
 
 @pytest.fixture
 def model():
-    with patch("services.gemini.genai.Client") as factory:
+    with patch("services.gemini.genai.Client") as factory, patch("services.assistant.check_document", return_value=None):
         client = factory.return_value.__enter__.return_value
         client.models.generate_content.return_value = SimpleNamespace(text=json.dumps(ANSWER), candidates=None, prompt_feedback=None)
         yield factory, client.models.generate_content
@@ -273,3 +273,31 @@ def test_insights_use_the_same_age_only_context_as_chat_and_reports(model):
     context=json.loads(prompt.split("Untrusted context:\n",1)[1])
     assert "dob" not in context["profile"] and context["profile"]["age_group"] == "adult"
     assert context["vitals"]["heart_rate"] == 72
+
+
+@pytest.mark.parametrize("message", ["Explain step count in two sentences.", "Diagnose my condition.", "Suggest a target BMI for me."])
+def test_critical_project_warnings_survive_general_brief_and_rules_answers(message, model):
+    context={"fresh":True,"vitals":{"heart_rate":165,"spo2":85,"temperature":40,"ecg_status":"Normal","source":"Simulator"}}
+    result=chat_reply(message,context=context)
+    section=result["sections"][-1]
+    assert section["title"] == "Configured critical thresholds and reading limits"
+    assert sum(item.startswith("Critical project alert:") for item in section["items"]) == 3
+    assert all(value in json.dumps(section) for value in ("165","85","40","Simulator"))
+
+
+def test_stale_critical_values_do_not_raise_current_chat_warnings(model):
+    result=chat_reply("Explain step count.",context={"fresh":False,"vitals":{"heart_rate":165,"spo2":85,"temperature":40}})
+    assert result["sections"] == []
+
+
+@pytest.mark.parametrize("status,expected", [("unreadable","couldn't read"),("not_health_report","doesn't appear to be a health report")])
+def test_report_recovery_explains_the_document_problem(status,expected,model):
+    model[1].return_value.text=json.dumps({"summary":"Synthetic output","document_status":status})
+    result=analyze_report(b"%PDF-synthetic","application/pdf")
+    assert expected in result["summary"] and result["discussion_points"] == []
+
+
+@pytest.mark.parametrize("question",["Explain SpO2 in two sentences.","What does heart rate mean?","Define body temperature."])
+def test_general_metric_definitions_do_not_append_unrelated_account_status(question,model):
+    result=chat_reply(question,context={"fresh":False})
+    assert result["source"] == "gemini" and result["sections"] == []

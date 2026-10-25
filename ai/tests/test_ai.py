@@ -118,6 +118,14 @@ def test_incomplete_fresh_context_never_requests_model_insights(client):
         model.assert_not_called()
 
 
+def test_critical_context_keeps_insights_deterministic(client):
+    with patch("main.generate_insights") as model:
+        result=client.post("/api/ai/insights",headers=HEADERS,json=payload(vitals={**VITALS,"heart_rate":165}))
+    assert result.status_code == 200 and result.json()["offline"]
+    assert any(entry["type"] == "critical" for entry in result.json()["insights"])
+    model.assert_not_called()
+
+
 def test_concurrent_identical_requests_coalesce(client):
     import time
     def generate(*_args):
@@ -166,9 +174,9 @@ def test_chunked_body_limit_and_authentication_before_reading():
 
 def test_report_malformed_model_output_and_provider_failure():
     from services.assistant import analyze_report, chat_reply
-    with patch("services.assistant.generate", return_value='{"summary":{},"discussion_points":"invalid"}'):
+    with patch("services.assistant.check_document", return_value=None), patch("services.assistant.generate", return_value='{"summary":{},"discussion_points":"invalid"}'):
         assert analyze_report(b"%PDF-synthetic", "application/pdf")["offline"] is True
-    with patch("services.assistant.generate", side_effect=TimeoutError):
+    with patch("services.assistant.check_document", return_value=None), patch("services.assistant.generate", side_effect=TimeoutError):
         assert chat_reply("Synthetic wellness question")["offline"] is True
         assert analyze_report(b"%PDF-synthetic", "application/pdf")["offline"] is True
 

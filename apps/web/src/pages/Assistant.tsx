@@ -15,9 +15,11 @@ export default function Assistant() {
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('Reports are reviewed once and are not saved for follow-up questions.');
   const endRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const sendRef = useRef<HTMLButtonElement>(null);
   const active = useRef<AbortController | null>(null);
   const alive = useRef(true);
   const busy = sending || uploading;
@@ -36,16 +38,27 @@ export default function Assistant() {
     const timer = window.setTimeout(() => controller.abort('timeout'), 45000);
     const current = () => alive.current && getSessionEpoch() === epoch && active.current === controller;
     if (kind === 'chat') setSending(true); else setUploading(true);
+    setStatusMessage(kind === 'report' ? 'Reviewing report. This may take about 30 seconds. You can stop this request.' : 'Preparing your answer. This may take about 30 seconds. You can stop this request.');
     try {
       const message = await operation(controller.signal);
-      if (current() && !controller.signal.aborted) setMessages(previous => [...previous, message]);
+      if (current() && !controller.signal.aborted) {
+        setMessages(previous => [...previous, message]);
+        setStatusMessage(message.metadata?.offline ? 'Limited guidance ready. AI analysis is unavailable.' : kind === 'report'
+          ? message.reviewed ? 'Report review ready.' : 'Report not reviewed. Check the file message.' : 'Response ready.');
+      }
     } catch (error) {
-      if (current()) setMessages(previous => [...previous, {role: 'assistant', kind: 'error', content:
+      if (current()) {
+        setStatusMessage(controller.signal.aborted ? controller.signal.reason === 'timeout' ? 'Request timed out. Please try again.' : 'Request stopped.' : 'Request failed. Please try again.');
+        setMessages(previous => [...previous, {role: 'assistant', kind: 'error', content:
         controller.signal.aborted ? (controller.signal.reason === 'timeout' ? 'The request took too long. Please try again.' : 'Request stopped. You can send another message or choose the report again.') :
         error instanceof Error ? error.message : 'Could not reach the assistant. Please try again.'}]);
+      }
     } finally {
       window.clearTimeout(timer);
-      if (current()) { active.current = null; setSending(false); setUploading(false); }
+      if (current()) {
+        if (document.activeElement === document.body || document.activeElement === sendRef.current) inputRef.current?.focus();
+        active.current = null; setSending(false); setUploading(false);
+      }
     }
   };
 
@@ -71,10 +84,12 @@ export default function Assistant() {
     if (!file || active.current) return;
     const allowed = ['application/pdf', 'image/png', 'image/jpeg'];
     if (!allowed.includes(file.type)) {
+      setStatusMessage('Upload not sent. Choose a PDF, PNG or JPG file.');
       setMessages((m) => [...m, { role: 'assistant', kind: 'error', content: 'Please upload a PDF, PNG, or JPG file.' }]);
       return;
     }
     if (!file.size || file.size > 10 * 1024 * 1024) {
+      setStatusMessage('Upload not sent. Choose a nonempty report no larger than 10 MiB.');
       setMessages((m) => [...m, { role: 'assistant', kind: 'error', content: 'Choose a nonempty report no larger than 10 MiB.' }]);
       return;
     }
@@ -87,7 +102,7 @@ export default function Assistant() {
       });
       const sections = [...data.sections];
       if (data.discussion_points.length) sections.push({title: 'Questions for your clinician', items: data.discussion_points});
-      return {role: 'assistant', content: data.summary, kind: 'report', metadata: {...data, sections}};
+      return {role: 'assistant', content: data.summary, kind: 'report', reviewed: data.document_status === 'readable', metadata: {...data, sections}};
     });
   };
 
@@ -99,7 +114,7 @@ export default function Assistant() {
       </div>
       <p className="text-sm text-muted mb-4">Understand your readings and reports. Wellness guidance only; not a diagnosis or prescription.</p>
 
-      <div role="log" aria-live="polite" aria-label="Conversation" aria-busy={busy} className="flex-1 min-h-0 overflow-y-auto bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-4">
+      <div role="log" tabIndex={0} aria-live="polite" aria-relevant="additions" aria-atomic="false" aria-label="Conversation" aria-busy={busy} className="flex-1 min-h-0 overflow-y-auto bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center py-10">
             <p className="text-gray-500 text-sm mb-5">Ask about your vitals, activity, diet, or goals.</p>
@@ -131,7 +146,7 @@ export default function Assistant() {
         )}
         <div ref={endRef} />
       </div>
-      <p role="status" className="min-h-6 mt-2 text-sm text-muted">{busy ? uploading ? 'Reviewing report… This may take about 30 seconds. You can stop this request.' : 'Preparing your answer… This may take about 30 seconds. You can stop this request.' : 'Reports are reviewed once and are not saved for follow-up questions.'}</p>
+      <p role="status" aria-atomic="true" className="min-h-6 mt-2 text-sm text-muted">{statusMessage}</p>
 
       <form onSubmit={(e) => { e.preventDefault(); send(); }} className="mt-4 flex items-center gap-2">
         <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" className="hidden" onChange={onFile} />
@@ -147,7 +162,7 @@ export default function Assistant() {
           aria-label="Message the assistant"
           className="flex-1 min-w-0 px-4 py-3 rounded-xl border border-gray-200 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         />
-        <button type={busy ? 'button' : 'submit'} disabled={!busy && !input.trim()} aria-label={busy ? 'Stop response' : 'Send message'}
+        <button ref={sendRef} type={busy ? 'button' : 'submit'} disabled={!busy && !input.trim()} aria-label={busy ? 'Stop response' : 'Send message'}
           onClick={busy ? () => { active.current?.abort(); inputRef.current?.focus(); } : undefined}
           className="shrink-0 p-3 rounded-xl bg-brand text-white hover:bg-brand-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
           {busy ? <Square className="w-5 h-5" /> : <Send className="w-5 h-5" />}

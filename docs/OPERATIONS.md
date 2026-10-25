@@ -69,6 +69,8 @@ Each generation has a thirty-second provider timeout and one attempt within the 
 
 Stopping a response or leaving the page cancels the browser request and discards late results. An in-flight provider call may still finish within its deadline and consume quota.
 
+Document preflight uses locked Pillow/pypdf versions in at most two disposable workers. Each has a 256 MiB memory limit and a three-second parsing deadline, with bounded cleanup. Linux uses process limits/groups; Windows uses Job Objects attached before document bytes are sent. Parser workers do not inherit application credentials. Failed validation never falls through to model generation. Large or complex reports may need fewer pages or smaller images. Content checks establish structure and nonblank content, not the truth of an AI summary. See [Pillow's image reference](https://pillow.readthedocs.io/en/stable/reference/Image.html) and [pypdf's extraction limits](https://pypdf.readthedocs.io/en/stable/user/extract-text.html).
+
 ### Service health
 
 `/health/live` reports API liveness; `/health/ready` checks the database after initialization. Core summaries do not wait for Gemini. Logs use request IDs/error codes. `STALE_SECONDS` defaults to 30 and accepts 10–3600.
