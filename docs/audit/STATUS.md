@@ -40,6 +40,12 @@ Sign-in and registration use one wordmark, Georgia headings, Inter form text and
 
 Both modes passed layout checks at 320, 390, 768, 844 (landscape), 1024, 1440 and 1672 px with no horizontal overflow or clipped controls; targets are at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, mode-switch focus, reduced motion and automated accessibility checks. Registration's loading label fits at 320 px without changing button height. Desktop and mobile renders were reviewed visually. Input boundaries meet 3:1 contrast; normal text and the primary button meet 4.5:1.
 
+## App-wide design follow-up
+
+All eleven signed-in pages now follow the sign-in screen's forest-teal palette, Georgia headings, Inter text and robot AI icons. Navigation groups health, guidance and account pages; the toolbar is compact on mobile and only the current route is selected. Shared headings, cards, fields and empty states replace the inconsistent page padding and gray styles. The dashboard puts recorded readings before trends, guidance and supporting details. Decorative metric sparklines were removed, charts render immediately, and the synthetic ECG follows the actual vital measurements.
+
+All 16 browser tests and 20 frontend tests passed, along with types, lint and the build. The browser suite visits every page at 320, 390, 768 and 1440 px, checks one page heading, active navigation, keyboard containment, overflow, 44 px controls and automated accessibility. A separate live-app review covered 44 page/viewport combinations without clipped controls or unhandled browser errors. Profile edits, history pagination, SOS logging, session cleanup, assistant cancellation, report boundaries and source labels remain covered. The ECG control's visible and accessible labels now agree. Layout fixtures reuse one real session to avoid consuming the authentication budget reserved for session-flow tests.
+
 ## Earlier GitHub publication — 25 October
 
 The reviewed changes are on the [audit branch](https://github.com/sudhanshukumar03/vyana/tree/codex/audit-cleanup-2026-10-25); `main` remains unchanged. [Hosted CI](https://github.com/sudhanshukumar03/vyana/actions/runs/40168534380) passed at `3e9282b`: software/PostgreSQL/browser checks, firmware compile/native tests and the secret scan all succeeded. The initial run exposed incorrect PostgreSQL health-command quoting; the follow-up commit corrected it.

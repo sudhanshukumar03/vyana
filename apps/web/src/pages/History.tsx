@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { apiJson } from '../services/api';
 import { mergeHistory } from '../store/useHealthStore';
 import type { VitalReading } from '../../../../shared/types/health';
+import { PageHeader } from '../components/PageHeader';
 
 export default function History() {
   const owner = useHealthStore(state => state.user?.id);
@@ -34,26 +35,25 @@ function HistoryPages() {
   const oldest = rows[0];
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center space-x-3 mb-6">
-        <Clock className="w-8 h-8 text-brand" />
-        <h1 className="text-2xl font-bold text-gray-900">Vitals History</h1>
-      </div>
+    <div className="page-stack">
+      <PageHeader title="Vitals History" description="Browse your saved readings, from the newest observations to earlier records." icon={Clock} />
 
-      <div className="flex flex-wrap items-center gap-3" aria-label="History pages">
-        <button className="px-4 py-2 border rounded-lg disabled:opacity-50" disabled={loading || !cursors.length}
+      <div className="table-toolbar" aria-label="History pages">
+        <button className="ui-button secondary" disabled={loading || !cursors.length}
           onClick={() => setCursors(previous => previous.slice(0, -1))}>Newer readings</button>
         <span role="status">{loading ? 'Loading history…' : `Page ${cursors.length + 1} · ${rows.length} readings`}</span>
-        <button className="px-4 py-2 border rounded-lg disabled:opacity-50" disabled={loading || Boolean(error) || rows.length < 100}
+        <button className="ui-button secondary" disabled={loading || Boolean(error) || rows.length < 100}
           onClick={() => oldest && setCursors(previous => [...previous, `${oldest.observed_at}|${oldest.id}`])}>Older readings</button>
       </div>
       {error && <div role="alert" className="text-critical">{error} <button className="underline px-3 py-2" onClick={() => setRetry(value => value + 1)}>Retry</button></div>}
 
-      <div aria-busy={loading} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
+      <p className="table-hint">Scroll the table to see all measurements.</p>
+
+      <div aria-busy={loading} className="surface table-surface">
+        <div className="table-scroll" tabIndex={0} aria-label="Vitals history table">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-100 text-sm font-medium text-gray-500 uppercase tracking-wider">
+              <tr>
                 <th className="p-4">Timestamp</th>
                 <th className="p-4">Heart Rate (bpm)</th>
                 <th className="p-4">SpO2 (%)</th>
@@ -61,30 +61,30 @@ function HistoryPages() {
                 <th className="p-4">ECG Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-line">
               {rows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-gray-500">
+                  <td colSpan={5} className="p-8 text-center text-muted">
                     No history data available
                   </td>
                 </tr>
               ) : (
                 [...rows].reverse().map(v => (
-                  <tr key={v.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="p-4 text-sm text-gray-900">
+                  <tr key={v.id} className="hover:bg-canvas transition-colors">
+                    <td className="p-4 text-sm text-ink">
                       {new Date(v.timestamp).toLocaleString()}
                     </td>
-                    <td className="p-4 text-sm font-medium text-gray-900">
+                    <td className="p-4 text-sm font-medium text-ink">
                       <span className={v.heart_rate > 150 || v.heart_rate < 40 ? 'text-critical' : ''}>
                         {v.heart_rate}
                       </span>
                     </td>
-                    <td className="p-4 text-sm text-gray-900">
+                    <td className="p-4 text-sm text-ink">
                       <span className={v.spo2 < 88 ? 'text-critical font-medium' : ''}>
                         {v.spo2}
                       </span>
                     </td>
-                    <td className="p-4 text-sm text-gray-900">
+                    <td className="p-4 text-sm text-ink">
                       {v.temperature.toFixed(1)}
                     </td>
                     <td className="p-4 text-sm">

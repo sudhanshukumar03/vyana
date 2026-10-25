@@ -16,10 +16,10 @@ export function BmiCard() {
   const range = adult ? healthyWeightRange(profile?.height_cm) : null;
 
   return (
-    <div className="bg-surface rounded-2xl p-6 border border-line flex flex-col h-full">
+    <section className="surface flex flex-col">
       <div className="flex items-center gap-2 mb-4">
         <Scale className="w-5 h-5 text-muted" />
-        <h3 className="text-[16px] font-semibold text-ink">Body Mass Index</h3>
+        <h2 className="text-[16px] font-semibold text-ink">Body Mass Index</h2>
       </div>
 
       {!bmi ? (
@@ -35,7 +35,7 @@ export function BmiCard() {
         </div>
       ) : (
         <div className="flex-1 flex flex-col">
-          <div className="flex items-end gap-3 mb-3">
+          <div className="flex flex-wrap items-end gap-3 mb-3">
             <span className="text-[40px] font-semibold text-ink leading-none tabular-nums">{bmi.value}</span>
             <span className={`mb-1 text-[12px] font-semibold px-2.5 py-1 rounded-full ${CAT[bmi.category].badge}`}>{adult ? bmi.label : 'Numeric calculation only'}</span>
           </div>
@@ -47,6 +47,6 @@ export function BmiCard() {
           <p className="text-[13px] text-body leading-snug mt-auto">{adult ? CAT[bmi.category].tip : 'Adult categories and weight targets are unavailable for younger users or an unknown age. Consult a qualified clinician for interpretation.'}</p>
         </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -68,27 +68,27 @@ export function Onboarding() {
     if (!ok) setError(useHealthStore.getState().error || 'Could not save your profile. Please retry.');
   };
 
-  const input = 'w-full px-3 py-2.5 rounded-xl border border-line bg-surface text-ink text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand';
-  const label = 'block text-[13px] font-medium text-body mb-1.5';
+  const input = 'ui-input';
+  const label = 'field-label';
 
   return (
     <Modal title="Health profile" dismissible={canClose} onClose={() => setShowOnboarding(false)}>
-      <div className="w-full max-w-md bg-surface rounded-3xl shadow-2xl max-h-[85dvh] overflow-y-auto overscroll-contain">
-        <div className="relative bg-gradient-to-br from-brand to-brand-hover px-6 pt-7 pb-6 text-white">
+      <div className="profile-dialog-panel w-full max-w-md bg-surface rounded-3xl">
+        <div className="profile-dialog-header relative shrink-0 bg-[#073f35] px-6 pt-7 pb-6 text-white">
           {canClose && (
             <button type="button" onClick={() => setShowOnboarding(false)} aria-label="Close"
               className="absolute top-4 right-4 p-1 rounded-lg hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               <X className="w-5 h-5" />
             </button>
           )}
-          <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center mb-3">
+          <div className="profile-dialog-symbol w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center mb-3">
             <HeartPulse className="w-6 h-6" />
           </div>
           <h2 className="text-xl font-bold leading-tight">Let's get to know you</h2>
           <p className="text-white/80 text-[13px] mt-1">A few quick details so Vyana can personalise your insights.</p>
         </div>
 
-        <div className="flex items-center gap-2 px-6 pt-5">
+        <div className="flex shrink-0 items-center gap-2 px-6 pt-5">
           {STEPS.map((s, i) => (
             <div key={s} className="flex-1">
               <div className={`h-1.5 rounded-full ${i <= step ? 'bg-brand' : 'bg-line'}`} />
@@ -97,7 +97,7 @@ export function Onboarding() {
           ))}
         </div>
 
-        <div className="px-6 py-5 space-y-4 min-h-[220px]">
+        <div className="profile-dialog-body px-6 py-5 space-y-4">
           {step === 0 && (
             <>
               <div>
@@ -168,7 +168,7 @@ export function Onboarding() {
           {error && <p role="alert" className="text-[13px] text-critical">{error}</p>}
         </div>
 
-        <div className="flex items-center justify-between px-6 py-4 border-t border-line">
+        <div className="flex shrink-0 items-center justify-between px-6 py-4 border-t border-line">
           <button type="button" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}
             className="text-[14px] font-medium text-muted hover:text-ink disabled:opacity-0 rounded-lg px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">Back</button>
           {step < STEPS.length - 1 ? (

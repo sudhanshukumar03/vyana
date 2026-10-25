@@ -1,6 +1,7 @@
 import { User, Pencil } from 'lucide-react';
 import { useHealthStore } from '../store/useHealthStore';
 import { BmiCard } from '../components/BmiCard';
+import { PageHeader } from '../components/PageHeader';
 
 function ageFromDob(dob?: string | null): string {
   if (!dob) return '—';
@@ -27,39 +28,34 @@ export default function Profile() {
   ];
 
   return (
-    <div className="space-y-6 max-w-2xl">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <User className="w-8 h-8 text-brand" />
-          <h1 className="text-2xl font-bold text-gray-900">Your Profile</h1>
-        </div>
-        {onboarded && (
+    <div className="page-stack page-narrow">
+      <PageHeader title="Your Profile" description="Your details, goals and the context behind your wellness guidance." icon={User} action={onboarded && (
           <button
             type="button"
             onClick={() => setShowOnboarding(true)}
-            className="flex items-center gap-2 text-[14px] font-medium text-brand hover:text-brand-hover rounded-lg px-3 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            className="ui-button secondary"
           >
             <Pencil className="w-4 h-4" /> Edit
           </button>
-        )}
-      </div>
+        )} />
 
+      <div className="two-column items-start">
       {onboarded ? (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y divide-gray-100">
+        <dl className="surface profile-details">
           {rows.map(([k, v]) => (
-            <div key={k} className="flex items-start justify-between px-5 py-3.5">
-              <span className="text-[13px] font-medium text-gray-500">{k}</span>
-              <span className="text-[14px] font-semibold text-gray-900 text-right max-w-[60%]">{v}</span>
+            <div key={k}>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       ) : (
-        <div className="bg-white p-10 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <User className="w-10 h-10 text-gray-600" />
+        <div className="surface flex flex-col items-center text-center">
+          <div className="w-20 h-20 bg-surface-soft rounded-full flex items-center justify-center mb-4">
+            <User className="w-10 h-10 text-muted" />
           </div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-1">Profile not set up yet</h2>
-          <p className="text-gray-500 max-w-sm mb-5">Set up your health profile so Vyana can personalise insights and BMI.</p>
+          <h2 className="text-lg font-semibold text-ink mb-1">Profile not set up yet</h2>
+          <p className="text-muted max-w-sm mb-5">Set up your health profile so Vyana can personalise insights and BMI.</p>
           <button
             type="button"
             onClick={() => setShowOnboarding(true)}
@@ -71,6 +67,7 @@ export default function Profile() {
       )}
 
       <BmiCard />
+      </div>
     </div>
   );
 }

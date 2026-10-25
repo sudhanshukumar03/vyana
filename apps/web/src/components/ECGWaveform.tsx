@@ -22,6 +22,7 @@ export function ECGWaveform() {
   const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   useEffect(() => { const media=window.matchMedia('(prefers-reduced-motion: reduce)'); const change=()=>setReduced(media.matches); media.addEventListener('change',change);return()=>media.removeEventListener('change',change); }, []);
   const available = Boolean(vitals && fresh && vitals.heart_rate > 20);
+  const controlLabel = !available ? 'Waiting for fresh data' : reduced ? 'Static preview' : isPlaying ? 'Pause ECG waveform' : 'Play ECG waveform';
   // A synthetic illustration; it is not a measured ECG.
   const bpm = vitals?.heart_rate && vitals.heart_rate > 20 ? vitals.heart_rate : 72;
   const bpmRef = useRef(bpm);
@@ -48,7 +49,7 @@ export function ECGWaveform() {
       ctx.clearRect(0, 0, W, H);
 
       // Baseline
-      ctx.strokeStyle = '#e5e7eb';
+      ctx.strokeStyle = '#d5e2d8';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, mid);
@@ -56,7 +57,7 @@ export function ECGWaveform() {
       ctx.stroke();
 
       // Waveform (newest sample at the right edge, scrolling left)
-      ctx.strokeStyle = '#10b981';
+      ctx.strokeStyle = '#08766b';
       ctx.lineWidth = 2;
       ctx.lineJoin = 'round';
       ctx.beginPath();
@@ -76,26 +77,26 @@ export function ECGWaveform() {
   }, [isPlaying, available, reduced]);
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-900">Synthetic ECG illustration</h3>
+    <div className="surface flex flex-col h-full">
+      <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
+        <h2 className="font-semibold text-ink">Synthetic ECG illustration</h2>
         <button
           disabled={!available || reduced}
           type="button"
           onClick={() => setIsPlaying(!isPlaying)}
           aria-pressed={!isPlaying}
-          aria-label={isPlaying ? 'Pause ECG waveform' : 'Play ECG waveform'}
-          className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          aria-label={controlLabel}
+          className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
           <span className="relative flex h-3 w-3">
-            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isPlaying ? 'bg-emerald-400' : 'bg-red-400'}`}></span>
-            <span className={`relative inline-flex rounded-full h-3 w-3 ${isPlaying ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+            {available && isPlaying && !reduced && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-brand/70" />}
+            <span className={`relative inline-flex rounded-full h-3 w-3 ${available && isPlaying ? 'bg-brand' : 'bg-muted'}`} />
           </span>
-          <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">{!available ? 'Waiting for fresh data' : reduced ? 'Static preview' : isPlaying ? 'Animating' : 'Paused'}</span>
+          <span className="text-xs text-muted font-medium">{controlLabel}</span>
         </button>
       </div>
       <p className="text-sm text-muted mb-3">Illustrative waveform paced by heart rate. This is not a measured ECG or rhythm assessment.</p>
-      <div className="flex-1 min-h-[160px] w-full bg-gray-50 rounded-lg overflow-hidden border border-gray-100 relative">
+      <div className="flex-1 min-h-[160px] w-full bg-canvas rounded-lg overflow-hidden border border-line relative">
         {!available && <p role="status" className="absolute inset-0 grid place-content-center bg-surface-soft">Fresh heart-rate data is unavailable.</p>}
         <canvas
           ref={canvasRef}

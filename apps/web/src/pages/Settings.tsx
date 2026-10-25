@@ -1,20 +1,26 @@
-import { Settings as SettingsIcon } from 'lucide-react';
+import { ArrowUpRight, Settings as SettingsIcon, UserRound, Wifi } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { PageHeader } from '../components/PageHeader';
+import { useHealthStore } from '../store/useHealthStore';
 
 export default function Settings() {
+  const { isConnected, isSocketConnected, freshness } = useHealthStore();
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center space-x-3 mb-6">
-        <SettingsIcon className="w-8 h-8 text-gray-600" />
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+    <div className="page-stack page-narrow">
+      <PageHeader title="Settings" description="Your profile, connection status and available preferences." icon={SettingsIcon} />
+      <div className="two-column">
+        <section className="surface">
+          <span className="empty-state-symbol"><UserRound aria-hidden="true" /></span>
+          <h2 className="surface-title">Make your profile yours</h2>
+          <p className="surface-description">Update your details, body measurements, goals and the information used for wellness guidance.</p>
+          <Link to="/profile" className="ui-button secondary mt-6">View your profile<ArrowUpRight aria-hidden="true" /></Link>
+        </section>
+        <section className="surface">
+          <div className="insights-heading"><Wifi aria-hidden="true" /><h2 className="surface-title">Connection status</h2></div>
+          <dl className="reading-list"><div><dt>Service</dt><dd>{isConnected ? 'Connected' : 'Connecting or unavailable'}</dd></div><div><dt>Live updates</dt><dd>{isSocketConnected ? 'Connected' : 'Reconnecting'}</dd></div><div><dt>Readings</dt><dd>{freshness.state === 'fresh' ? 'Fresh' : freshness.state === 'stale' ? 'Stale' : 'Waiting for data'}</dd></div></dl>
+        </section>
       </div>
-      
-      <div className="bg-white p-10 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-        <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-          <SettingsIcon className="w-7 h-7 text-gray-500" />
-        </div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">No settings to configure</h2>
-        <p className="text-gray-500 max-w-sm">Edit your details on the Profile page. Custom alert thresholds and notification preferences are not available in this build.</p>
-      </div>
+      <section className="surface"><h2 className="surface-title">Alert & notification preferences</h2><p className="surface-description">Custom thresholds and notification preferences are unavailable in this build. You can review and resolve active alerts from the notification bell.</p></section>
     </div>
   );
 }

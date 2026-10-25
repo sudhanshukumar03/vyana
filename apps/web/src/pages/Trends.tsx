@@ -1,6 +1,7 @@
 import { useHealthStore } from '../store/useHealthStore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Activity } from 'lucide-react';
+import { PageHeader } from '../components/PageHeader';
 
 export default function Trends() {
   const { historicalVitals, historicalActivity } = useHealthStore();
@@ -17,55 +18,53 @@ export default function Trends() {
   }));
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center space-x-3">
-        <TrendingUp className="w-8 h-8 text-brand" />
-        <h1 className="text-2xl font-bold text-gray-900">Health Trends</h1>
-      </div>
+    <div className="page-stack">
+      <PageHeader title="Health Trends" description="See how your readings and movement change across recorded observations." icon={TrendingUp} />
 
       <div className="grid grid-cols-1 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="surface">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-900">Heart Rate & SpO2 Trend</h3>
-              <p className="text-sm text-gray-500">How your vitals have been tracking recently</p>
+              <h2 className="text-lg font-medium text-ink">Heart Rate & SpO2 Trend</h2>
+              <p className="text-sm text-muted">How your vitals have been tracking recently</p>
+              <div className="chart-legend"><span><i className="legend-line" aria-hidden="true" />Heart rate (bpm)</span><span><i className="legend-line secondary" aria-hidden="true" />SpO₂ (%) · dashed</span></div>
             </div>
-            <Activity className="text-gray-600 w-5 h-5" />
+            <Activity className="text-muted w-5 h-5" />
           </div>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={vitalsData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-                <YAxis yAxisId="left" domain={['auto', 'auto']} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-                <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-line)" />
+                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#586d65' }} />
+                <YAxis yAxisId="left" domain={['auto', 'auto']} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#586d65' }} />
+                <YAxis yAxisId="right" orientation="right" domain={['auto', 'auto']} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#586d65' }} />
                 <Tooltip 
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
-                <Line yAxisId="left" type="monotone" dataKey="hr" name="Heart Rate" stroke="#ef4444" strokeWidth={2} dot={false} />
-                <Line yAxisId="right" type="monotone" dataKey="spo2" name="SpO2 %" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                <Line isAnimationActive={false} yAxisId="left" type="monotone" dataKey="hr" name="Heart Rate" stroke="var(--color-brand)" strokeWidth={2} dot={false} />
+                <Line isAnimationActive={false} yAxisId="right" type="monotone" dataKey="spo2" name="SpO2 %" stroke="var(--color-ink)" strokeDasharray="5 4" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div className="surface">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-medium text-gray-900">Activity Trend</h3>
-              <p className="text-sm text-gray-500">Your step counts over time</p>
+              <h2 className="text-lg font-medium text-ink">Activity Trend</h2>
+              <p className="text-sm text-muted">Your step counts over time</p>
             </div>
           </div>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={activityData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-line)" />
+                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#586d65' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#586d65' }} />
                 <Tooltip 
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
-                <Line type="monotone" dataKey="steps" name="Steps" stroke="#10b981" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                <Line isAnimationActive={false} type="monotone" dataKey="steps" name="Steps" stroke="var(--color-brand)" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

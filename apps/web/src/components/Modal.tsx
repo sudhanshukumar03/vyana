@@ -2,8 +2,8 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 /** Native modal dialogs provide focus containment, background inertness and focus return. */
-export function Modal({ children, title, onClose, dismissible = true }: {
-  children: ReactNode; title: string; onClose: () => void; dismissible?: boolean;
+export function Modal({ children, title, onClose, dismissible = true, className = '' }: {
+  children: ReactNode; title: string; onClose: () => void; dismissible?: boolean; className?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const closeRef = useRef(onClose);
@@ -14,7 +14,7 @@ export function Modal({ children, title, onClose, dismissible = true }: {
     dialog?.showModal();
     return () => { dialog?.close(); previous?.focus(); };
   }, []);
-  return createPortal(<dialog ref={ref} aria-label={title} className="app-dialog"
+  return createPortal(<dialog ref={ref} aria-label={title} className={`app-dialog ${className}`}
     onKeyDown={event => {
       if(event.key !== 'Tab') return;
       const dialog=ref.current;

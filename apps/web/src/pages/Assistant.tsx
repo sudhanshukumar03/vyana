@@ -3,6 +3,7 @@ import { Bot, Send, Paperclip, Square } from 'lucide-react';
 import { apiJson, getSessionEpoch } from '../services/api';
 import type { ChatResponse, ReportResponse } from '../../../../shared/types/health';
 import { conversationHistory, readReport, type AssistantMessage } from '../lib/assistant';
+import { PageHeader } from '../components/PageHeader';
 
 const QUICK = [
   'What do my latest readings show?',
@@ -107,21 +108,18 @@ export default function Assistant() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col h-full">
-      <div className="flex items-center gap-3 mb-1">
-        <Bot className="w-7 h-7 text-brand" aria-hidden="true" />
-        <h1 className="text-2xl font-bold text-gray-900">AI Assistant</h1>
-      </div>
-      <p className="text-sm text-muted mb-4">Understand your readings and reports. Wellness guidance only; not a diagnosis or prescription.</p>
+    <div className="page-stack assistant-page">
+      <PageHeader title="AI Assistant" description="Understand your readings and reports. Wellness guidance only; not a diagnosis or prescription." icon={Bot} />
 
-      <div role="log" tabIndex={0} aria-live="polite" aria-relevant="additions" aria-atomic="false" aria-label="Conversation" aria-busy={busy} className="flex-1 min-h-0 overflow-y-auto bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+      <div role="log" tabIndex={0} aria-live="polite" aria-relevant="additions" aria-atomic="false" aria-label="Conversation" aria-busy={busy} className="assistant-log space-y-4">
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center py-10">
-            <p className="text-gray-500 text-sm mb-5">Ask about your vitals, activity, diet, or goals.</p>
-            <div className="flex flex-col gap-2 w-full max-w-sm">
+          <div className="assistant-empty">
+            <h2>A little clarity starts here.</h2>
+            <p>Ask about your vitals, activity, diet or goals. Choose a question below, or write your own.</p>
+            <div className="assistant-quick">
               {QUICK.map((q) => (
                 <button key={q} type="button" onClick={() => send(q)} disabled={busy}
-                  className="text-[13px] text-gray-700 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl px-4 py-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+                  className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
                   {q}
                 </button>
               ))}
@@ -146,11 +144,11 @@ export default function Assistant() {
         )}
         <div ref={endRef} />
       </div>
-      <p role="status" aria-atomic="true" className="min-h-6 mt-2 text-sm text-muted">{statusMessage}</p>
+      <p role="status" aria-atomic="true" className="assistant-status">{statusMessage}</p>
 
-      <form onSubmit={(e) => { e.preventDefault(); send(); }} className="mt-4 flex items-center gap-2">
+      <form onSubmit={(e) => { e.preventDefault(); send(); }} className="assistant-composer">
         <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" className="hidden" onChange={onFile} />
-        <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} aria-label="Upload a health report (PDF or image)" className="shrink-0 p-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+        <button type="button" onClick={() => fileRef.current?.click()} disabled={busy} aria-label="Upload a health report (PDF or image)" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
           <Paperclip className="w-5 h-5" />
         </button>
         <input
@@ -160,11 +158,11 @@ export default function Assistant() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask the assistant…"
           aria-label="Message the assistant"
-          className="flex-1 min-w-0 px-4 py-3 rounded-xl border border-gray-200 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          className="min-w-0"
         />
         <button ref={sendRef} type={busy ? 'button' : 'submit'} disabled={!busy && !input.trim()} aria-label={busy ? 'Stop response' : 'Send message'}
           onClick={busy ? () => { active.current?.abort(); inputRef.current?.focus(); } : undefined}
-          className="shrink-0 p-3 rounded-xl bg-brand text-white hover:bg-brand-hover disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
           {busy ? <Square className="w-5 h-5" /> : <Send className="w-5 h-5" />}
         </button>
       </form>

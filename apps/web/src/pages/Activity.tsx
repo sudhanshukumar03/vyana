@@ -1,18 +1,15 @@
 import { useHealthStore } from '../store/useHealthStore';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Footprints, Map, Flame, Clock, AlertCircle } from 'lucide-react';
+import { Footprints, Map, Flame, Clock } from 'lucide-react';
+import { PageHeader } from '../components/PageHeader';
+import { EmptyState } from '../components/EmptyState';
 
 export default function Activity() {
   const { activity, historicalActivity } = useHealthStore();
 
   if (!activity) {
     return (
-      <div className="flex items-center justify-center h-full p-8">
-        <div className="text-center text-gray-500">
-          <AlertCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p>No activity data available</p>
-        </div>
-      </div>
+      <div className="page-stack"><PageHeader title="Activity Overview" description="Follow your steps, movement and recent activity." icon={Footprints} /><section className="surface"><EmptyState icon={Footprints} title="No activity data available" description="Activity readings will appear here when your connected source sends them." /></section></div>
     );
   }
 
@@ -23,61 +20,61 @@ export default function Activity() {
   }));
 
   return (
-    <div className="space-y-6 p-6">
-      <h1 className="text-2xl font-bold text-gray-900">Activity Overview</h1>
+    <div className="page-stack">
+      <PageHeader title="Activity Overview" description="Your latest recorded movement and step history." icon={Footprints} />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="surface flex items-center gap-4">
           <div className="p-3 bg-surface-soft text-brand rounded-lg">
             <Footprints className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Steps</p>
-            <p className="text-2xl font-bold text-gray-900">{activity.steps}</p>
+            <p className="text-sm font-medium text-muted">Steps</p>
+            <p className="text-2xl font-bold text-ink">{activity.steps}</p>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+        <div className="surface flex items-center gap-4">
           <div className="p-3 bg-success-bg text-success rounded-lg">
             <Map className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Distance</p>
-            <p className="text-2xl font-bold text-gray-900">{activity.distance_km} <span className="text-sm text-gray-500">km</span></p>
+            <p className="text-sm font-medium text-muted">Distance</p>
+            <p className="text-2xl font-bold text-ink">{activity.distance_km} <span className="text-sm text-muted">km</span></p>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-orange-50 text-orange-600 rounded-lg">
+        <div className="surface flex items-center gap-4">
+          <div className="p-3 bg-warn-bg text-warn rounded-lg">
             <Flame className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Calories</p>
-            <p className="text-2xl font-bold text-gray-900">{activity.calories} <span className="text-sm text-gray-500">kcal</span></p>
+            <p className="text-sm font-medium text-muted">Calories</p>
+            <p className="text-2xl font-bold text-ink">{activity.calories} <span className="text-sm text-muted">kcal</span></p>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+        <div className="surface flex items-center gap-4">
           <div className="p-3 bg-surface-soft text-brand rounded-lg">
             <Clock className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Active Time</p>
-            <p className="text-2xl font-bold text-gray-900">{activity.active_minutes} <span className="text-sm text-gray-500">min</span></p>
+            <p className="text-sm font-medium text-muted">Active Time</p>
+            <p className="text-2xl font-bold text-ink">{activity.active_minutes} <span className="text-sm text-muted">min</span></p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <h3 className="text-lg font-medium text-gray-700 mb-6">Recent Steps Trend</h3>
+      <div className="surface">
+        <h2 className="text-lg font-medium text-body mb-6">Recent Steps Trend</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-line)" />
               <XAxis dataKey="date" axisLine={false} tickLine={false} />
               <YAxis axisLine={false} tickLine={false} />
-              <Tooltip cursor={{ fill: '#f3f4f6' }} />
-              <Bar dataKey="steps" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Tooltip cursor={{ fill: 'var(--color-surface-soft)' }} />
+              <Bar isAnimationActive={false} dataKey="steps" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
