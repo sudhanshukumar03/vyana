@@ -1,7 +1,9 @@
-import { useState, type FormEvent } from 'react';
-import { Loader2, Mail, Lock } from 'lucide-react';
+import { useRef, useState, type FormEvent } from 'react';
+import { ArrowRight, Eye, EyeOff, Loader2, Mail, Lock, ShieldCheck } from 'lucide-react';
 import { useHealthStore } from '../store/useHealthStore';
 import { BrandLogo } from '../components/BrandLogo';
+import { AuthBackdrop } from '../components/AuthBackdrop';
+import './auth.css';
 
 export default function Login() {
   const { login, register, authError } = useHealthStore();
@@ -10,12 +12,16 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [localError, setLocalError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const inFlight = useRef(false);
 
   const isRegister = mode === 'register';
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (inFlight.current) return;
     setLocalError('');
+    useHealthStore.setState({ authError: '' });
     if (!email.trim() || !password) {
       setLocalError('Enter your email and password.');
       return;
@@ -24,65 +30,89 @@ export default function Login() {
       setLocalError('Choose a password with at least 8 characters.');
       return;
     }
+    inFlight.current = true;
     setBusy(true);
-    const ok = isRegister
-      ? await register(email.trim(), password)
-      : await login(email.trim(), password);
-    setBusy(false);
-    // On failure, the store sets authError; nothing else to do here.
-    if (!ok) return;
+    try {
+      if (isRegister) await register(email.trim(), password);
+      else await login(email.trim(), password);
+    } finally {
+      inFlight.current = false;
+      setBusy(false);
+    }
   };
 
   const error = localError || authError;
-  const inputBase =
-    'w-full pl-10 pr-3 py-2.5 rounded-xl border border-line bg-canvas text-[14px] text-ink placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:border-brand transition-colors';
 
   return (
-    <div className="min-h-screen bg-canvas font-sans flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
-        <div className="flex flex-col items-center text-center mb-8">
-          <BrandLogo variant="full" className="mb-5" />
-          <h1 className="sr-only">{isRegister ? 'Create your Vyana account' : 'Sign in to Vyana'}</h1>
-          <p className="text-[14px] text-muted">
-            {isRegister ? 'Create your account to begin monitoring.' : 'Sign in to your health dashboard.'}
-          </p>
+    <main className="auth-page" aria-labelledby="auth-heading">
+      <h1 id="auth-heading" className="sr-only">{isRegister ? 'Create your Vyana account' : 'Sign in to Vyana'}</h1>
+      <aside className="auth-story" aria-label="About Vyana">
+        <AuthBackdrop />
+        <BrandLogo variant="full" inverse className="auth-story-brand" />
+        <div className="auth-story-copy">
+          <h2 className="auth-story-title">Your health,<span>in harmony.</span></h2>
+          <p className="auth-story-description">See your wellness trends, insights and progress — all in one place.</p>
         </div>
+      </aside>
 
-        <form onSubmit={submit} className="bg-surface rounded-2xl border border-line shadow-sm p-6 space-y-4">
+      <section className="auth-main" aria-label={isRegister ? 'Create account' : 'Sign in'}>
+        <div className="auth-shell">
+          <header className="auth-intro">
+            <BrandLogo variant="auth" />
+            <p className="auth-subtitle">
+              {isRegister ? 'Create your account to begin monitoring.' : 'Sign in to your health dashboard.'}
+            </p>
+          </header>
+
+        <form onSubmit={submit} className="auth-card" aria-busy={busy}>
+          <div className="auth-fields">
           <div>
-            <label htmlFor="email" className="block text-[13px] font-semibold text-body mb-1.5">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" aria-hidden="true" />
+            <label htmlFor="email" className="auth-field-label">Email</label>
+            <div className="auth-input-wrap">
+              <Mail className="auth-field-icon" aria-hidden="true" />
               <input
                 id="email"
                 type="email"
-                autoComplete="email"
+                name="email"
+                autoComplete={isRegister ? 'email' : 'username'}
+                autoCapitalize="none"
+                spellCheck={false}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className={inputBase}
+                aria-describedby={error ? 'auth-error' : undefined}
+                aria-invalid={Boolean(localError && !email.trim())}
+                className="auth-input"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-[13px] font-semibold text-body mb-1.5">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" aria-hidden="true" />
+            <label htmlFor="password" className="auth-field-label">Password</label>
+            <div className="auth-input-wrap">
+              <Lock className="auth-field-icon" aria-hidden="true" />
               <input
                 id="password"
-                type="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
                 autoComplete={isRegister ? 'new-password' : 'current-password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={isRegister ? 'At least 8 characters' : 'Your password'}
-                className={inputBase}
+                placeholder={isRegister ? '8+ characters' : 'Your password'}
+                aria-describedby={error ? 'auth-error' : undefined}
+                aria-invalid={Boolean(localError && (!password || (isRegister && password.length < 8)))}
+                className="auth-input auth-input-password"
               />
+              <button type="button" className="auth-password-toggle" aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword} aria-controls="password" onClick={() => setShowPassword(value => !value)}>
+                {showPassword ? <EyeOff className="w-5 h-5" aria-hidden="true" /> : <Eye className="w-5 h-5" aria-hidden="true" />}
+              </button>
             </div>
+          </div>
           </div>
 
           {error && (
-            <p role="alert" className="text-[13px] text-critical bg-critical-bg border border-critical/20 rounded-lg px-3 py-2">
+            <p id="auth-error" role="alert" className="auth-error">
               {error}
             </p>
           )}
@@ -90,32 +120,38 @@ export default function Login() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-brand text-white text-[14px] font-semibold hover:bg-brand-hover active:scale-[0.99] transition disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+            className="auth-submit"
           >
-            {busy && <Loader2 className="w-4 h-4 animate-spin" />}
-            {busy ? 'Please wait…' : isRegister ? 'Create account' : 'Sign in'}
+            {busy && <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />}
+            {busy ? isRegister ? 'Creating account…' : 'Signing in…' : isRegister ? 'Create account' : 'Sign in'}
+            {!busy && <ArrowRight className="w-5 h-5" aria-hidden="true" />}
           </button>
-        </form>
 
-        <p className="text-center text-[13px] text-muted mt-5">
+        <p className="auth-mode">
           {isRegister ? 'Already have an account?' : 'New to Vyana?'}{' '}
           <button
             type="button"
+            disabled={busy}
             onClick={() => {
               setMode(isRegister ? 'login' : 'register');
               setLocalError('');
+              setShowPassword(false);
               useHealthStore.setState({ authError: '' });
             }}
-            className="font-semibold text-brand hover:text-brand-hover focus-visible:outline-none focus-visible:underline"
+            className="auth-mode-switch"
           >
             {isRegister ? 'Sign in' : 'Create one'}
           </button>
         </p>
+        </form>
 
-        <p className="text-center text-[11px] text-muted mt-8 leading-relaxed">
+        <p role="status" className="sr-only">{busy ? isRegister ? 'Creating your account.' : 'Signing in to your account.' : ''}</p>
+        <p className="auth-privacy"><ShieldCheck aria-hidden="true" /><span>Your dashboard is private to your account.</span></p>
+        <p className="auth-disclaimer">
           Vyana provides wellness insights only and is not a substitute for professional medical care.
         </p>
-      </div>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }

@@ -34,6 +34,12 @@ A blank upload through the normal app returned rules-based `unreadable` status w
 
 The [AI evidence record](ai-implementation-2026-10-25.json) separates this finite evaluation from broader qualified human review. It does not establish clinical validation.
 
+## Authentication design follow-up
+
+Sign-in and registration now follow the supplied visual reference: a teal story panel and static wave illustration beside a centered form. Smaller screens use one column. The form includes a keyboard-accessible password visibility control, clear pending/error states and duplicate-submit protection. Privacy wording describes account access without claiming that AI processing stays on the device.
+
+Both modes passed layout checks at 320, 390, 768, 1440 and 1672 px with no horizontal overflow and controls at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, reduced motion and automated accessibility checks. The desktop and mobile renders were also reviewed visually.
+
 ## Earlier GitHub publication — 25 October
 
 The reviewed changes are on the [audit branch](https://github.com/sudhanshukumar03/vyana/tree/codex/audit-cleanup-2026-10-25); `main` remains unchanged. [Hosted CI](https://github.com/sudhanshukumar03/vyana/actions/runs/40168534380) passed at `3e9282b`: software/PostgreSQL/browser checks, firmware compile/native tests and the secret scan all succeeded. The initial run exposed incorrect PostgreSQL health-command quoting; the follow-up commit corrected it.
