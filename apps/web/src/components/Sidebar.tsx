@@ -1,4 +1,4 @@
-import { LayoutDashboard, Activity, Target, Settings, TrendingUp, Brain, FileText, Clock, AlertTriangle, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Activity, Target, Settings, TrendingUp, Brain, FileText, Clock, AlertTriangle, Bot } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { BrandLogo } from './BrandLogo';
 
@@ -12,7 +12,7 @@ const sections = [
   ] },
   { label: 'Insights', items: [
     { name: 'Mental Well-being', path: '/wellness', icon: Brain },
-    { name: 'AI Assistant', path: '/assistant', icon: Sparkles },
+    { name: 'AI Assistant', path: '/assistant', icon: Bot },
     { name: 'Reports', path: '/reports', icon: FileText },
   ] },
   { label: 'Safety', items: [{ name: 'Emergency', path: '/emergency', icon: AlertTriangle }] },
@@ -53,7 +53,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                         : 'text-slate hover:text-ink hover:bg-ink/[0.04]'
                     }`}
                   >
-                    <item.icon size={18} strokeWidth={isActive ? 2.4 : 1.6} className={isActive ? 'text-brand' : 'text-muted'} />
+                    <item.icon size={18} strokeWidth={isActive ? 2.4 : 1.6} className={isActive ? 'text-brand' : 'text-muted'} aria-hidden="true" />
                     {item.name}
                   </NavLink>
                 );

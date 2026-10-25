@@ -1,5 +1,5 @@
 import { useHealthStore } from '../store/useHealthStore';
-import { Sparkles, Info, AlertTriangle, CheckCircle, ShieldAlert } from 'lucide-react';
+import { Bot, Info, AlertTriangle, CheckCircle, ShieldAlert } from 'lucide-react';
 import { BmiCard } from '../components/BmiCard';
 
 export default function Wellness() {
@@ -18,7 +18,7 @@ export default function Wellness() {
       case 'warning': return <AlertTriangle className="w-5 h-5 text-warn mt-0.5" />;
       case 'success': return <CheckCircle className="w-5 h-5 text-success mt-0.5" />;
       case 'critical': return <ShieldAlert className="w-5 h-5 text-critical mt-0.5" />;
-      default: return <Sparkles className="w-5 h-5 text-brand mt-0.5" />;
+      default: return <Bot className="w-5 h-5 text-brand mt-0.5" aria-hidden="true" />;
     }
   };
 
@@ -35,7 +35,7 @@ export default function Wellness() {
   return (
     <div className="space-y-6 p-6 max-w-4xl mx-auto">
       <div className="flex items-center space-x-3 mb-8">
-        <Sparkles className="w-8 h-8 text-brand" />
+        <Bot className="w-8 h-8 text-brand" aria-hidden="true" />
         <h1 className="text-2xl font-bold text-gray-900">AI Wellness Assistant</h1>
       </div>
 

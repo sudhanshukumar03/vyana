@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Sparkles, Send, Paperclip, Square } from 'lucide-react';
+import { Bot, Send, Paperclip, Square } from 'lucide-react';
 import { apiJson, getSessionEpoch } from '../services/api';
 import type { ChatResponse, ReportResponse } from '../../../../shared/types/health';
 import { conversationHistory, readReport, type AssistantMessage } from '../lib/assistant';
@@ -109,7 +109,7 @@ export default function Assistant() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col h-full">
       <div className="flex items-center gap-3 mb-1">
-        <Sparkles className="w-7 h-7 text-brand" />
+        <Bot className="w-7 h-7 text-brand" aria-hidden="true" />
         <h1 className="text-2xl font-bold text-gray-900">AI Assistant</h1>
       </div>
       <p className="text-sm text-muted mb-4">Understand your readings and reports. Wellness guidance only; not a diagnosis or prescription.</p>

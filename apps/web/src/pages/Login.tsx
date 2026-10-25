@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { Activity, ArrowRight, ChartNoAxesCombined, Eye, EyeOff, Loader2, ShieldCheck, Sparkles } from 'lucide-react';
+import { Activity, ArrowRight, Bot, ChartNoAxesCombined, Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
 import { useHealthStore } from '../store/useHealthStore';
 import { BrandLogo } from '../components/BrandLogo';
 import { AuthBackdrop } from '../components/AuthBackdrop';
@@ -56,7 +56,7 @@ export default function Login() {
         <ul className="auth-story-features" aria-label="What you can follow with Vyana">
           <li><Activity aria-hidden="true" /><span>Daily vitals</span></li>
           <li><ChartNoAxesCombined aria-hidden="true" /><span>Personal trends</span></li>
-          <li><Sparkles aria-hidden="true" /><span>AI guidance</span></li>
+          <li><Bot aria-hidden="true" /><span>AI guidance</span></li>
         </ul>
       </aside>
 
