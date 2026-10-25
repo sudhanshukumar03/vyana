@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { Activity, ArrowRight, ChartNoAxesCombined, Eye, EyeOff, Loader2, Mail, Lock, ShieldCheck, Sparkles } from 'lucide-react';
+import { Activity, ArrowRight, ChartNoAxesCombined, Eye, EyeOff, Loader2, ShieldCheck, Sparkles } from 'lucide-react';
 import { useHealthStore } from '../store/useHealthStore';
 import { BrandLogo } from '../components/BrandLogo';
 import { AuthBackdrop } from '../components/AuthBackdrop';
@@ -16,6 +16,7 @@ export default function Login() {
   const [localError, setLocalError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const inFlight = useRef(false);
+  const heading = useRef<HTMLHeadingElement>(null);
   const isRegister = mode === 'register';
   const error = localError || authError;
 
@@ -62,10 +63,9 @@ export default function Login() {
       <section className="auth-main" aria-label={isRegister ? 'Create account' : 'Sign in'}>
         <div className="auth-shell">
           <header className="auth-intro">
-            <BrandLogo variant="auth" />
-            <h1 id="auth-heading" className="auth-title">{isRegister ? 'Create your account.' : 'Welcome back.'}</h1>
+            <h1 id="auth-heading" ref={heading} tabIndex={-1} className="auth-title">{isRegister ? 'Create your account.' : 'Welcome back.'}</h1>
             <p className="auth-subtitle">
-              {isRegister ? 'Start following your vitals and wellness trends.' : 'Your health, a little clearer. Sign in to continue.'}
+              {isRegister ? 'Follow your daily vitals and see your health in perspective.' : 'Sign in to your personal health dashboard.'}
             </p>
           </header>
 
@@ -74,7 +74,6 @@ export default function Login() {
               <div>
                 <label htmlFor="email" className="auth-field-label">Email</label>
                 <div className="auth-input-wrap">
-                  <Mail className="auth-field-icon" aria-hidden="true" />
                   <input
                     id="email"
                     type="email"
@@ -95,7 +94,6 @@ export default function Login() {
               <div>
                 <label htmlFor="password" className="auth-field-label">Password</label>
                 <div className="auth-input-wrap">
-                  <Lock className="auth-field-icon" aria-hidden="true" />
                   <input
                     id="password"
                     name="password"
@@ -140,6 +138,7 @@ export default function Login() {
                   setLocalError('');
                   setShowPassword(false);
                   useHealthStore.setState({ authError: '' });
+                  requestAnimationFrame(() => heading.current?.focus());
                 }}
                 className="auth-mode-switch"
               >

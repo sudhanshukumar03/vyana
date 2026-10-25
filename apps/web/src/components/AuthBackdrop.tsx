@@ -2,7 +2,7 @@
 export function AuthBackdrop() {
   const pulse = 'M-20 625H272C287 625 290 607 300 607C314 607 316 645 327 645C339 645 341 625 352 625H379C392 625 398 592 410 592C427 592 427 646 443 646C454 646 455 636 461 636C469 636 474 684 482 684C492 684 510 562 523 538C534 517 548 621 560 629C571 637 580 613 591 613C601 613 607 625 618 625H745';
   return (
-    <svg className="auth-art" viewBox="0 0 725 941" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true" focusable="false">
+    <svg className="auth-art" viewBox="0 0 725 941" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="auth-forest" x1="60" y1="0" x2="700" y2="941" gradientUnits="userSpaceOnUse">
           <stop stopColor="#084c40" /><stop offset=".55" stopColor="#033b32" /><stop offset="1" stopColor="#032d27" />

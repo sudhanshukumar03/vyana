@@ -36,9 +36,9 @@ The [AI evidence record](ai-implementation-2026-10-25.json) separates this finit
 
 ## Authentication design follow-up
 
-Sign-in and registration refine the supplied visual reference with a framed forest-teal panel, larger typography, layered static wave artwork and a narrower form with aligned labels and branding. Smaller screens use one column. The form includes a keyboard-accessible password visibility control, clear pending/error states and duplicate-submit protection. Privacy wording describes account access without claiming that AI processing stays on the device.
+Sign-in and registration use one wordmark, Georgia headings, Inter form text and a forest-teal illustration. Mobile retains the artwork in a compact header above the form; landscape uses a shorter header. Labels and headings share one alignment. Password visibility, pending/error states and duplicate-submit protection remain accessible. Switching modes focuses the new heading. Privacy wording describes account access without claiming that AI processing stays on the device.
 
-Both modes passed layout checks at 320, 390, 768, 844 (landscape), 1024, 1440 and 1672 px with no horizontal overflow and controls at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, reduced motion and automated accessibility checks. The desktop and mobile renders were also reviewed visually. Input boundaries meet 3:1 contrast; normal text and the primary button meet 4.5:1.
+Both modes passed layout checks at 320, 390, 768, 844 (landscape), 1024, 1440 and 1672 px with no horizontal overflow or clipped controls; targets are at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, mode-switch focus, reduced motion and automated accessibility checks. Registration's loading label fits at 320 px without changing button height. Desktop and mobile renders were reviewed visually. Input boundaries meet 3:1 contrast; normal text and the primary button meet 4.5:1.
 
 ## Earlier GitHub publication — 25 October
 
