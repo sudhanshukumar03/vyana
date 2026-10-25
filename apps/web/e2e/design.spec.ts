@@ -57,3 +57,29 @@ for (const width of [320,390,768,1440]) test(`all pages share a usable layout an
   }
   expect(errors).toEqual([]);
 });
+
+test('notifications fit short windows and restore keyboard focus on Escape',async({page})=>{
+  await page.route('**/api/v1/auth/refresh',route=>route.fulfill({json:auth}),{times:1});
+  await page.route('**/api/v1/alerts',route=>route.fulfill({json:Array.from({length:6},(_,index)=>({
+    id:9000+index,severity:'warning',status:'active',title:`Synthetic notification ${index+1}`,
+    detail:'Synthetic layout fixture for scrolling and keyboard navigation.',timestamp:new Date().toISOString(),acknowledged_at:null,
+  }))}));
+  await page.goto('/');
+  for(const [width,height] of [[320,568],[844,390],[1024,600],[1440,900]]) {
+    await page.setViewportSize({width,height});
+    const bell=page.getByRole('button',{name:/^Notifications,/});await bell.click();
+    const panel=page.getByRole('region',{name:'Notifications',exact:true});
+    await expect(panel).toBeVisible();
+    await expect(panel.getByRole('button',{name:'Acknowledge',exact:true})).toHaveCount(6);
+    await expect(bell).toHaveAttribute('aria-controls','notifications-panel');
+    const box=(await panel.boundingBox())!;
+    expect(box.x).toBeGreaterThanOrEqual(0);expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.x+box.width).toBeLessThanOrEqual(width);expect(box.y+box.height).toBeLessThanOrEqual(height);
+    if(width===844) {
+      const audit=await new AxeBuilder({page}).include('.app-toolbar').analyze();
+      expect(audit.violations.filter(item=>['serious','critical'].includes(item.impact||'')).map(item=>item.id)).toEqual([]);
+    }
+    await panel.getByRole('button',{name:'Acknowledge',exact:true}).first().focus();
+    await page.keyboard.press('Escape');await expect(panel).toHaveCount(0);await expect(bell).toBeFocused();
+  }
+});

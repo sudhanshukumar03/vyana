@@ -12,12 +12,17 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [alertError, setAlertError] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     const onDown = (event: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(event.target as Node)) setOpen(false);
     };
-    const onEsc = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    const onEsc = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('keydown', onEsc);
     return () => {
@@ -34,14 +39,14 @@ export function Header() {
       <div className="toolbar-actions">
         <Link to="/emergency" aria-label="SOS Emergency" className="icon-button sos-shortcut"><AlertTriangle aria-hidden="true" /><span>SOS</span></Link>
         <div className="relative" ref={panelRef}>
-          <button type="button" onClick={() => setOpen(value => !value)} aria-haspopup="true" aria-expanded={open}
+          <button ref={triggerRef} type="button" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-controls={open ? 'notifications-panel' : undefined}
             aria-label={unreadCount ? `Notifications, ${unreadCount} active alert${unreadCount > 1 ? 's' : ''}` : 'Notifications, no active alerts'}
             className="icon-button relative">
             <Bell aria-hidden="true" />
             {unreadCount > 0 && <span className={`notification-dot ${hasCritical ? 'bg-critical' : 'bg-warn'}`} aria-hidden="true" />}
           </button>
           {open && (
-            <div className="notification-panel" role="region" aria-label="Notifications">
+            <div id="notifications-panel" className="notification-panel" role="region" aria-label="Notifications">
               <div className="px-4 py-4 border-b border-line flex items-center justify-between gap-3">
                 <h2 className="text-sm font-semibold">Notifications</h2><span className="text-xs text-muted">{unreadCount} active</span>
               </div>
