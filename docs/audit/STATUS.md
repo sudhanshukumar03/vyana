@@ -36,9 +36,9 @@ The [AI evidence record](ai-implementation-2026-10-25.json) separates this finit
 
 ## Authentication design follow-up
 
-Sign-in and registration now follow the supplied visual reference: a teal story panel and static wave illustration beside a centered form. Smaller screens use one column. The form includes a keyboard-accessible password visibility control, clear pending/error states and duplicate-submit protection. Privacy wording describes account access without claiming that AI processing stays on the device.
+Sign-in and registration refine the supplied visual reference with a framed forest-teal panel, larger typography, layered static wave artwork and a narrower form with aligned labels and branding. Smaller screens use one column. The form includes a keyboard-accessible password visibility control, clear pending/error states and duplicate-submit protection. Privacy wording describes account access without claiming that AI processing stays on the device.
 
-Both modes passed layout checks at 320, 390, 768, 1440 and 1672 px with no horizontal overflow and controls at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, reduced motion and automated accessibility checks. The desktop and mobile renders were also reviewed visually.
+Both modes passed layout checks at 320, 390, 768, 844 (landscape), 1024, 1440 and 1672 px with no horizontal overflow and controls at least 44 px wide/high. All 12 browser tests passed, including real account onboarding/session flows, password visibility, error recovery, pending submissions, reduced motion and automated accessibility checks. The desktop and mobile renders were also reviewed visually. Input boundaries meet 3:1 contrast; normal text and the primary button meet 4.5:1.
 
 ## Earlier GitHub publication — 25 October
 

@@ -5,13 +5,13 @@ test.beforeEach(async ({page}) => {
   await page.route('**/api/v1/auth/refresh', route => route.fulfill({status:401,json:{error:'Authentication required'}}));
 });
 
-test('reference auth layout adapts without overflow and keeps controls accessible', async ({page}) => {
-  for (const width of [320,390,768,1440,1672]) {
-    await page.setViewportSize({width,height:941});
+test('auth layout adapts without overflow and keeps controls accessible', async ({page}) => {
+  for (const [width,height] of [[320,700],[390,844],[768,941],[844,390],[1024,768],[1440,900],[1672,941]]) {
+    await page.setViewportSize({width,height});
     await page.goto('/');
     for (const mode of ['login','register']) {
       if (mode === 'register') await page.getByRole('button',{name:'Create one',exact:true}).click();
-      await expect(page.getByRole('heading',{name:mode === 'login' ? 'Sign in to Vyana' : 'Create your Vyana account',exact:true})).toBeVisible();
+      await expect(page.getByRole('heading',{name:mode === 'login' ? 'Welcome back.' : 'Create your account.',exact:true})).toBeVisible();
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
       await expect(page.locator('.auth-story')).toBeVisible({visible:width>=1024});
       const targets=await page.locator('input,button').evaluateAll(elements=>elements.map(element=>{
@@ -21,7 +21,7 @@ test('reference auth layout adapts without overflow and keeps controls accessibl
       const alignment=await page.locator('.auth-intro').evaluate(element=>{
         const logo=element.querySelector('[role=img]')!.getBoundingClientRect();
         const form=document.querySelector('form')!.getBoundingClientRect();
-        return Math.abs(logo.x+logo.width/2-form.x-form.width/2);
+        return Math.abs(logo.x-form.x);
       });
       expect(alignment).toBeLessThan(1);
       if(width===390||width===1672) {
