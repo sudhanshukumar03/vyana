@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "name": "ESP32 firmware",
+      "path": "esp32"
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "platformio.platformio-ide",
+      "ms-vscode.cpptools"
+    ]
+  }
+}

@@ -10,6 +10,8 @@ async function account(page:Page) {
   await page.getByRole('button',{name:'Create one'}).click();
   await page.getByLabel('Email',{exact:true}).fill(`browser-${Date.now()}-${Math.random().toString(16).slice(2)}@example.test`);
   await page.getByLabel('Password',{exact:true}).fill('browser-test-password');
+  await page.getByLabel('Confirm Password',{exact:true}).fill('browser-test-password');
+  await page.getByRole('checkbox').check();
   await page.getByRole('button',{name:'Create account',exact:true}).click();
   await expect(page.getByRole('dialog',{name:'Health profile'})).toBeVisible();
 }
@@ -30,7 +32,8 @@ for(const width of [320,390,768,1440]) test(`onboarding is usable at ${width}px 
   for(let index=0;index<12;index++) {await page.keyboard.press('Tab');expect(await dialog.evaluate(el=>el.contains(document.activeElement))).toBe(true);}
   await onboard(page);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
-  const missing=page.getByText('Waiting for device readings.');await expect(missing).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Live readings only',exact:true})).toHaveCount(0);
+  await expect(page.locator('.metric-card').filter({hasText:'Heart rate'}).locator('.metric-value')).toHaveText('—');
 });
 test('profile edits preserve private fields, SOS resolves and logout clears the screen',async({page})=>{
   await account(page);await onboard(page);
@@ -38,10 +41,12 @@ test('profile edits preserve private fields, SOS resolves and logout clears the 
   await page.getByRole('button',{name:'Next',exact:true}).click();await page.getByRole('button',{name:'Next',exact:true}).click();
   await expect(page.getByLabel('Medications (optional)',{exact:true})).toHaveValue('Preserve medication note');
   await page.getByRole('button',{name:'Finish',exact:true}).click();
-  await page.goto('/emergency');await page.getByRole('button',{name:'SOS',exact:true}).click();
-  await page.getByRole('button',{name:'Confirm',exact:true}).click();await expect(page.getByText('Emergency alert logged')).toBeVisible();
+  await page.goto('/emergency');await page.getByRole('button',{name:'Trigger Emergency SOS',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm SOS request',exact:true}).click();await expect(page.getByRole('heading',{name:'SOS recorded',exact:true})).toBeVisible();
   await page.getByRole('button',{name:/Notifications,/}).click();await page.getByRole('button',{name:'Resolve',exact:true}).click();
-  await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.getByLabel('Password',{exact:true})).toBeVisible();
+  await page.setViewportSize({width:390,height:900});
+  await page.getByRole('button',{name:'Open navigation',exact:true}).click();
+  await page.getByRole('dialog',{name:'Main navigation',exact:true}).getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.getByLabel('Password',{exact:true})).toBeVisible();
   await page.reload();await expect(page.getByLabel('Password',{exact:true})).toBeVisible();
 });
 test('reduced motion and important screens pass automated accessibility checks',async({page})=>{
@@ -67,10 +72,10 @@ test('history browses beyond the live window without losing equal-time records',
   }
   await page.goto('/history');
   await expect(page.getByRole('status').filter({hasText:'Page 1'})).toHaveText('Page 1 · 100 readings');
-  await expect(page.locator('tbody tr')).toHaveCount(100);
+  await expect(page.getByLabel('Vitals history table',{exact:true}).locator('tbody tr')).toHaveCount(100);
   await page.getByRole('button',{name:'Older readings'}).click();
   await expect(page.getByRole('status').filter({hasText:'Page 2'})).toHaveText('Page 2 · 5 readings');
-  await expect(page.locator('tbody tr')).toHaveCount(5);
+  await expect(page.getByLabel('Vitals history table',{exact:true}).locator('tbody tr')).toHaveCount(5);
   await page.getByRole('button',{name:'Newer readings'}).click();
   await expect(page.getByRole('status').filter({hasText:'Page 1'})).toHaveText('Page 1 · 100 readings');
   const replacement=await (await page.request.post('/api/v1/devices',{headers,data:{name:'Replacement source'}})).json();
@@ -80,7 +85,7 @@ test('history browses beyond the live window without losing equal-time records',
       heart_rate:80,spo2:98,temperature:36.7,ecg_status:'Normal',source:'Replacement fixture'}});
   expect(switched.status()).toBe(200);
   await expect(page.getByRole('status').filter({hasText:'Page 1'})).toHaveText('Page 1 · 1 readings');
-  await expect(page.locator('tbody tr')).toHaveCount(1);
+  await expect(page.getByLabel('Vitals history table',{exact:true}).locator('tbody tr')).toHaveCount(1);
   await expect(page.locator('tbody tr td').nth(1)).toHaveText('80');
 });
 
@@ -91,7 +96,7 @@ test('assistant displays structured answers safely and fits supported viewports'
     reply:'Your device records activity; it cannot establish your overall health.',
     sections:[{title:'Next steps',items:['Review the source and observation time.','<img src=x onerror=alert(1)>','Long observation. '.repeat(35)]} ]}}));
   await page.getByRole('button',{name:'What do my latest readings show?',exact:true}).click();
-  await expect(page.getByText('Gemini response',{exact:true})).toBeVisible();
+  await expect(page.getByText('Gemini',{exact:true})).toBeVisible();
   await expect(page.getByRole('status').filter({hasText:'Response ready.'})).toHaveAttribute('aria-atomic','true');
   await expect(page.getByRole('log')).toHaveAttribute('aria-relevant','additions');
   await expect(page.getByRole('log')).toHaveAttribute('aria-atomic','false');
@@ -141,7 +146,7 @@ test('assistant stops pending work, prevents duplicate sends and labels fallback
   await expect(page.getByRole('status').filter({hasText:'Request stopped.'})).toBeVisible();
   await expect(input).toBeFocused();
   await input.fill('Try again');await input.press('Enter');
-  await expect(page.getByText('Limited guidance · AI unavailable',{exact:true})).toBeVisible();
+  await expect(page.getByText('AI unavailable',{exact:true})).toBeVisible();
   await expect(page.getByText('Wait at least 60 seconds before trying again.',{exact:true})).toBeVisible();
   await expect(page.getByText('Late response must be discarded',{exact:true})).toHaveCount(0);
   expect(calls).toBe(2);

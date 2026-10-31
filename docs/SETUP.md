@@ -58,7 +58,15 @@ For Linux/macOS, activate with `source .venv/bin/activate`.
 
 Setup creates a restricted runtime `DATABASE_URL` and separate operator `MIGRATION_DATABASE_URL` for a new local configuration. Review preserved existing URLs before use. Set `WEB_ORIGIN=http://localhost:5173` for host development and keep `AI_INTERNAL_SECRET` aligned with `ai/.env`. Signing/internal secrets must differ and each contain at least 32 printable ASCII characters. Review [the API environment example](../apps/api/.env.example) and [the AI example](../ai/.env.example).
 
-Run these in separate terminals, with the Python environment active:
+After installing dependencies and starting the database, run all development services together:
+
+```powershell
+pnpm dev
+```
+
+This starts the Python AI service, waits for its health check, then starts the API and web workspaces. The launcher selects the project's `.venv` automatically, or `HEALTHGUARD_PYTHON` when explicitly set. It follows `AI_URL` in `apps/api/.env`; a healthy existing local AI service is reused, and an external AI service stays externally managed. Services started by the launcher stop with it; reused services are left running. `pnpm dev:ai` starts only AI, and `pnpm dev:apps` starts only API/web.
+
+Alternatively, run these in separate terminals, with the Python environment active:
 
 ```powershell
 pnpm --dir apps/api dev
@@ -68,6 +76,8 @@ pnpm --dir apps/web dev
 
 Open http://localhost:5173. Build the API before using its operator CLIs: `pnpm --dir apps/api build`, then `pnpm --dir apps/api provision-device account@example.test "Virtual wristband"`.
 
-On this Windows workspace, [with-node.ps1](../scripts/with-node.ps1) selects the supported project Node runtime without changing the global installation: `./scripts/with-node.ps1 pnpm dev`. Activate your Python environment separately. Fresh checkouts need a supported Node installation; the helper does not download one.
+The API's `ts-node-dev` startup loads `apps/api/.env` relative to the API directory and gives that service file precedence over inherited Compose settings during local development. Keep its `WEB_ORIGIN=http://localhost:5173`; the root `.env` can retain the separate Compose web origin. Outside the development watcher, explicitly supplied deployment environment variables keep precedence. Restart the dev command after editing environment files or Python AI source.
+
+On this Windows workspace, [with-node.ps1](../scripts/with-node.ps1) selects the supported project Node runtime without changing the global installation: `./scripts/with-node.ps1 pnpm dev`. Activate your Python environment separately for manual Python commands; the dev launcher selects `.venv` itself. Fresh checkouts need a supported Node installation; the helper does not download one.
 
 Gemini is optional for local use. Missing or rejected credentials produce labeled fallback guidance. See [testing](TESTING.md) for checks and [operations](OPERATIONS.md) for deployment and data handling.

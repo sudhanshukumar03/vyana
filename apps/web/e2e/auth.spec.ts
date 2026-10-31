@@ -11,7 +11,7 @@ test('auth layout adapts without overflow and keeps controls accessible', async 
     await page.goto('/');
     for (const mode of ['login','register']) {
       if (mode === 'register') await page.getByRole('button',{name:'Create one',exact:true}).click();
-      await expect(page.getByRole('heading',{name:mode === 'login' ? 'Welcome back.' : 'Create your account.',exact:true})).toBeVisible();
+      await expect(page.getByRole('heading',{name:mode === 'login' ? 'Welcome back' : 'Create your account',exact:true})).toBeVisible();
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
       await expect(page.locator('.auth-story')).toBeVisible();
       await expect(page.getByRole('img',{name:'Vyana — Your vitals. In sync.',exact:true})).toHaveCount(1);
@@ -67,8 +67,8 @@ test('auth supports password visibility, errors, pending state and duplicate pre
     await expect(page.getByRole('button',{name:'Sign in',exact:true})).toBeEnabled();
   }finally{release?.();}
   await page.getByRole('button',{name:'Create one',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'Create your account.',exact:true})).toBeFocused();
-  await page.keyboard.press('Tab');await expect(email).toBeFocused();
+  await expect(page.getByRole('heading',{name:'Create your account',exact:true})).toBeFocused();
+  await page.keyboard.press('Tab');await expect(page.getByLabel('Full Name',{exact:true})).toBeFocused();
   await expect(password).toHaveAttribute('type','password');
   await expect(password).toHaveAttribute('autocomplete','new-password');
   await expect(page.getByRole('alert')).toHaveCount(0);
@@ -82,6 +82,8 @@ test('auth supports password visibility, errors, pending state and duplicate pre
   });
   await password.fill('synthetic-test-password');
   const registerButton=page.getByRole('button',{name:'Create account',exact:true});
+  await page.getByLabel('Confirm Password',{exact:true}).fill('synthetic-test-password');
+  await page.getByRole('checkbox').check();
   const buttonHeight=(await registerButton.boundingBox())!.height;
   try {
     await registerButton.click();

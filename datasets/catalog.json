@@ -1,0 +1,81 @@
+{
+  "reviewed_on": "2026-10-29",
+  "purpose": "Offline recorded-data reference and engineering evaluation for Vyana. No trained model, prospective prediction, live sensor evidence, or automatic SOS integration is supplied.",
+  "platform_citation": "Pollard, T., Moody, B. E., Lehman, L., Gow, B., Fernandes, C., Xie, C., Johnson, A., Mark, R. G., and Heldt, T. (2026). PhysioNet as a global platform for biomedical research. Nature Health 1, 792-795. https://doi.org/10.1038/s44360-026-00096-z .",
+  "datasets": [
+    {
+      "id": "mitdb",
+      "name": "MIT-BIH Arrhythmia Database",
+      "version": "1.0.0",
+      "selected": true,
+      "format": "WFDB signals, headers and expert reference annotations",
+      "record_count": 48,
+      "source": "https://physionet.org/content/mitdb/1.0.0/",
+      "files_url": "https://physionet.org/files/mitdb/1.0.0/",
+      "mirror_url": "https://physionet-open.s3.amazonaws.com/mitdb/1.0.0/",
+      "doi": "https://doi.org/10.13026/C2F305",
+      "license": "Open Data Commons Attribution License v1.0",
+      "license_url": "https://physionet.org/content/mitdb/view-license/1.0.0/",
+      "citation": "Moody, G., and Mark, R. (2005). MIT-BIH Arrhythmia Database (version 1.0.0). PhysioNet. https://doi.org/10.13026/C2F305 . Also cite Moody GB and Mark RG, The impact of the MIT-BIH Arrhythmia Database, IEEE Engineering in Medicine and Biology 20(3):45-50 (2001).",
+      "signals": ["Two-channel ECG, 360 Hz"],
+      "use": "Reference ECG waveforms, beat annotations and rhythm-analysis evaluation.",
+      "limits": "Recorded clinical data, not AD8232 validation. Recordings 201 and 202 are from the same subject; keep patients separate in any future evaluation."
+    },
+    {
+      "id": "bidmc",
+      "name": "BIDMC PPG and Respiration Dataset",
+      "version": "1.0.0",
+      "selected": true,
+      "format": "Original CSV signals, numerics, breath annotations and fixed metadata",
+      "record_count": 53,
+      "source": "https://physionet.org/content/bidmc/1.0.0/",
+      "files_url": "https://physionet.org/files/bidmc/1.0.0/",
+      "mirror_url": "https://archive.physionet.org/physiobank/database/bidmc/",
+      "doi": "https://doi.org/10.13026/C2208R",
+      "license": "Open Data Commons Attribution License v1.0; retain the supplied modification notice",
+      "license_url": "https://physionet.org/content/bidmc/view-license/1.0.0/",
+      "citation": "Pimentel, M., Johnson, A., Charlton, P., and Clifton, D. (2018). BIDMC PPG and Respiration Dataset (version 1.0.0). PhysioNet. https://doi.org/10.13026/C2208R . Also cite Pimentel et al., Towards a Robust Estimation of Respiratory Rate from Pulse Oximeters, IEEE Transactions on Biomedical Engineering 64(8):1914-1923 (2017), https://doi.org/10.1109/TBME.2016.2613124 .",
+      "signals": ["Synchronized ECG, PPG and respiration at 125 Hz", "Monitor numerics including HR and SpO2 at 1 Hz"],
+      "use": "Paired electrical/optical recordings for offline monitoring and data-pipeline evaluation.",
+      "limits": "Hospital monitor data, not raw MAX30102 red/IR calibration data. Not labelled for heart-attack or cardiac-arrest prediction."
+    },
+    {
+      "id": "vfdb",
+      "name": "MIT-BIH Malignant Ventricular Ectopy Database",
+      "version": "1.0.0",
+      "selected": true,
+      "format": "WFDB signals, headers and rhythm annotations",
+      "record_count": 22,
+      "source": "https://physionet.org/content/vfdb/1.0.0/",
+      "files_url": "https://physionet.org/files/vfdb/1.0.0/",
+      "mirror_url": "https://physionet-open.s3.amazonaws.com/vfdb/1.0.0/",
+      "doi": "https://doi.org/10.13026/C22P44",
+      "license": "Open Data Commons Attribution License v1.0",
+      "license_url": "https://physionet.org/content/vfdb/view-license/1.0.0/",
+      "citation": "Albrecht, P., Moody, G., and Mark, R. MIT-BIH Malignant Ventricular Ectopy Database (version 1.0.0). PhysioNet. https://doi.org/10.13026/C22P44 . Also cite Greenwald SD, Development and analysis of a ventricular fibrillation detector, MIT MS thesis (1986).",
+      "signals": ["ECG with annotated rhythm episodes, including VT and VF"],
+      "use": "Clearly labelled recorded abnormal-rhythm examples and reference annotation inspection.",
+      "limits": "Rhythm annotations are not beat labels or future-arrest predictions. VFDB and the Sudden Cardiac Death Holter collection share recordings."
+    },
+    {
+      "id": "sddb",
+      "name": "Sudden Cardiac Death Holter Database",
+      "version": "1.0.0",
+      "selected": false,
+      "source": "https://physionet.org/content/sddb/1.0.0/",
+      "doi": "https://doi.org/10.13026/C2W306",
+      "license_url": "https://physionet.org/content/sddb/view-license/1.0.0/",
+      "reason_not_downloaded": "Long recordings for a later research study; overlaps VFDB and has incomplete audited annotations. Not needed for the current monitoring demo."
+    },
+    {
+      "id": "ptb-xl",
+      "name": "PTB-XL",
+      "version": "1.0.3",
+      "selected": false,
+      "source": "https://physionet.org/content/ptb-xl/1.0.3/",
+      "doi": "https://doi.org/10.13026/kfzx-aw45",
+      "license_url": "https://physionet.org/content/ptb-xl/view-license/1.0.3/",
+      "reason_not_downloaded": "Approximately 3 GB of 12-lead ECG material. The current AD8232 supplies one lead; infarction labels do not provide prospective heart-attack prediction. Retained as an optional reference."
+    }
+  ]
+}

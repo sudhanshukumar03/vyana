@@ -1,111 +1,223 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Activity } from 'lucide-react';
 import { useHealthStore } from '../store/useHealthStore';
+import { liveEquipment } from '../services/equipment';
+import { useSensorPreview } from '../store/useSensorPresentation';
+import { RecordedECG } from './RecordedECG';
 
-// One cardiac cycle (phase 0..1) modeled as a sum of gaussian bumps: P, Q, R, S, T.
-function ecgSample(phase: number): number {
-  const g = (center: number, width: number, amp: number) =>
-    amp * Math.exp(-((phase - center) ** 2) / (2 * width * width));
-  return (
-    g(0.16, 0.022, 0.12) +  // P wave
-    g(0.37, 0.008, -0.16) + // Q
-    g(0.40, 0.010, 1.0) +   // R spike
-    g(0.43, 0.008, -0.28) + // S
-    g(0.62, 0.040, 0.25)    // T wave
-  );
-}
+const trace = Array.from({ length: 1441 }, (_, i) => {
+  const x = i, phase = (i % 200) / 200;
+  const bump = (center: number, width: number, height: number) => height * Math.exp(-(((phase - center) / width) ** 2));
+  const value = bump(.17, .035, .13) - bump(.32, .012, .2) + bump(.345, .009, 1.18) - bump(.37, .014, .32) + bump(.59, .065, .29);
+  return `${i ? 'L' : 'M'}${x},${(112 - value * 68).toFixed(2)}`;
+}).join(' ');
 
+/** Real summaries stay separate from the explicitly generated display trace. */
 export function ECGWaveform() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const vitals = useHealthStore(state => state.vitals);
-  const fresh = useHealthStore(state => state.freshness.state === 'fresh');
-  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  useEffect(() => { const media=window.matchMedia('(prefers-reduced-motion: reduce)'); const change=()=>setReduced(media.matches); media.addEventListener('change',change);return()=>media.removeEventListener('change',change); }, []);
-  const available = Boolean(vitals && fresh && vitals.heart_rate > 20);
-  const controlLabel = !available ? 'Waiting for fresh data' : reduced ? 'Static preview' : isPlaying ? 'Pause ECG waveform' : 'Play ECG waveform';
-  // A synthetic illustration; it is not a measured ECG.
-  const bpm = vitals?.heart_rate && vitals.heart_rate > 20 ? vitals.heart_rate : 72;
-  const bpmRef = useRef(bpm);
-  bpmRef.current = bpm;
+  const { device, user } = useHealthStore();
+  const preview = useSensorPreview((state) => state.enabled);
+  const equipment = liveEquipment(device);
 
+  const [simTick, setSimTick] = useState(0);
   useEffect(() => {
-    if (!isPlaying || !available) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!preview) return;
+    const interval = setInterval(() => {
+      setSimTick((t) => (t + 1) % 120);
+    }, 250);
+    return () => clearInterval(interval);
+  }, [preview]);
 
-    const W = canvas.width;
-    const H = canvas.height;
-    const mid = H / 2;
-    const pxPerSec = 160; // horizontal scroll speed
-    const amp = H / 3;    // vertical scale
-    const start = performance.now();
-    let raf = 0;
+  const isLive = Boolean(equipment);
+  const isPreview = Boolean(preview);
 
-    const render = (now: number) => {
-      const elapsed = (now - start) / 1000;
-      const beat = 60 / bpmRef.current; // seconds per beat
-      ctx.clearRect(0, 0, W, H);
+  // Dynamic values
+  const phase = simTick % 8;
+  const simPulse = phase === 2 ? -180 : phase === 3 ? 620 : phase === 4 ? -260 : phase === 6 ? 140 : 0;
+  const rawAdc = isLive ? equipment!.ecg_raw_adc : isPreview ? 2048 + simPulse : null;
+  const millivolts = isLive
+    ? equipment!.ecg_millivolts
+    : isPreview
+    ? Math.round(((rawAdc ?? 2048) / 4095) * 3300)
+    : null;
+  const clippedSamples = isLive ? equipment!.ecg_clipped_samples : 0;
+  const totalSamples = isLive ? equipment!.ecg_samples : isPreview ? 1200 : 0;
+  const leadStatus = isLive
+    ? equipment!.ecg_status === 'Leads Off'
+      ? 'Leads Off'
+      : 'Normal Contact'
+    : isPreview
+    ? 'Normal Contact'
+    : 'Awaiting Leads';
+  const rhythmAssessment = isLive
+    ? equipment!.ecg_status === 'Leads Off'
+      ? 'Lead Detached'
+      : 'Rhythm Unclassified'
+    : isPreview
+    ? 'Simulated Sinus Rhythm'
+    : 'Standby / Offline';
 
-      // Baseline
-      ctx.strokeStyle = '#d5e2d8';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, mid);
-      ctx.lineTo(W, mid);
-      ctx.stroke();
-
-      // Waveform (newest sample at the right edge, scrolling left)
-      ctx.strokeStyle = '#08766b';
-      ctx.lineWidth = 2;
-      ctx.lineJoin = 'round';
-      ctx.beginPath();
-      for (let x = 0; x <= W; x++) {
-        const t = elapsed + (x - W) / pxPerSec;
-        const phase = (((t / beat) % 1) + 1) % 1;
-        const y = mid - ecgSample(phase) * amp;
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-
-      if (!reduced) raf = requestAnimationFrame(render);
-    };
-    raf = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(raf);
-  }, [isPlaying, available, reduced]);
+  const status = !equipment
+    ? isPreview
+      ? 'Simulated active'
+      : 'Waiting for input'
+    : equipment.ecg_status === 'Leads Off'
+    ? 'Leads off'
+    : equipment.ecg_clipped_samples > 0
+    ? 'Input clipping detected'
+    : 'Input received';
 
   return (
-    <div className="surface flex flex-col h-full">
-      <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
-        <h2 className="font-semibold text-ink">Synthetic ECG illustration</h2>
-        <button
-          disabled={!available || reduced}
-          type="button"
-          onClick={() => setIsPlaying(!isPlaying)}
-          aria-pressed={!isPlaying}
-          aria-label={controlLabel}
-          className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-        >
-          <span className="relative flex h-3 w-3">
-            {available && isPlaying && !reduced && <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-brand/70" />}
-            <span className={`relative inline-flex rounded-full h-3 w-3 ${available && isPlaying ? 'bg-brand' : 'bg-muted'}`} />
+    <section className="rounded-2xl border border-white/10 bg-[#0A1322]/95 backdrop-blur-xl p-5 text-white shadow-xl space-y-4" aria-label="ECG sensor input">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" aria-hidden="true" />
+          <h2 className="font-mono font-bold text-xs uppercase tracking-[0.14em] text-white/95 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-cyan-400" aria-hidden="true" />
+            <span>LIVE TELEMETRY STREAM</span>
+          </h2>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs px-3 py-1 rounded-full bg-white/10 text-cyan-300 border border-white/15 backdrop-blur-md shadow-inner">
+            ESP32 50Hz
           </span>
-          <span className="text-xs text-muted font-medium">{controlLabel}</span>
-        </button>
+          <span className="status-chip bg-white/5 border-white/10 text-slate-300 font-mono text-[11px]">{status}</span>
+        </div>
       </div>
-      <p className="text-sm text-muted mb-3">Illustrative waveform paced by heart rate. This is not a measured ECG or rhythm assessment.</p>
-      <div className="flex-1 min-h-[160px] w-full bg-canvas rounded-lg overflow-hidden border border-line relative">
-        {!available && <p role="status" className="absolute inset-0 grid place-content-center bg-surface-soft">Fresh heart-rate data is unavailable.</p>}
-        <canvas
-          ref={canvasRef}
-          width={800}
-          height={200}
-          className="w-full h-full"
-          aria-hidden="true"
-        />
+
+      {preview ? (
+        <div className="space-y-2">
+          <div className="flex flex-wrap justify-between gap-2 text-xs text-slate-400 font-mono">
+            <span>ECG waveform preview · generated signal</span>
+            <span>Display only · not a recorded ECG</span>
+          </div>
+          <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#060B14] p-1 shadow-inner">
+            <svg viewBox="0 0 720 180" role="img" aria-label="Generated ECG waveform preview, not a measured signal" preserveAspectRatio="none" className="w-full h-44">
+              <defs>
+                <pattern id="ecg-preview-grid-dark" width="24" height="24" patternUnits="userSpaceOnUse">
+                  <path d="M24 0H0V24" fill="none" stroke="rgba(56, 189, 248, 0.08)" strokeWidth="0.75" />
+                </pattern>
+                <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="2.5" floodColor="#38BDF8" floodOpacity="0.85" />
+                </filter>
+              </defs>
+              <rect width="720" height="180" fill="url(#ecg-preview-grid-dark)" />
+              <path className="ecg-preview-trace" d={trace} fill="none" stroke="#38BDF8" strokeWidth="2.2" filter="url(#cyan-glow)" />
+            </svg>
+          </div>
+        </div>
+      ) : device?.active ? (
+        <RecordedECG key={`${user?.id}:${device.id}`} device={device.id} connected={device.connected} />
+      ) : (
+        <div className="space-y-2">
+          <div className="flex flex-wrap justify-between gap-2 text-xs text-slate-400 font-mono">
+            <span>ECG Telemetry Channel · Standby</span>
+            <span>Hardware sensor offline</span>
+          </div>
+          <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#060B14] p-1 shadow-inner">
+            <svg viewBox="0 0 720 180" role="img" aria-label="ECG telemetry standby" preserveAspectRatio="none" className="w-full h-44">
+              <defs>
+                <pattern id="ecg-standby-grid-dark" width="24" height="24" patternUnits="userSpaceOnUse">
+                  <path d="M24 0H0V24" fill="none" stroke="rgba(56, 189, 248, 0.08)" strokeWidth="0.75" />
+                </pattern>
+              </defs>
+              <rect width="720" height="180" fill="url(#ecg-standby-grid-dark)" />
+              <path d="M0 10H720 M0 90H720 M0 170H720" fill="none" stroke="rgba(56, 189, 248, 0.15)" />
+              <path d="M0 90H720" fill="none" stroke="rgba(56, 189, 248, 0.25)" strokeWidth="1.5" strokeDasharray="6 4" />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-4 bg-[#060B14]/50 backdrop-blur-[1px]">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0A1322]/90 border border-white/10 shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className="font-mono text-xs font-semibold text-amber-300 uppercase tracking-wide">
+                  No Active Sensor Hub
+                </span>
+              </div>
+              <p className="font-mono text-[11px] text-slate-400 text-center mt-2 max-w-sm">
+                Pair your ESP32 device in Settings or enable demo mode to view real-time ECG simulation.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Real-time ECG Parameters Grid */}
+      <div className="space-y-2.5 pt-1" aria-label="ECG telemetry parameters">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-mono font-bold tracking-wider uppercase text-slate-300 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+            <span>ECG Signal Parameters</span>
+          </h3>
+          <span className="text-[11px] font-mono text-slate-400">
+            {isLive ? 'Hardware Stream Active' : isPreview ? 'Simulated Signal Active' : 'Sensor Hub Standby'}
+          </span>
+        </div>
+
+        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          {/* Raw ADC */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Raw ADC</dt>
+            <dd className="text-xl font-bold font-mono text-white mt-1">
+              {rawAdc != null ? rawAdc : '—'}
+              <span className="text-[10px] font-normal text-slate-400"> / 4095</span>
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">12-bit AD8232</span>
+          </div>
+
+          {/* Voltage / Input Estimate */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Signal Voltage</dt>
+            <dd className="text-xl font-bold font-mono text-cyan-300 mt-1">
+              {millivolts != null ? millivolts : '—'}
+              <span className="text-[10px] font-normal text-slate-400"> mV</span>
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">3.3V Full Scale</span>
+          </div>
+
+          {/* Sampling Rate */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Sample Rate</dt>
+            <dd className="text-xl font-bold font-mono text-emerald-300 mt-1">
+              50 Hz
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">20ms Window</span>
+          </div>
+
+          {/* Lead Quality */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Lead Status</dt>
+            <dd className={`text-base font-bold font-mono mt-1 ${
+              leadStatus === 'Normal Contact' ? 'text-emerald-300' :
+              leadStatus === 'Leads Off' ? 'text-rose-400' : 'text-amber-300'
+            }`}>
+              {leadStatus}
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">RA/LA/RL Sensing</span>
+          </div>
+
+          {/* Clipped Readings */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Clipped</dt>
+            <dd className="text-xl font-bold font-mono text-amber-300 mt-1">
+              {clippedSamples}
+              <span className="text-[10px] font-normal text-slate-400"> / {totalSamples || '—'}</span>
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">Saturation Guard</span>
+          </div>
+
+          {/* Rhythm Status */}
+          <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 shadow-xs flex flex-col justify-between">
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Cardiac Trace</dt>
+            <dd className="text-xs font-bold font-mono text-white mt-1 leading-snug">
+              {rhythmAssessment}
+            </dd>
+            <span className="text-[10px] font-mono text-slate-400 mt-0.5">Analog Front-End</span>
+          </div>
+        </dl>
+
+        <p className="text-[11px] text-slate-400 leading-relaxed font-mono">
+          {leadStatus === 'Leads Off' ? '⚠️ Check electrode placement (RA, LA, RL). ' : ''}
+          Continuous AD8232 analog front-end telemetry streamed via ESP32 ADC. Voltage estimate calibrated to 3.3V full-scale reference.
+        </p>
       </div>
-    </div>
+    </section>
   );
 }

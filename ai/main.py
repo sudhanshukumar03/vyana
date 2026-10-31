@@ -45,7 +45,8 @@ def _insight_signature(data):
     profile = {key: value for key, value in data.profile.items() if key not in ("id", "user_id", "created_at", "updated_at")}
     alerts = [{key: alert.get(key) for key in ("metric", "severity", "status")} for alert in data.alerts if isinstance(alert, dict)]
     history = {key: value for key, value in data.historical_vitals.items() if key != 'sample_count'}
-    values = [data.owner_id, vitals, activity, profile, alerts, history, data.wellness_score, data.bmi, data.fresh, int(time.time() // 30)]
+    review = data.health_review.model_dump() if data.health_review else None
+    values = [data.owner_id, vitals, activity, profile, alerts, history, review, data.wellness_score, data.bmi, data.fresh, int(time.time() // 30)]
     return hashlib.sha256(json.dumps(values, sort_keys=True, default=str).encode()).hexdigest()
 
 
@@ -79,7 +80,8 @@ def get_insights(data: HealthData, request: Request):
             return {"insights": cached[1] if cached else fallback, "offline": cached[2] if cached else True}
     try:
         try:
-            generated = generate_insights(data.vitals, data.activity, data.alerts, data.wellness_score, data.profile, data.bmi, data.historical_vitals)
+            args = (data.vitals, data.activity, data.alerts, data.wellness_score, data.profile, data.bmi, data.historical_vitals)
+            generated = generate_insights(*args, health_review=data.health_review.model_dump()) if data.health_review else generate_insights(*args)
             validated = InsightResponse.model_validate({"insights": generated})
             generated = [entry.model_dump() for entry in validated.insights]
             # Keep deterministic threshold warnings visible even when the model omits them.

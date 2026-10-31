@@ -1,27 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "./app.css";
+@import "./premium.css";
+
+@font-face { font-family:'DM Sans'; src:url('/fonts/dmsans-latin.woff2') format('woff2'); font-style:normal; font-weight:100 1000; font-display:swap; }
+@font-face { font-family:'Manrope'; src:url('/fonts/manrope-latin.woff2') format('woff2'); font-style:normal; font-weight:200 800; font-display:swap; }
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Inter', sans-serif;
-  --font-editorial: Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-editorial: 'Plus Jakarta Sans', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Vyana: forest navigation, porcelain surfaces and teal actions. */
-  --color-canvas: #f8faf8;
-  --color-porcelain: #f8faf8;      /* legacy alias of canvas */
+  /* Vyana: mineral surfaces, ink navigation and cobalt actions. */
+  --color-canvas: #f4f6fa;
+  --color-porcelain: #f4f6fa;
   --color-surface: #ffffff;
-  --color-surface-soft: #edf5ee;
+  --color-surface-soft: #edf1f7;
 
-  --color-brand: #08766b;
-  --color-brand-hover: #065f56;
+  --color-brand: #2e62de;
+  --color-brand-hover: #244fb8;
 
-  --color-ink: #102f2a;            /* primary text + vital values */
-  --color-body: #334846;           /* body text */
-  --color-muted: #586d65;          /* secondary text */
-  --color-slate: #586d65;          /* legacy alias of muted */
+  --color-ink: #1c2835;
+  --color-body: #3f4e60;
+  --color-muted: #5e6b7d;
+  --color-slate: #5e6b7d;
 
-  --color-line: #d5e2d8;
+  --color-line: #e0e5ed;
 
   --color-success: #166534;
   --color-success-bg: #dcfce7;
@@ -36,13 +40,26 @@
 
 @layer base {
   body {
-    @apply bg-canvas text-ink antialiased overflow-x-hidden;
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(ellipse 65% 50% at 10% 8%, rgba(46, 98, 222, 0.055) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 45% at 92% 16%, rgba(56, 189, 248, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 60% at 50% 88%, rgba(99, 102, 241, 0.035) 0%, transparent 60%);
+    background-attachment: fixed;
+    color: var(--color-ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-family: var(--font-sans);
-    line-height: 1.6;
+    line-height: 1.55;
+    letter-spacing: -0.012em;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   ::selection {
-    @apply bg-brand/20 text-ink;
+    background-color: rgba(46, 98, 222, 0.2);
+    color: var(--color-ink);
   }
 }
 
@@ -51,18 +68,19 @@
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-canvas;
+  background: var(--color-canvas);
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-line rounded-full;
+  background: var(--color-line);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-muted/40;
+  background: rgba(94, 107, 125, 0.4);
 }
 
 /* Native dialog keeps focus and background interaction within the active task. */
-.app-dialog { margin: auto; border: 1px solid var(--color-line); padding: 0; border-radius: 1.5rem; width: min(100% - 2rem, 28rem); max-height: 90dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--color-surface); color: var(--color-ink); box-shadow: 0 24px 96px #052f2733; }
-.app-dialog::backdrop { background: rgb(23 49 47 / .45); }
+.app-dialog { margin: auto; border: 1px solid var(--color-line); padding: 0; border-radius: 1.5rem; width: min(100% - 2rem, 32rem); max-height: 90dvh; overflow: hidden; display: flex; flex-direction: column; overscroll-behavior: contain; background: var(--color-surface); color: var(--color-ink); box-shadow: 0 24px 96px rgba(15, 30, 54, 0.25); }
+.app-dialog::backdrop { background: rgba(15, 30, 54, 0.65); backdrop-filter: blur(4px); }
 .skip-link { position: fixed; inset: .5rem auto auto .5rem; z-index: 100; transform: translateY(-200%); background: white; padding: .75rem; border: 2px solid var(--color-brand); }
 .skip-link:focus { transform: none; }
 button, input, select, textarea, a[aria-label] { min-height: 44px; }
@@ -70,4 +88,4 @@ button, a[aria-label] { min-width: 44px; touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
-nav a { min-height: 44px; }
+nav a { min-height: 44px; display: inline-flex; align-items: center; }

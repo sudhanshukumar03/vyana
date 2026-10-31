@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="2200" viewBox="0 0 3000 2200">
+<rect width="3000" height="2200" fill="#f5f4ef"/>
+<text x="80" y="55" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="64" font-weight="700" fill="#192c3b">Your ESP32 · exact board connections</text>
+<text x="80" y="140" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="34" font-weight="400" fill="#536572">Front / component side facing you. Antenna at top. Micro-USB at bottom, as in your photo.</text>
+<rect x="80" y="215" width="2840" height="100" rx="18" fill="#e8eee9" stroke="#d1dbd4" stroke-width="3"/>
+<text x="112" y="234" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#192c3b">D-labels and header order below match the clear board photo and the current firmware.</text>
+<text x="112" y="275" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="28" font-weight="400" fill="#536572">All 3V3 labels share the ESP32 3V3 rail. All GND labels share ground. Sensor pin order is schematic; follow module labels.</text>
+<rect x="1080" y="420" width="780" height="1290" rx="32" fill="#173d3c" stroke="#10312f" stroke-width="3"/>
+<text x="1470" y="453" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="36" font-weight="700" fill="#ffffff">ESP32-WROOM-32</text>
+<polyline points="1310,590 1310,520 1380,520 1380,570 1450,570 1450,520 1520,520 1520,570 1590,570 1590,520 1650,520" fill="none" stroke="#d6c793" stroke-width="9" stroke-linejoin="round"/>
+<rect x="1270" y="650" width="400" height="435" rx="16" fill="#dbe1de" stroke="#8fa6a0" stroke-width="3"/>
+<text x="1470" y="800" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#304941">ESP-WROOM-32</text>
+<text x="1470" y="865" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#4e625c">Wi-Fi + Bluetooth</text>
+<rect x="1370" y="1230" width="200" height="160" rx="8" fill="#16302c" stroke="#92a69a" stroke-width="3"/>
+<text x="1470" y="1420" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="400" fill="#bbd6cb">EN                       BOOT</text>
+<rect x="1360" y="1630" width="220" height="150" rx="12" fill="#c3cfcc" stroke="#77958b" stroke-width="3"/>
+<text x="1470" y="1680" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700" fill="#304941">USB</text>
+<text x="1470" y="1815" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#536572">USB AT BOTTOM</text>
+<circle cx="1120" cy="560" r="10" fill="#d7c795"/>
+<text x="1150" y="542" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">EN</text>
+<circle cx="1120" cy="630" r="10" fill="#d7c795"/>
+<text x="1150" y="612" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">VP</text>
+<circle cx="1120" cy="700" r="10" fill="#d7c795"/>
+<text x="1150" y="682" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">VN</text>
+<circle cx="1120" cy="770" r="10" fill="#c47a18"/>
+<polyline points="1080,770 1120,770" fill="none" stroke="#c47a18" stroke-width="6" stroke-linejoin="round"/>
+<text x="1150" y="752" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D34</text>
+<circle cx="1120" cy="840" r="10" fill="#8b54a5"/>
+<polyline points="1080,840 1120,840" fill="none" stroke="#8b54a5" stroke-width="6" stroke-linejoin="round"/>
+<text x="1150" y="822" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D35</text>
+<circle cx="1120" cy="910" r="10" fill="#b84477"/>
+<polyline points="1080,910 1120,910" fill="none" stroke="#b84477" stroke-width="6" stroke-linejoin="round"/>
+<text x="1150" y="892" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D32</text>
+<circle cx="1120" cy="980" r="10" fill="#d7c795"/>
+<text x="1150" y="962" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D33</text>
+<circle cx="1120" cy="1050" r="10" fill="#d7c795"/>
+<text x="1150" y="1032" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D25</text>
+<circle cx="1120" cy="1120" r="10" fill="#d7c795"/>
+<text x="1150" y="1102" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D26</text>
+<circle cx="1120" cy="1190" r="10" fill="#d7c795"/>
+<text x="1150" y="1172" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D27</text>
+<circle cx="1120" cy="1260" r="10" fill="#d7c795"/>
+<text x="1150" y="1242" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D14</text>
+<circle cx="1120" cy="1330" r="10" fill="#d7c795"/>
+<text x="1150" y="1312" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D12</text>
+<circle cx="1120" cy="1400" r="10" fill="#d7c795"/>
+<text x="1150" y="1382" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D13</text>
+<circle cx="1120" cy="1470" r="10" fill="#41515c"/>
+<polyline points="1080,1470 1120,1470" fill="none" stroke="#41515c" stroke-width="6" stroke-linejoin="round"/>
+<text x="1150" y="1452" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">GND</text>
+<circle cx="1120" cy="1540" r="10" fill="#d7c795"/>
+<text x="1150" y="1522" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">VIN</text>
+<circle cx="1820" cy="560" r="10" fill="#d7c795"/>
+<text x="1788" y="542" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D23</text>
+<circle cx="1820" cy="630" r="10" fill="#2073bf"/>
+<polyline points="1860,630 1820,630" fill="none" stroke="#2073bf" stroke-width="6" stroke-linejoin="round"/>
+<text x="1788" y="612" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D22</text>
+<circle cx="1820" cy="700" r="10" fill="#d7c795"/>
+<text x="1788" y="682" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">TX0</text>
+<circle cx="1820" cy="770" r="10" fill="#d7c795"/>
+<text x="1788" y="752" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">RX0</text>
+<circle cx="1820" cy="840" r="10" fill="#008776"/>
+<polyline points="1860,840 1820,840" fill="none" stroke="#008776" stroke-width="6" stroke-linejoin="round"/>
+<text x="1788" y="822" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D21</text>
+<circle cx="1820" cy="910" r="10" fill="#d7c795"/>
+<text x="1788" y="892" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D19</text>
+<circle cx="1820" cy="980" r="10" fill="#d7c795"/>
+<text x="1788" y="962" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D18</text>
+<circle cx="1820" cy="1050" r="10" fill="#d7c795"/>
+<text x="1788" y="1032" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D5</text>
+<circle cx="1820" cy="1120" r="10" fill="#d7c795"/>
+<text x="1788" y="1102" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">TX2</text>
+<circle cx="1820" cy="1190" r="10" fill="#d7c795"/>
+<text x="1788" y="1172" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">RX2</text>
+<circle cx="1820" cy="1260" r="10" fill="#7750b6"/>
+<polyline points="1860,1260 1820,1260" fill="none" stroke="#7750b6" stroke-width="6" stroke-linejoin="round"/>
+<text x="1788" y="1242" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">D4</text>
+<circle cx="1820" cy="1330" r="10" fill="#d7c795"/>
+<text x="1788" y="1312" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D2</text>
+<circle cx="1820" cy="1400" r="10" fill="#d7c795"/>
+<text x="1788" y="1382" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="400" fill="#aac1b5">D15</text>
+<circle cx="1820" cy="1470" r="10" fill="#41515c"/>
+<polyline points="1860,1470 1820,1470" fill="none" stroke="#41515c" stroke-width="6" stroke-linejoin="round"/>
+<text x="1788" y="1452" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">GND</text>
+<circle cx="1820" cy="1540" r="10" fill="#c34347"/>
+<polyline points="1860,1540 1820,1540" fill="none" stroke="#c34347" stroke-width="6" stroke-linejoin="round"/>
+<text x="1788" y="1522" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#ffffff">3V3</text>
+<rect x="80" y="650" width="770" height="470" rx="22" fill="white" stroke="#d7dfdf" stroke-width="3"/>
+<text x="112" y="687" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#192c3b">AD8232</text>
+<polyline points="270,566 270,650" fill="none" stroke="#c34347" stroke-width="5" stroke-linejoin="round"/>
+<rect x="190" y="520" width="160" height="46" rx="10" fill="#fffdf8" stroke="#c34347" stroke-width="3"/>
+<text x="270" y="529" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#c34347">3V3</text>
+<text x="285" y="616" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#c34347">3.3V</text>
+<circle cx="270" cy="650" r="7" fill="#c34347"/>
+<polyline points="650,566 650,650" fill="none" stroke="#41515c" stroke-width="5" stroke-linejoin="round"/>
+<rect x="570" y="520" width="160" height="46" rx="10" fill="#fffdf8" stroke="#41515c" stroke-width="3"/>
+<text x="650" y="529" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#41515c">GND</text>
+<text x="665" y="616" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#41515c">GND</text>
+<circle cx="650" cy="650" r="7" fill="#41515c"/>
+<text x="812" y="753" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#c47a18">OUT / OUTPUT</text>
+<polyline points="850,770 1080,770" fill="none" stroke="#c47a18" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="850" cy="770" r="9" fill="#c47a18"/>
+<text x="812" y="823" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#8b54a5">LO+</text>
+<polyline points="850,840 1080,840" fill="none" stroke="#8b54a5" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="850" cy="840" r="9" fill="#8b54a5"/>
+<text x="812" y="893" dominant-baseline="text-before-edge" text-anchor="end" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#b84477">LO−</text>
+<polyline points="850,910 1080,910" fill="none" stroke="#b84477" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="850" cy="910" r="9" fill="#b84477"/>
+<text x="112" y="978" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="26" font-weight="400" fill="#c34347">SDN: SparkFun breakout - leave unconnected.</text>
+<text x="112" y="1013" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="400" fill="#536572">Other boards: check their schematic first.</text>
+<text x="112" y="1048" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="27" font-weight="400" fill="#536572">RA / LA / RL: electrode cable only.</text>
+<text x="112" y="1083" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="400" fill="#536572">Do not connect electrode leads to GPIOs.</text>
+<rect x="2160" y="430" width="760" height="570" rx="22" fill="white" stroke="#d7dfdf" stroke-width="3"/>
+<text x="2192" y="477" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#192c3b">MAX30102</text>
+<text x="2192" y="545" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">Pulse / SpO2 breakout · I2C 0x57</text>
+<polyline points="2420,391 2420,430" fill="none" stroke="#c34347" stroke-width="5" stroke-linejoin="round"/>
+<rect x="2340" y="345" width="160" height="46" rx="10" fill="#fffdf8" stroke="#c34347" stroke-width="3"/>
+<text x="2420" y="354" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#c34347">3V3</text>
+<text x="2435" y="396" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#c34347">VIN / VCC*</text>
+<circle cx="2420" cy="430" r="7" fill="#c34347"/>
+<polyline points="2780,391 2780,430" fill="none" stroke="#41515c" stroke-width="5" stroke-linejoin="round"/>
+<rect x="2700" y="345" width="160" height="46" rx="10" fill="#fffdf8" stroke="#41515c" stroke-width="3"/>
+<text x="2780" y="354" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#41515c">GND</text>
+<text x="2795" y="396" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#41515c">GND</text>
+<circle cx="2780" cy="430" r="7" fill="#41515c"/>
+<polyline points="1860,630 2160,630" fill="none" stroke="#2073bf" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="2160" cy="630" r="9" fill="#2073bf"/>
+<text x="2192" y="613" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#2073bf">SCL</text>
+<polyline points="1860,840 2160,840" fill="none" stroke="#008776" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="2160" cy="840" r="9" fill="#008776"/>
+<text x="2192" y="823" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#008776">SDA</text>
+<text x="2192" y="714" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">Match the sensor pin labels;</text>
+<text x="2192" y="756" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">its header order may differ.</text>
+<text x="2192" y="908" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="28" font-weight="400" fill="#536572">INT: leave unconnected (polling).</text>
+<text x="2192" y="950" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="26" font-weight="400" fill="#536572">Check onboard I2C pull-ups; see note below.</text>
+<rect x="2160" y="1140" width="760" height="360" rx="22" fill="white" stroke="#d7dfdf" stroke-width="3"/>
+<text x="2192" y="1176" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#192c3b">DS18B20</text>
+<polyline points="2450,1086 2450,1140" fill="none" stroke="#c34347" stroke-width="5" stroke-linejoin="round"/>
+<rect x="2370" y="1040" width="160" height="46" rx="10" fill="#fffdf8" stroke="#c34347" stroke-width="3"/>
+<text x="2450" y="1049" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#c34347">3V3</text>
+<text x="2465" y="1106" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#c34347">VDD</text>
+<circle cx="2450" cy="1140" r="7" fill="#c34347"/>
+<polyline points="2780,1086 2780,1140" fill="none" stroke="#41515c" stroke-width="5" stroke-linejoin="round"/>
+<rect x="2700" y="1040" width="160" height="46" rx="10" fill="#fffdf8" stroke="#41515c" stroke-width="3"/>
+<text x="2780" y="1049" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#41515c">GND</text>
+<text x="2795" y="1106" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#41515c">GND</text>
+<circle cx="2780" cy="1140" r="7" fill="#41515c"/>
+<polyline points="1860,1260 2160,1260" fill="none" stroke="#7750b6" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="2160" cy="1260" r="9" fill="#7750b6"/>
+<circle cx="2020" cy="1260" r="9" fill="#7750b6"/>
+<text x="2192" y="1243" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="33" font-weight="700" fill="#7750b6">DQ / DATA</text>
+<rect x="1940" y="910" width="160" height="46" rx="10" fill="#fffdf8" stroke="#c34347" stroke-width="3"/>
+<text x="2020" y="919" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#c34347">3V3</text>
+<polyline points="2020,956 2020,1030" fill="none" stroke="#c34347" stroke-width="5" stroke-linejoin="round"/>
+<rect x="1980" y="1030" width="80" height="100" rx="2" fill="#fbf0d8" stroke="#a97e2f" stroke-width="4"/>
+<text x="2020" y="1066" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#735419">4k7</text>
+<polyline points="2020,1130 2020,1260" fill="none" stroke="#7750b6" stroke-width="5" stroke-linejoin="round"/>
+<text x="2020" y="1315" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#7750b6">4.7 kΩ</text>
+<text x="2020" y="1355" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="400" fill="#536572">pull-up</text>
+<text x="2192" y="1350" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">Use all three wires: VDD, DATA, GND.</text>
+<text x="2192" y="1402" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="28" font-weight="400" fill="#536572">Verify the probe pinout; colours vary.</text>
+<polyline points="1860,1470 1940,1470" fill="none" stroke="#41515c" stroke-width="5" stroke-linejoin="round"/>
+<rect x="1940" y="1447" width="160" height="46" rx="10" fill="#fffdf8" stroke="#41515c" stroke-width="3"/>
+<text x="2020" y="1456" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#41515c">GND</text>
+<polyline points="1860,1540 1940,1540" fill="none" stroke="#c34347" stroke-width="5" stroke-linejoin="round"/>
+<rect x="1940" y="1517" width="160" height="46" rx="10" fill="#fffdf8" stroke="#c34347" stroke-width="3"/>
+<text x="2020" y="1526" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#c34347">3V3</text>
+<polyline points="1040,1470 1080,1470" fill="none" stroke="#41515c" stroke-width="5" stroke-linejoin="round"/>
+<rect x="880" y="1447" width="160" height="46" rx="10" fill="#fffdf8" stroke="#41515c" stroke-width="3"/>
+<text x="960" y="1456" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#41515c">GND</text>
+<text x="2150" y="1564" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="27" font-weight="400" fill="#536572">Use 3V3 + GND to feed breadboard rails.</text>
+<rect x="80" y="1300" width="770" height="370" rx="22" fill="#e9ece8" stroke="#cbd4cd" stroke-width="3"/>
+<text x="112" y="1340" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#192c3b">Phone activity</text>
+<rect x="112" y="1408" width="500" height="48" rx="10" fill="#f2dfad" stroke="#e8ce91" stroke-width="1"/>
+<text x="362" y="1420" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#795c1f">GOOGLE HEALTH</text>
+<text x="112" y="1490" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#192c3b">Steps sync in the Vyana web app.</text>
+<text x="112" y="1550" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="28" font-weight="400" fill="#536572">No motion sensor or wiring is required.</text>
+<text x="112" y="1598" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="28" font-weight="400" fill="#536572">Connect your account in Activity.</text>
+<text x="80" y="1875" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">* MAX30102 power assumes a breakout verified for 3.3 V supply and 3.3 V I2C. Bare-chip wiring is different.</text>
+<text x="80" y="1920" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">I2C: if suitable pull-ups are absent, add one 4.7 kΩ from SDA to 3V3 and another from SCL to 3V3.</text>
+<text x="80" y="1965" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#536572">DS18B20: its separate 4.7 kΩ resistor bridges DATA and 3V3. Leave the ESP32 VIN pin unused for these sensors.</text>
+<rect x="80" y="2030" width="2840" height="125" rx="18" fill="#fff0dd" stroke="#e3bc7f" stroke-width="3"/>
+<text x="112" y="2049" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#8d4c1b">UNPLUG USB / BATTERY BEFORE MOVING WIRES.</text>
+<text x="112" y="2101" dominant-baseline="text-before-edge" text-anchor="start" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#724a2d">Keep ECG electrodes off the body during USB testing. For body-connected use, disconnect computer USB and use standalone battery power.</text>
+</svg>

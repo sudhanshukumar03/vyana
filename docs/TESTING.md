@@ -18,7 +18,9 @@ pnpm test:e2e
 
 Use your disposable test credentials in place of the example. Integration tests require both variables; without a URL they are skipped. A pass with skipped integration tests is not a database verification pass.
 
-`pnpm verify` checks documentation, references and text encoding, then runs types, lint, API/frontend tests, builds and Python tests/lint. Encoding checks cover project source and docs, excluding generated dependencies. API lint currently repeats TypeScript checking; frontend uses ESLint and Python uses Ruff. Browser tests start isolated API/Vite servers on 18000/4173 and require a built API.
+Use a database owner/operator able to drop and create schemas and run migrations for this disposable test database. The restricted production runtime role is not intended for the reset. Normal Compose initialization creates `healthguard`, so a separate `*_test` database must be provisioned explicitly; CI provisions its own test database.
+
+`pnpm verify` checks documentation, references and text encoding, then runs development-startup tests, types, lint, API/frontend tests, builds and Python tests/lint. `pnpm test:dev` checks Python selection and AI target/health handling, then starts an isolated synthetic FastAPI service to verify missing-service startup, healthy-service reuse and ownership-aware cleanup. It uses no provider key or model generation; the Python AI dependencies must be installed. Encoding checks cover project source and docs, excluding generated dependencies. API lint currently repeats TypeScript checking; frontend uses ESLint and Python uses Ruff. Browser tests start isolated API/Vite servers on 18000/4173 and require a built API.
 
 For JS checks in Linux, build `docker build -f scripts/Dockerfile.verify -t healthguard-checks .`, then run `docker run --rm healthguard-checks`. Supply test database variables only for a disposable database. That image runs JS checks; Python and firmware checks are separate.
 

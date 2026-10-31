@@ -2,9 +2,9 @@ import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const destinations = [
-  ['Dashboard','Your health, in focus.'],['Health Vitals','Vitals Overview'],['Activity','Activity Overview'],
-  ['Trends','Health Trends'],['History','Vitals History'],['AI Assistant','AI Assistant'],
-  ['Wellness','AI Wellness Assistant'],['Reports','Health Reports'],['Profile','Your Profile'],
+  ['Dashboard','Dashboard'],['Vitals','Vitals'],['Activity','Activity'],
+  ['Trends','Trends'],['History','History'],['AI Assistant','AI Assistant'],
+  ['Wellness','Wellness'],['Reports','Health Reports'],['Profile','Profile'],
   ['Settings','Settings'],['Emergency','Emergency'],
 ];
 let auth:{token:string;user:{id:number;email:string}};
@@ -24,7 +24,9 @@ test.beforeAll(async({request})=>{
   }
 });
 
-for (const width of [320,390,768,1440]) test(`all pages share a usable layout and navigation at ${width}px`,async({page})=>{
+for (const width of [320,390,768,1440]) test(`all pages share a usable layout and navigation at ${width}px`,async({page},info)=>{
+  test.setTimeout(150000);
+  const measurements:unknown[]=[];
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
   await page.setViewportSize({width,height:900});
   // Reuse the real fixture session for layout checks. Session rotation is covered
@@ -50,12 +52,15 @@ for (const width of [320,390,768,1440]) test(`all pages share a usable layout an
       const r=element.getBoundingClientRect();return {name:element.getAttribute('aria-label')||element.textContent?.trim(),width:r.width,height:r.height,left:r.left,right:r.right};
     }).filter(item=>item.width>0&&item.height>0&&item.left>=0));
     expect(controls.filter(item=>item.width<44||item.height<44||item.right>width)).toEqual([]);
+    measurements.push({page:linkName,viewport:width,minWidth:Math.min(...controls.map(item=>item.width)),minHeight:Math.min(...controls.map(item=>item.height)),offenders:controls.filter(item=>item.width<44||item.height<44||item.right>width)});
+    if([320,390,1440].includes(width))await page.screenshot({path:info.outputPath(`${linkName.toLowerCase().replaceAll(' ','-')}-${width}.png`)});
     if(width===1440||width===320) {
       const audit=await new AxeBuilder({page}).include('#main-content').analyze();
       expect(audit.violations.filter(item=>['serious','critical'].includes(item.impact||'')).map(item=>({id:item.id,nodes:item.nodes.map(node=>node.html)}))).toEqual([]);
     }
   }
   expect(errors).toEqual([]);
+  await info.attach('control-measurements',{body:JSON.stringify(measurements,null,2),contentType:'application/json'});
 });
 
 test('notifications fit short windows and restore keyboard focus on Escape',async({page})=>{
@@ -82,4 +87,18 @@ test('notifications fit short windows and restore keyboard focus on Escape',asyn
     await panel.getByRole('button',{name:'Acknowledge',exact:true}).first().focus();
     await page.keyboard.press('Escape');await expect(panel).toHaveCount(0);await expect(bell).toBeFocused();
   }
+});
+
+test('local fonts and native dialogs work with OS dark preference and reduced motion',async({page})=>{
+  const externalFonts:string[]=[];
+  page.on('request',request=>{if(/fonts\.(googleapis|gstatic)\.com/.test(request.url()))externalFonts.push(request.url());});
+  await page.emulateMedia({colorScheme:'dark',reducedMotion:'reduce'});
+  await page.route('**/api/v1/auth/refresh',route=>route.fulfill({json:auth}),{times:1});
+  await page.goto('/wellness');
+  const edit=page.getByRole('button',{name:'Review profile',exact:true});await expect(edit).toBeVisible();
+  const fonts=await page.evaluate(async()=>{await document.fonts.ready;return {body:document.fonts.check('400 16px "DM Sans"'),heading:document.fonts.check('600 24px "Manrope"'),background:getComputedStyle(document.body).backgroundColor};});
+  expect(fonts).toEqual({body:true,heading:true,background:'rgb(244, 246, 250)'});expect(externalFonts).toEqual([]);
+  await edit.click();const dialog=page.getByRole('dialog',{name:'Your weight & energy profile',exact:true});await expect(dialog).toBeVisible();
+  expect(await dialog.evaluate(element=>getComputedStyle(element).animationName)).toBe('none');
+  await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);await expect(edit).toBeFocused();
 });

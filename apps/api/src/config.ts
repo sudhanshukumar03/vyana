@@ -1,3 +1,6 @@
+import {loadSosDeliveryConfig,type SosDeliveryConfig} from './sos-delivery';
+import {loadGoogleHealthConfig,type GoogleHealthConfig} from './google-health';
+
 export interface Config {
   databaseUrl: string;
   jwtSecret: string;
@@ -8,6 +11,10 @@ export interface Config {
   publicRegistration: boolean;
   staleSeconds: number;
   port: number;
+  sosDelivery: SosDeliveryConfig;
+  googleHealth?:GoogleHealthConfig|null;
+  googleSyncSeconds:number;
+  locationProviders?:{geoapifyKey?:string;ninjasKey?:string};
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -35,12 +42,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const staleSeconds=Number(env.STALE_SECONDS||30),port=Number(env.PORT||8000);
   if(!Number.isInteger(staleSeconds)||staleSeconds<10||staleSeconds>3600)throw new Error('STALE_SECONDS must be an integer from 10 to 3600');
   if(!Number.isInteger(port)||port<1||port>65535)throw new Error('PORT must be from 1 to 65535');
+  const googleSyncSeconds=Number(env.GOOGLE_HEALTH_SYNC_SECONDS||120);
+  if(!Number.isInteger(googleSyncSeconds)||googleSyncSeconds<60||googleSyncSeconds>3600)throw new Error('GOOGLE_HEALTH_SYNC_SECONDS must be from 60 to 3600');
   const jwtSecret=secret('JWT_SECRET'),internalSecret=secret('AI_INTERNAL_SECRET');
   if(jwtSecret===internalSecret)throw new Error('JWT_SECRET and AI_INTERNAL_SECRET must differ');
   return {
     databaseUrl: env.DATABASE_URL, jwtSecret, internalSecret,
     origin, aiUrl: ai.href.replace(/\/$/,''), production,
     publicRegistration: env.PUBLIC_REGISTRATION === 'true',
-    staleSeconds, port,
+    staleSeconds, port, googleSyncSeconds,sosDelivery:loadSosDeliveryConfig(env),googleHealth:loadGoogleHealthConfig(env,origin),
+    locationProviders:{geoapifyKey:(env.GEOAPIFY_API_KEY||env.GEOAPIFY_KEY)?.trim(),ninjasKey:env.API_NINJAS_KEY?.trim()},
   };
 }

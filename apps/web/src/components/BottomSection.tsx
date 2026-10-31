@@ -1,46 +1,50 @@
-import type { ActivityReading, Alert, DeviceStatus as DeviceData } from '../store/useHealthStore';
-import { Heart, Droplet, Footprints, Watch, AlertTriangle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { useHealthStore } from '../store/useHealthStore';
+import {type Alert,type DeviceStatus as DeviceData} from '../store/useHealthStore';
+import { Heart, Droplet, Footprints, Cpu, AlertTriangle, Info, ArrowUpRight } from 'lucide-react';
+import {Link} from 'react-router-dom';
+import {useSensorPresentation} from '../store/useSensorPresentation';
+import { currentSensorReadings, liveEquipment, readingSourceLabel } from '../services/equipment';
 
 const fmt = (value: number | undefined | null, suffix = '') => value == null ? '—' : `${value}${suffix}`;
 
 export function WellnessProgress() {
-  const { wellnessScore, vitals, activity } = useHealthStore();
-  return (
-    <section className="surface">
-      <h2 className="surface-title">Wellness overview</h2><p className="surface-description">A project heuristic, not a clinical assessment.</p>
-      <div className="score-ring">
-        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--color-line)" strokeWidth="8" /><circle cx="60" cy="60" r="50" fill="none" stroke="var(--color-brand)" strokeWidth="8" strokeLinecap="round" strokeDasharray="314.16" strokeDashoffset={314.16 * (1 - (wellnessScore ?? 0) / 100)} /></svg>
-        <div className="score-ring-value"><strong>{wellnessScore ?? '—'}</strong><span>Prototype score / 100</span></div>
-      </div>
-      <dl className="reading-list">
-        <div><dt><Heart aria-hidden="true" />Heart rate</dt><dd>{fmt(vitals?.heart_rate, ' bpm')}</dd></div>
-        <div><dt><Droplet aria-hidden="true" />Blood oxygen</dt><dd>{fmt(vitals?.spo2, '%')}</dd></div>
-        <div><dt><Footprints aria-hidden="true" />Steps</dt><dd>{fmt(activity?.steps)}</dd></div>
-      </dl>
-    </section>
-  );
-}
+  const { wellnessScore, vitals, activity, device,previewEnabled,wellnessPreview } = useSensorPresentation();
+  const current=currentSensorReadings(vitals??{},previewEnabled?null:liveEquipment(device));
+  const strokeColor = wellnessScore == null ? 'var(--color-line)' : wellnessScore >= 80 ? 'var(--color-brand)' : wellnessScore >= 60 ? 'var(--color-warn)' : 'var(--color-critical)';
+  const scoreTextColor = wellnessScore == null ? 'text-muted' : wellnessScore >= 80 ? 'text-brand' : wellnessScore >= 60 ? 'text-warn' : 'text-critical';
 
-export function ActivityOverview({ data }: { data: ActivityReading[] }) {
-  const activity = useHealthStore(state => state.activity);
-  const rows = [...data].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-  const chartData = rows.map((row, index) => ({
-    name: new Date(row.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    steps: index > 0 ? Math.max(0, row.steps - rows[index - 1].steps) : 0,
-  }));
   return (
-    <section className="surface">
-      <h2 className="surface-title">Recent movement</h2><p className="surface-description">Steps gained between recorded readings.</p>
-      <div className="h-[180px] mt-5" role="img" aria-label="Steps gained per recent reading">
-        {chartData.some(item => item.steps > 0) ? <ResponsiveContainer width="100%" height="100%"><BarChart data={chartData} margin={{top:10,right:0,left:-25,bottom:0}}>
-          <XAxis dataKey="name" stroke="var(--color-muted)" fontSize={10} tickLine={false} axisLine={false} /><YAxis stroke="var(--color-muted)" fontSize={10} tickLine={false} axisLine={false} />
-          <Tooltip cursor={{fill:'var(--color-surface-soft)'}} contentStyle={{borderRadius:10,border:'1px solid var(--color-line)',fontSize:12}} /><Bar isAnimationActive={false} dataKey="steps" fill="var(--color-brand)" radius={[3,3,0,0]} maxBarSize={18} />
-        </BarChart></ResponsiveContainer> : <div className="h-full grid place-content-center text-sm text-muted text-center">No activity readings yet.</div>}
+    <section className="surface flex flex-col justify-between" aria-labelledby="wellness-overview-title">
+      <div>
+        <h2 id="wellness-overview-title" className="surface-title">Wellness overview</h2>
+        <p className="surface-description">{wellnessPreview?'Preview score from displayed readings. ECG is not assessed.':'A project heuristic, not a clinical assessment.'}</p>
+        <div className="score-ring">
+          <svg viewBox="0 0 128 128" aria-hidden="true">
+            <circle cx="64" cy="64" r="52" fill="none" stroke="var(--color-line)" strokeWidth="8" />
+            <circle
+              cx="64"
+              cy="64"
+              r="52"
+              fill="none"
+              stroke={strokeColor}
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeDasharray="326.73"
+              strokeDashoffset={wellnessScore == null ? 326.73 : 326.73 * (1 - wellnessScore / 100)}
+            />
+          </svg>
+          <div className="score-ring-value">
+            <strong className={scoreTextColor}>{wellnessScore ?? '—'}</strong>
+            <span>/ 100</span>
+          </div>
+        </div>
+        <p className="score-ring-caption">
+          {wellnessScore == null ? 'Score unavailable with missing, stale or unclassified ECG readings' : wellnessPreview ? 'Preview score · display only' : 'Wellness score'}
+        </p>
       </div>
-      <dl className="reading-list border-t border-line pt-4">
-        <div><dt>Steps</dt><dd>{activity?.steps?.toLocaleString() ?? '—'}</dd></div><div><dt>Distance</dt><dd>{fmt(activity?.distance_km, ' km')}</dd></div><div><dt>Calories</dt><dd>{fmt(activity?.calories, ' kcal')}</dd></div>
+      <dl className="reading-list border-t border-line pt-3 mt-auto">
+        <div><dt><Heart aria-hidden="true" />Heart rate</dt><dd>{fmt(current.heart_rate, ' bpm')}</dd></div>
+        <div><dt><Droplet aria-hidden="true" />Blood oxygen</dt><dd>{fmt(current.spo2, '%')}</dd></div>
+        <div><dt><Footprints aria-hidden="true" />Steps</dt><dd>{fmt(activity?.steps)}</dd></div>
       </dl>
     </section>
   );
@@ -48,18 +52,42 @@ export function ActivityOverview({ data }: { data: ActivityReading[] }) {
 
 export function DeviceStatus({ alerts, device }: { alerts?: Alert[]; device?: DeviceData }) {
   const recent = alerts?.slice(0, 3) ?? [];
+  const online=Boolean(device?.active&&device.connected);
+  const status=!device?'Not set up':!device.active?'Inactive':online?'Online':'Offline';
+  const recordedTime=(value:string|null|undefined)=>value&&Number.isFinite(Date.parse(value))?
+    new Date(value).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):null;
+  const lastSeen=recordedTime(device?.last_seen);
   return (
-    <section className="surface">
-      <h2 className="surface-title">Device & alerts</h2>
-      <div className="device-summary"><span className="device-summary-icon"><Watch aria-hidden="true" /></span><div className="min-w-0">
-        <h3 className="text-sm font-medium [overflow-wrap:anywhere]">{device?.device_name ?? 'No device connected'}</h3>
-        <p>{device?.source ?? 'Add a reading source to begin.'}</p><p>{!device ? 'No device data' : device.connected ? 'Connected' : 'Disconnected or stale'}{device?.battery != null ? ` · ${device.battery}% battery` : ''}</p>
-      </div></div>
-      <h3 className="text-xs font-medium text-muted mb-4">Recent alerts</h3>
-      {recent.length ? <ul className="alert-list">{recent.map(alert => <li key={alert.id}>
-        <AlertTriangle className={alert.severity === 'critical' ? 'text-critical' : alert.severity === 'warning' ? 'text-warn' : 'text-brand'} aria-hidden="true" />
-        <div><strong>{alert.title}</strong><p>{alert.timestamp ? new Date(alert.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : ''} · {alert.status === 'active' ? 'Active' : 'Resolved'}</p></div>
-      </li>)}</ul> : <p className="text-sm text-muted">No recent alerts.</p>}
+    <section className="surface device-alerts-card" aria-labelledby="device-alerts-title">
+      <header className="device-alerts-heading">
+        <h2 id="device-alerts-title" className="surface-title">Device & alerts</h2>
+        <span className={`device-link-status${online?' is-online':''}`}><span aria-hidden="true"/>{status}</span>
+      </header>
+        <div className="device-summary">
+          <span className="device-summary-icon"><Cpu aria-hidden="true" /></span>
+          <div className="min-w-0">
+            <h3>{device?.device_name ?? 'No device added'}</h3>
+            <p>{device ? readingSourceLabel(device.source) : 'Add your sensor hub in Settings.'}</p>
+            {device&&<p>Last seen: {lastSeen??'No heartbeat received'}</p>}
+            {device?.battery!=null&&<p>Battery: {device.battery}%</p>}
+          </div>
+        </div>
+        <div className="device-alerts-label"><h3>Recent alerts</h3>{Boolean(alerts?.length)&&<span>{alerts!.length} {alerts!.length===1?'alert':'alerts'}</span>}</div>
+        {recent.length ? (
+          <ul className="device-alert-list">
+            {recent.map(alert => {
+              const Icon=alert.severity==='info'?Info:AlertTriangle;
+              return <li key={alert.id} data-severity={alert.severity} data-state={alert.status}>
+                <Icon aria-hidden="true"/>
+                <div><strong>{alert.title}</strong><p>{recordedTime(alert.timestamp)?<><time dateTime={alert.timestamp}>{recordedTime(alert.timestamp)}</time><span aria-hidden="true"> · </span></>:null}<span className="device-alert-state">{alert.status==='active'?'Active':'Resolved'}</span></p></div>
+              </li>;
+            })}
+          </ul>
+        ) : (
+          <p className="device-alert-empty">No recent alerts recorded.</p>
+        )}
+      {alerts&&alerts.length>recent.length&&<p className="device-alert-more">Showing the first {recent.length} of {alerts.length} alerts.</p>}
+      <footer className="device-alerts-footer"><Link to="/settings">Device settings<ArrowUpRight aria-hidden="true"/></Link></footer>
     </section>
   );
 }

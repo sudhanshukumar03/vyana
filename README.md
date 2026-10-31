@@ -24,6 +24,10 @@ Copy [the simulator example](simulator/.env.example) to `simulator/.env`, save t
 
 The local stack binds to loopback. If you already have a database, follow [the upgrade procedure](docs/OPERATIONS.md#upgrade-an-existing-database) before starting a newer version.
 
+For host development after the [dependency/database setup](docs/SETUP.md#host-development), use `pnpm dev`. It starts the Python AI service together with the API and web app. The launcher uses the project's `.venv` and reuses an already healthy AI service. The web app opens at http://localhost:5173.
+
+On Windows with initial setup complete, double-click **Start Vyana.cmd** to start the database and background development services, enable the existing ESP32 hotspot if it matches the private hardware configuration, and open the dashboard. Once the ESP32 has the configured full firmware, powered hardware sends readings automatically. See [everyday automatic operation](hardware/CONNECT_ESP32.md#everyday-automatic-operation).
+
 ## What works
 
 - Separate accounts own their profiles, contacts, devices, readings and alerts.
@@ -32,10 +36,12 @@ The local stack binds to loopback. If you already have a database, follow [the u
 - Assistant supports chat and PDF/PNG/JPEG uploads up to 10 MiB, with explicit offline fallbacks.
 - Firmware and simulator queues are bounded; installs and automated checks use committed locks.
 
-Sensor DSP, activity and the ECG illustration include simulated data. SOS records an in-app alert. It does not contact emergency services. This project has no clinical validation.
+For physical sensors, follow [Connect an ESP32](hardware/CONNECT_ESP32.md) and upload the normal `esp32dev` firmware. Live-only display is the default; missing or stale sensor values remain unavailable. Simulated displays require an explicit demo opt-in each page session, and firmware-generated activity is disabled by default. This project has no clinical validation.
 
 ## Documentation
 
 Start with [the documentation index](docs/README.md). It links to setup, architecture, API, features, testing, operations and the audit records. See [the current audit status](docs/audit/STATUS.md) for verified results and remaining checks. Hardware and external HTTPS checks are deferred; public deployment has not been signed off.
 
 To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md). Author: Sudhanshu Kumar. [MIT license](LICENSE).
+
+For recorded phone/tracker steps, see [Google Health web integration](docs/GOOGLE_HEALTH.md). The Activity page uses an independently connected account; firmware MPU6050 simulation has been removed. Google OAuth credentials and real account authorization must be configured before live cloud activity is available.

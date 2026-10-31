@@ -96,9 +96,13 @@ export function authServices(pool: Pool, config: Config, disconnectSession: (id:
     const replacement = randomToken();
     const session = await transaction(pool, async (client) => {
       const { rows } = await client.query(`SELECT s.*,u.email FROM sessions s JOIN users u ON u.id=s.user_id
-        WHERE token_hash=$1 AND revoked_at IS NULL AND expires_at>NOW() AND NOT u.disabled FOR UPDATE OF s`, [digest(token)]);
+        WHERE s.token_hash=$1 AND s.revoked_at IS NULL AND s.expires_at>NOW() AND NOT u.disabled
+        FOR UPDATE OF s`, [digest(token)]);
       if (!rows[0]) throw new HttpError(401,'Session expired. Sign in again.');
-      await client.query("UPDATE sessions SET token_hash=$1,expires_at=NOW()+INTERVAL '30 days' WHERE id=$2", [digest(replacement),rows[0].id]);
+      // Retain the pre-rotation hash so a concurrent cookie-only logout can
+      // still identify this session row by its old credential.
+      await client.query("UPDATE sessions SET token_hash=$1,prev_token_hash=$2,expires_at=NOW()+INTERVAL '30 days' WHERE id=$3",
+        [digest(replacement),rows[0].token_hash,rows[0].id]);
       return rows[0];
     });
     res.cookie('hg_refresh',replacement,{...cookieOptions,maxAge:30*86400000});
@@ -118,9 +122,41 @@ export function authServices(pool: Pool, config: Config, disconnectSession: (id:
         if(typeof payload!=='string' && z.uuid().safeParse(payload.sid).success) sid=payload.sid;
       } catch { /* The cookie credential can still revoke its matching session. */ }
     }
-    const { rows } = await pool.query('UPDATE sessions SET revoked_at=NOW() WHERE token_hash=$1 OR id=$2 RETURNING id', [digest(cookieToken(req)),sid]);
-    rows.forEach((row) => disconnectSession(row.id));
-    res.json({ success: true });
+    if(sid) {
+      const { rows } = await pool.query('UPDATE sessions SET revoked_at=NOW() WHERE id=$1 RETURNING id', [sid]);
+      rows.forEach((row) => disconnectSession(row.id));
+      res.json({ success: true });
+      return;
+    }
+    // Without a usable bearer SID, revoke the session identified by the refresh
+    // cookie. A concurrent rotation rewrites token_hash, so also match the
+    // previous hash: after rotation the old cookie identifies the session via
+    // prev_token_hash. The row lock serializes revocation with refresh: whichever
+    // acquires it second observes the committed rotation or revocation.
+    const cookie = cookieToken(req);
+    if(cookie) {
+      const ids: string[] = await transaction(pool, async (client) => {
+        const hash = digest(cookie);
+        const match = await client.query(
+          `SELECT s.id, s.user_id FROM sessions s
+             JOIN users u ON u.id=s.user_id
+            WHERE (s.token_hash=$1 OR s.prev_token_hash=$1)
+              AND s.revoked_at IS NULL AND NOT u.disabled
+            FOR UPDATE OF s`, [hash]);
+        if(!match.rows[0]) return [];
+        // Revoke this session only, identified stably across rotation.
+        await client.query('UPDATE sessions SET revoked_at=NOW() WHERE id=$1', [match.rows[0].id]);
+        return [match.rows[0].id];
+      });
+      if(!ids.length) throw new HttpError(400,'Unable to identify the session to log out. Include the bearer token.');
+      ids.forEach((id) => disconnectSession(id));
+      res.json({ success: true });
+      return;
+    }
+    // No cookie and no usable SID: there is no stable way to identify the
+    // session to revoke. Reject loudly rather than return success and leave
+    // the refresh credential live.
+    res.status(400).json({ error: 'Unable to identify the session to log out. Include the bearer token.' });
   }));
   router.get('/me', userMiddleware, (req,res) => res.json({user: {id:res.locals.user.id,email:res.locals.user.email}}));
   router.post('/request-reset', asyncRoute(async (req,res) => {

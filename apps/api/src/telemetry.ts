@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { transaction } from './db';
 import { vitalsSchema, activitySchema } from './schemas';
 import { vitalAlerts } from './alerts';
+import {observationFromVitals,recordSosObservation} from './sos';
 
 export type Broadcast = (owner: number, event: string, data: unknown) => void;
 type Device = { id: string; user_id: number; active: boolean };
@@ -24,6 +25,11 @@ export async function ingest(pool: Pool, device: Device, kind: 'vitals' | 'activ
     const fresh = age >= -5000 && age <= staleSeconds*1000;
     const changes = kind === 'vitals' && current.active && fresh && newest.rows[0].id === rows[0].id ?
       await evaluateEpisodes(client, device, input as z.infer<typeof vitalsSchema>) : [];
+    if(kind==='vitals') {
+      const automatic=await recordSosObservation(client,{...device,active:current.active&&newest.rows[0].id===rows[0].id},
+        observationFromVitals(input),staleSeconds,false);
+      if(automatic)changes.push(automatic);
+    }
     return { duplicate: false, row: rows[0], changes, active: current.active };
   });
   if (result.row && result.active) broadcast(device.user_id,'health_update',{type:kind,data:result.row});
@@ -67,33 +73,24 @@ export function fallbackInsights(vitals: Record<string,unknown> | null, fresh: b
   if (!vitals || !fresh) return [{type:'info',title:'Insufficient current data',detail:'Fresh readings are needed before generating a wellness summary.'}];
   const flags=vitalAlerts(Number(vitals.heart_rate),Number(vitals.spo2),Number(vitals.temperature));
   const insights=flags.map(flag=>({type:flag.severity,title:flag.title,detail:`${flag.detail}. Review this reading; contact a qualified clinician if concerned.`}));
-  if(vitals.ecg_status!=='Normal') insights.push({type:'warning',title:'ECG status needs review',detail:`ECG status: ${vitals.ecg_status}. This prototype does not interpret or diagnose rhythms.`});
+  if(vitals.ecg_status!=='Normal') insights.push({type:'warning',title:'ECG status needs review',detail:`ECG status: ${vitals.ecg_status}. Vyana does not interpret or diagnose rhythms.`});
   if(!insights.length) return [{type:'info',title:'Current readings received',detail:'No configured threshold alert was triggered. This is not a clinical assessment.'}];
   return insights;
 }
 
 export async function summary(pool: Pool, userId: number, staleSeconds: number) {
-  const [v,a,d,al,p] = await Promise.all([
+  const [v,d,al,p,cloud] = await Promise.all([
     pool.query(`SELECT v.* FROM vitals v WHERE v.user_id=$1
       AND v.device_id=(SELECT id FROM devices WHERE user_id=$1 AND active AND revoked_at IS NULL)
       ORDER BY v.observed_at DESC,v.id DESC LIMIT 1`,[userId]),
-    pool.query(`WITH deltas AS (
-      SELECT a.*, previous.steps AS ps,previous.distance_km AS pd,previous.calories AS pc,previous.active_minutes AS pm
-      FROM activity a
-      LEFT JOIN LATERAL (SELECT steps,distance_km,calories,active_minutes FROM activity p
-        WHERE p.device_id=a.device_id AND p.session_id=a.session_id AND p.sequence<a.sequence ORDER BY p.sequence DESC LIMIT 1) previous ON TRUE
-      WHERE a.user_id=$1 AND a.device_id=(SELECT id FROM devices WHERE user_id=$1 AND active AND revoked_at IS NULL)
-        AND a.observed_at>=NOW()-INTERVAL '2 days'
-    ) SELECT COALESCE(SUM(CASE WHEN steps<COALESCE(ps,0) THEN steps ELSE steps-COALESCE(ps,0) END),0)::float AS steps,
-      COALESCE(SUM(CASE WHEN distance_km<COALESCE(pd,0) THEN distance_km ELSE distance_km-COALESCE(pd,0) END),0) AS distance_km,
-      COALESCE(SUM(CASE WHEN calories<COALESCE(pc,0) THEN calories ELSE calories-COALESCE(pc,0) END),0)::float AS calories,
-      COALESCE(SUM(CASE WHEN active_minutes<COALESCE(pm,0) THEN active_minutes ELSE active_minutes-COALESCE(pm,0) END),0)::float AS active_minutes,
-      MAX(observed_at) AS timestamp
-      FROM deltas WHERE (observed_at AT TIME ZONE COALESCE((SELECT timezone FROM profile WHERE user_id=$1),'Asia/Kolkata'))::date=
-      (NOW() AT TIME ZONE COALESCE((SELECT timezone FROM profile WHERE user_id=$1),'Asia/Kolkata'))::date`,[userId]),
-    pool.query('SELECT id,device_name,connected,battery,last_seen,source,active FROM devices WHERE user_id=$1 AND revoked_at IS NULL ORDER BY active DESC,last_seen DESC NULLS LAST LIMIT 1',[userId]),
+    pool.query('SELECT id,device_name,connected,battery,last_seen,source,active,equipment FROM devices WHERE user_id=$1 AND revoked_at IS NULL ORDER BY active DESC,last_seen DESC NULLS LAST LIMIT 1',[userId]),
     pool.query("SELECT * FROM alerts WHERE user_id=$1 AND status='active' ORDER BY CASE severity WHEN 'critical' THEN 0 ELSE 1 END,id DESC LIMIT 100",[userId]),
     pool.query('SELECT * FROM profile WHERE user_id=$1',[userId]),
+    pool.query(`SELECT c.last_synced_at,c.metric_warnings,g.steps,g.distance_km,g.active_calories_kcal,g.active_minutes FROM google_health_connections c
+      LEFT JOIN google_health_days g ON g.user_id=c.user_id
+      AND g.timezone=COALESCE((SELECT timezone FROM profile WHERE user_id=$1),'Asia/Kolkata')
+      AND g.day=(NOW() AT TIME ZONE COALESCE((SELECT timezone FROM profile WHERE user_id=$1),'Asia/Kolkata'))::date
+      WHERE c.user_id=$1`,[userId]),
   ]);
   const vitals=v.rows[0]||null, device=d.rows[0]||null, profile=p.rows[0]||null;
   const age = vitals ? (Date.now()-new Date(vitals.observed_at).getTime())/1000 : null;
@@ -110,7 +107,10 @@ export async function summary(pool: Pool, userId: number, staleSeconds: number) 
     if(current.some(flag=>flag.severity==='critical'))score=Math.min(score,60);
     else if(current.length)score=Math.min(score,80);
   }
-  return {vitals,activity:a.rows[0]?.timestamp?a.rows[0]:null,device,alerts:al.rows,profile,
+  const cloudDay=cloud.rows[0];
+  const activity=cloudDay&&[cloudDay.steps,cloudDay.distance_km,cloudDay.active_calories_kcal,cloudDay.active_minutes].some(value=>value!=null)?{steps:cloudDay.steps,distance_km:cloudDay.distance_km,
+    calories:cloudDay.active_calories_kcal,active_minutes:cloudDay.active_minutes,calories_type:'active',metric_warnings:cloudDay.metric_warnings,timestamp:cloudDay.last_synced_at,source:'GoogleHealth'}:null;
+  return {vitals,activity,device,alerts:al.rows,profile,
     insights:fallbackInsights(vitals,fresh),wellness_score:score,wellness_version:'prototype-v2',
     freshness:{state:!vitals?'missing':fresh?'fresh':'stale',age_seconds:age,stale_seconds:staleSeconds},server_time:new Date().toISOString()};
 }

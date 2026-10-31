@@ -1,35 +1,66 @@
 import { create } from 'zustand';
+import {activityFromGoogle} from '../services/googleActivity';
 import { io, type Socket } from 'socket.io-client';
-import { apiFetch, apiJson, setToken, clearToken, setUnauthorizedHandler, setRefreshHandler, refreshSession, getSessionEpoch } from '../services/api';
+import { apiFetch, apiJson, setToken, clearToken, setUnauthorizedHandler, setRefreshHandler, refreshSession, logoutSession, getSessionEpoch } from '../services/api';
 import type { AuthResult } from '../services/api';
-import type { VitalReading, ActivityReading, DailyActivity, HealthAlert, DeviceStatus, HealthInsight, InsightResponse, Profile, Contact, Freshness, HealthSummary, HealthUpdate } from '../../../../shared/types/health';
-export type { VitalReading as Vitals, ActivityReading, HealthAlert as Alert, DeviceStatus, HealthInsight, Profile, Contact } from '../../../../shared/types/health';
+import type {ManualSosResult} from '../../../../shared/types/sos';
+import type {GoogleHealthOverview} from '../../../../shared/types/google-health';
+import type { VitalReading, DailyActivity, HealthAlert, DeviceStatus, HealthInsight, InsightResponse, Profile, Contact, Freshness, HealthSummary, HealthUpdate } from '../../../../shared/types/health';
+export type { VitalReading as Vitals, HealthAlert as Alert, DeviceStatus, HealthInsight, Profile, Contact } from '../../../../shared/types/health';
 export interface AuthUser { id: number; email: string }
 interface HealthState {
   token: string | null; user: AuthUser | null; authReady: boolean; authError: string; error: string;
   vitals: VitalReading | null; activity: DailyActivity | null; alerts: HealthAlert[]; device: DeviceStatus | null;
   insights: HealthInsight[]; insightsOffline: boolean | null; wellnessScore: number | null; freshness: Freshness;
   isConnected: boolean; isSocketConnected: boolean; lastUpdated: Date | null;
-  historicalVitals: VitalReading[]; historicalActivity: ActivityReading[]; profile: Profile | null;
+  historicalVitals: VitalReading[]; profile: Profile | null;
   profileLoaded: boolean; showOnboarding: boolean; contacts: Contact[];
+  googleActivity:GoogleHealthOverview|null; googleActivityError:string; isGoogleActivitySyncing:boolean;
+  syncGoogleActivity:()=>Promise<void>;
+  disconnectGoogleActivity:()=>Promise<void>;
   bootstrap: () => Promise<void>; login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string) => Promise<boolean>; logout: () => void;
   fetchInitialData: () => Promise<void>; fetchInsights: () => Promise<void>;
   connectWebSocket: () => void; disconnectWebSocket: () => void; tick: () => void;
   fetchProfile: () => Promise<void>; saveProfile: (value: Partial<Profile>) => Promise<boolean>;
+  recordWeight: (weight_kg:number,observed_at:string) => Promise<boolean>;
   setShowOnboarding: (value: boolean) => void; fetchContacts: () => Promise<void>;
-  addContact: (value: Omit<Contact,'id'>) => Promise<boolean>; triggerSos: (note?: string) => Promise<boolean>;
+  addContact: (value: Omit<Contact,'id'>) => Promise<boolean>;
+  deleteContact: (id: number) => Promise<boolean>;
+  clearError: () => void;
+  triggerSos: (note?: string, requestId?: string) => Promise<ManualSosResult|null>;
   updateAlert: (id: number, action: 'acknowledge' | 'resolve') => Promise<void>;
 }
 const empty = () => ({ vitals:null,activity:null,alerts:[],device:null,insights:[],insightsOffline:null,wellnessScore:null,
   freshness:{state:'missing',age_seconds:null,stale_seconds:30} as Freshness,
-  isConnected:false,isSocketConnected:false,lastUpdated:null,historicalVitals:[],historicalActivity:[],
-  profile:null,profileLoaded:false,showOnboarding:false,contacts:[],error:'' });
+  isConnected:false,isSocketConnected:false,lastUpdated:null,historicalVitals:[],
+  profile:null,profileLoaded:false,showOnboarding:false,contacts:[],error:'',googleActivity:null,googleActivityError:'',isGoogleActivitySyncing:false });
 export function mergeHistory<T extends { id: number; timestamp: string }>(old: T[], incoming: T[], limit=20): T[] {
   const records=new Map(old.map(row=>[row.id,row])); incoming.forEach(row=>records.set(row.id,row));
   return [...records.values()].sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp)||a.id-b.id).slice(-limit);
 }
+function reconcileDevice(current:DeviceStatus|null,incoming:DeviceStatus|null):DeviceStatus|null {
+  // Device events and REST summaries can complete out of order.
+  // Keep its telemetry, but let the API decide device selection/revocation.
+  if(current&&incoming&&current.id===incoming.id&&current.last_seen&&
+    (!incoming.last_seen||Date.parse(current.last_seen)>Date.parse(incoming.last_seen))) {
+    return {...current,active:incoming.active};
+  }
+  return incoming;
+}
 const errorMessage=(error:unknown)=>error instanceof Error?error.message:'Request failed. Please retry.';
+// Compare guidance inputs, excluding transport metadata such as heartbeat time
+// and freshness age. An unchanged REST poll must not invalidate an AI request.
+const insightContext=({device,vitals,activity,profile,freshness,alerts}:HealthState)=>JSON.stringify([
+  device?.id??vitals?.device_id??null,device?.source??vitals?.source??null,
+  vitals&&[vitals.id,vitals.device_id,vitals.timestamp,vitals.source,vitals.heart_rate,vitals.spo2,vitals.temperature,vitals.ecg_status],
+  activity&&[activity.timestamp,activity.steps,activity.distance_km,activity.calories,activity.active_minutes,activity.calories_type,activity.metric_warnings],
+  [profile?.dob,profile?.sex,profile?.height_cm,profile?.weight_kg,profile?.conditions,profile?.medications,
+    profile?.allergies,profile?.activity_level,profile?.goal,profile?.timezone,
+    profile?.energy_activity,profile?.nutrition_review,profile?.weight_goal_type,profile?.goal_weight_kg],
+  freshness.state,
+  alerts.filter(alert=>alert.status==='active').sort((a,b)=>a.id-b.id).map(alert=>[alert.id,alert.metric,alert.direction,alert.severity,alert.title,alert.detail]),
+]);
 let socket: Socket | null=null;
 let retryTimer:ReturnType<typeof setTimeout>|null=null;
 let bootstrap: Promise<void>|null=null;
@@ -37,6 +68,8 @@ let fetching=false;
 let queued=false;
 let insightsAt=0;
 let clockOffset=0;
+let googleSyncEpoch:number|null=null;
+let googleRevision=0;
 let alertRevision=0;
 let profileRevision=0;
 const recentAlertEvents=new Map<number,{revision:number;alert:HealthAlert}>();
@@ -55,17 +88,19 @@ export const useHealthStore=create<HealthState>((set,get)=>{
   return {...empty(),token:null,user:null,authReady:false,authError:'',
     bootstrap:()=>{
       if(bootstrap)return bootstrap;
-      bootstrap=(async()=>{try{localStorage.removeItem('hg_token');await refreshSession();}catch(error){set({authError:errorMessage(error)});}finally{set({authReady:true});}})();return bootstrap;
+      bootstrap=(async()=>{try{localStorage.removeItem('hg_token');await refreshSession();}catch{/* Silently complete background session refresh */}finally{set({authReady:true});}})();return bootstrap;
     },
     login:(email,password)=>authenticate('/auth/login',email,password),
     register:(email,password)=>authenticate('/auth/register',email,password),
-    logout:()=>{void apiFetch('/auth/logout',{method:'POST',signal:new AbortController().signal}).catch(()=>{});reset();},
+    logout:()=>{void logoutSession().catch(()=>{});reset();},
     fetchInitialData:async()=>{
       if(!get().token)return;
       if(fetching){queued=true;return;}
-      fetching=true;const epoch=getSessionEpoch();const startedAlertRevision=alertRevision;const startedProfileRevision=profileRevision;
+      fetching=true;const epoch=getSessionEpoch();const startedAlertRevision=alertRevision;const startedProfileRevision=profileRevision;const startedGoogleRevision=googleRevision;
       try {
-        const [data,vitals,activity,alerts]=await Promise.all([apiJson<HealthSummary>('/health/summary'),apiJson<VitalReading[]>('/vitals/trends'),apiJson<ActivityReading[]>('/activity/summary'),apiJson<HealthAlert[]>('/alerts')]);
+        const request={signal:AbortSignal.timeout(10000)};
+        const [data,vitals,alerts,google]=await Promise.all([apiJson<HealthSummary>('/health/summary',request),apiJson<VitalReading[]>('/vitals/trends',request),apiJson<HealthAlert[]>('/alerts',request),
+          apiJson<GoogleHealthOverview>('/integrations/google-health',request).catch(()=>null)]);
         if(epoch!==getSessionEpoch())return;
         clockOffset=Date.parse(data.server_time)-Date.now();
         const current=get();
@@ -73,25 +108,48 @@ export const useHealthStore=create<HealthState>((set,get)=>{
         const incoming=data.vitals?.device_id===data.device?.id?data.vitals:null;
         const latest=sameSource&&current.vitals&&(!incoming||Date.parse(current.vitals.timestamp)>Date.parse(incoming.timestamp))?current.vitals:incoming;
         const useRules=!sameSource||current.insightsOffline!==false||Date.now()-insightsAt>60000||data.insights.some(item=>item.type==='critical'||item.type==='warning');
-        set({vitals:latest,activity:data.activity,device:data.device,
+        set({vitals:latest,activity:startedGoogleRevision===googleRevision?data.activity:current.activity,device:reconcileDevice(current.device,data.device),
           ...(profileRevision===startedProfileRevision?{profile:data.profile||{onboarded:false},profileLoaded:true}:{}),
           alerts:[...new Map([...alerts,...[...recentAlertEvents.values()].filter(event=>event.revision>startedAlertRevision).map(event=>event.alert)].map(alert=>[alert.id,alert])).values()],
           insights:useRules?data.insights:current.insights,insightsOffline:useRules?true:current.insightsOffline,wellnessScore:data.wellness_score,
           freshness:data.freshness,isConnected:true,lastUpdated:new Date(),error:'',
-          historicalVitals:mergeHistory(sameSource?current.historicalVitals:[],vitals.filter(row=>row.device_id===data.device?.id)),
-          historicalActivity:mergeHistory(sameSource?current.historicalActivity:[],activity.filter(row=>row.device_id===data.device?.id))});
+          historicalVitals:mergeHistory(sameSource?current.historicalVitals:[],vitals.filter(row=>row.device_id===data.device?.id))});
         get().tick();
+        if(google?.provider==='GoogleHealth'&&startedGoogleRevision===googleRevision) {
+          const previous=get().googleActivity;
+          if(!previous?.last_synced_at||!google.last_synced_at||Date.parse(previous.last_synced_at)<=Date.parse(google.last_synced_at)||previous.account_email!==google.account_email)set({googleActivity:google,activity:activityFromGoogle(google)});
+          if(google.configured&&google.connected&&!['reconnect_required','access_denied'].includes(google.error_code??'')&&(!google.last_attempt_at||Date.now()-Date.parse(google.last_attempt_at)>60000))void get().syncGoogleActivity();
+        }
       }catch(error){if(epoch===getSessionEpoch())set({isConnected:false,error:errorMessage(error)});}
       finally{fetching=false;if(queued){queued=false;void get().fetchInitialData();}}
     },
+    syncGoogleActivity:async()=>{
+      const epoch=getSessionEpoch();if(!get().token||googleSyncEpoch===epoch)return;
+      const revision=googleRevision;
+      googleSyncEpoch=epoch;set({googleActivityError:'',isGoogleActivitySyncing:true});
+      try {
+        const data=await apiJson<GoogleHealthOverview>('/integrations/google-health/sync',{method:'POST',signal:AbortSignal.timeout(45000)});
+        if(epoch===getSessionEpoch()&&revision===googleRevision){googleRevision++;set({googleActivity:data,activity:activityFromGoogle(data)});}
+      } catch(error) {if(epoch===getSessionEpoch()&&revision===googleRevision)set({googleActivityError:errorMessage(error)});}
+      finally {if(googleSyncEpoch===epoch){googleSyncEpoch=null;if(epoch===getSessionEpoch())set({isGoogleActivitySyncing:false});}}
+    },
+    disconnectGoogleActivity:async()=>{
+      const epoch=getSessionEpoch();googleRevision++;set({googleActivityError:''});
+      try {
+        const data=await apiJson<GoogleHealthOverview>('/integrations/google-health',{method:'DELETE'});
+        if(epoch===getSessionEpoch()){googleRevision++;set({googleActivity:data,activity:activityFromGoogle(data)});}
+      } catch(error) {if(epoch===getSessionEpoch())set({googleActivityError:errorMessage(error)});}
+    },
     fetchInsights:async()=>{
       if(!get().token||Date.now()-insightsAt<30000)return;
-      const epoch=getSessionEpoch();insightsAt=Date.now();
-      try{const data=await apiJson<InsightResponse>('/health/insights');if(epoch===getSessionEpoch())set({insights:data.insights,insightsOffline:data.offline});}
+      const epoch=getSessionEpoch(),context=insightContext(get());insightsAt=Date.now();
+      try{const data=await apiJson<InsightResponse>('/health/insights');
+        if(epoch===getSessionEpoch()&&context===insightContext(get()))set({insights:data.insights,insightsOffline:data.offline});}
       catch{ /* Core summary already contains deterministic guidance. */ }
     },
     connectWebSocket:()=>{
-      if(socket||!get().token)return;
+      if(!get().token)return;
+      if(socket){if(!socket.connected&&!socket.active)socket.connect();return;}
       const socketEpoch=getSessionEpoch();
       let retries=0;
       const retry=()=>{
@@ -108,8 +166,8 @@ export const useHealthStore=create<HealthState>((set,get)=>{
         if(get().device && source!==get().device?.id){void get().fetchInitialData();return;}
         if(update.type==='vitals')set(state=>({vitals:!state.vitals||Date.parse(update.data.timestamp)>=Date.parse(state.vitals.timestamp)?update.data:state.vitals,
           historicalVitals:mergeHistory(state.historicalVitals,[update.data]),lastUpdated:new Date()}));
-        if(update.type==='activity'){set(state=>({historicalActivity:mergeHistory(state.historicalActivity,[update.data]),lastUpdated:new Date()}));void get().fetchInitialData();}
-        if(update.type==='device' && (update.data.active || !get().device))set({device:update.data});
+        // Legacy device activity remains in its owned history API, outside product activity.
+        if(update.type==='device' && (update.data.active || !get().device))set(state=>({device:reconcileDevice(state.device,update.data)}));
         get().tick();
       });
       socket.on('new_alert',(alert:HealthAlert)=>{
@@ -140,9 +198,22 @@ export const useHealthStore=create<HealthState>((set,get)=>{
       }catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});return false;}
     },
     setShowOnboarding:value=>set({showOnboarding:value}),
+    recordWeight:async(weight_kg,observed_at)=>{
+      const epoch=getSessionEpoch();
+      try{const {profile}=await apiJson<{profile:Profile}>('/health/weight',{method:'POST',body:JSON.stringify({weight_kg,observed_at})});
+        if(epoch!==getSessionEpoch())return false;profileRevision++;set({profile,profileLoaded:true,error:''});
+        insightsAt=0;void get().fetchInsights();return true;
+      }catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});return false;}
+    },
     fetchContacts:async()=>{const epoch=getSessionEpoch();if(!get().token)return;try{const contacts=await apiJson<Contact[]>('/profile/contacts');if(epoch===getSessionEpoch())set({contacts});}catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});}},
     addContact:async(value)=>{const epoch=getSessionEpoch();try{const contact=await apiJson<Contact>('/profile/contacts',{method:'POST',body:JSON.stringify(value)});if(epoch!==getSessionEpoch())return false;set(state=>({contacts:[contact,...state.contacts]}));return true;}catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});return false;}},
-    triggerSos:async(note)=>{try{await apiJson('/sos',{method:'POST',body:JSON.stringify({note})});return true;}catch(error){set({error:errorMessage(error)});return false;}},
+    deleteContact:async(id)=>{const epoch=getSessionEpoch();try{await apiFetch(`/profile/contacts/${id}`,{method:'DELETE'});if(epoch!==getSessionEpoch())return false;set(state=>({contacts:state.contacts.filter(c=>c.id!==id)}));return true;}catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});return false;}},
+    clearError:()=>set({error:''}),
+    triggerSos:async(note,requestId)=>{
+      const epoch=getSessionEpoch();set({error:''});
+      try{return await apiJson<ManualSosResult>('/sos',{method:'POST',body:JSON.stringify({note,request_id:requestId})});}
+      catch(error){if(epoch===getSessionEpoch())set({error:errorMessage(error)});return null;}
+    },
     updateAlert:async(id,action)=>{await apiJson(`/alerts/${id}/${action}`,{method:'POST'});await get().fetchInitialData();},
   };
 });

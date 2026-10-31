@@ -1,14 +1,16 @@
-# Local demo
+# Local exhibition procedure
 
-Use synthetic data and follow [setup](SETUP.md). Review [the status ledger](audit/STATUS.md) before describing unverified capabilities.
+Use the current local app at **http://localhost:5173**. Keep the laptop, database/API/AI services and intended Wi-Fi network available. Public hosting, verified notification delivery and clinically validated measurements are separate requirements.
 
-1. Start Compose, open http://localhost:8080 and complete a local account's profile. Show the missing-data state before telemetry.
-2. Provision a device and save its credential privately in `simulator/.env`.
-3. Run the normal simulator. Show vitals, activity, heartbeat and source. Explain the simulated processing and ECG illustration.
-4. Restart with `SIMULATION_SCENARIO=high_heart_rate`, then `critical_heart_rate`. Show immediate escalation. Return to normal and show recovery after three fresh in-range readings.
-5. After enough records arrive, page through History. Edit the profile and verify medication/allergy notes remain.
-6. Log a synthetic SOS in Emergency. Acknowledge/resolve it in Notifications. Explain that it records an event without dispatching services.
-7. Open Assistant and ask a general wellness question or upload a harmless synthetic PDF/PNG/JPEG. Show fallback guidance if the provider is unavailable.
-8. Stop the simulator, wait past `STALE_SECONDS` and show the stale state/unavailable score. Sign out, reload and use another account to show separate data.
+1. Launch **Start Vyana.cmd**. Confirm the dashboard loads and Settings shows the service connection. The launcher reuses ready services. See [setup](SETUP.md) if dependencies or private configuration are missing.
+2. Sign in to the intended Vyana account. In Settings > Your devices, select the existing ESP32. Preserve its credential; provision only once per board.
+3. Open Activity. Connect Google Health with the intended account and confirm actual recorded steps/distance. Missing data stays unavailable. Google Fit sign-in alone is not evidence of an imported Google Health record.
+4. For physical operation, first complete the outstanding electrical/sensor review and an electrodes-off firmware upload. The new waveform build has not yet been flashed. Follow the [hardware guide](../hardware/README.md). A build or changing ADC number does not establish a usable ECG.
+5. With a verified powered board and network, check each channel independently. Confirm freshness, missing/disconnected channels, partial History/Trends, ECG input quality and the recorded waveform. The trace is raw ADC; rhythm stays unclassified. Pause, inspect loaded sample values or export the loaded ECG samples to demonstrate the exact plotted values.
+6. Rehearse Wi-Fi loss/return, application restart and board power cycles in the intended safe hardware setup. Verify automatic recovery. Software tests cover socket/poll recovery; physical rehearsal remains required.
+7. Review a harmless synthetic report in a separate demo account. Show saved review source/status and original download; unavailable AI must remain unreviewed. Chat follow-ups do not include the report.
+8. Show SOS settings and the in-app event flow in a separate test account. Sending real notifications needs separately authorized recipient testing and configured/enabled delivery. The app does not dispatch emergency services.
+9. Keep demonstrations identified. The session-only **Enable simulated demo** control illustrates vitals/ECG, never steps or walking distance, and resets on reload. Default operation remains live-only. Recorded reference datasets are separate from live hardware and SOS.
+10. Close private configuration/credential windows, confirm the correct account/device, and keep [the remaining-work record](audit/required-software-2026-10-30.md) available for feature limits.
 
-Use [the test suite](TESTING.md) for repeatable verification. A demonstration does not replace hardware, provider, accessibility or HTTPS evidence.
+Use [testing](TESTING.md) for repeatable checks and [operations](OPERATIONS.md) for recovery/backups. Manual screen-reader use, broader qualified AI review, real Google import and physical signal quality cannot be established by automated tests alone.

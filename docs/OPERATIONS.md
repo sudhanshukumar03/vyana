@@ -1,5 +1,15 @@
 # Operations
 
+## Saved report storage and location providers
+
+The Reports library stores encrypted originals and review metadata in the account-owned `saved_reports` table. Limits are 20 reports and 80 MiB decoded per account. Preserve and securely back up `AI_INTERNAL_SECRET` with database backups: changing it without a re-encryption migration makes saved reports and Google tokens unreadable. Account deletion cascades reports; explicit report deletion removes the live original and review. Backup retention remains an operator policy.
+
+New reports no longer use browser localStorage. Legacy unowned `vyana_saved_reports` caches are not imported; Reports offers a user-operated clear button. Do not assign those old records to an account by guessing ownership.
+
+Location lookups use private API configuration `GEOAPIFY_API_KEY` (legacy `GEOAPIFY_KEY` is also accepted) and `API_NINJAS_KEY`. Host development reads `apps/api/.env`; Compose receives the root environment variables. Do not put provider credentials in `VITE_*`. Missing configuration returns an unavailable state. Automated provider tests do not verify current quota, regional coverage or facility contact accuracy.
+
+Individual equipment history is retained for 30 days during device ingestion; it is separate from complete-vitals history and ECG waveform recording. No automatic Windows login service or permanent watchdog is installed by the one-click startup recovery.
+
 ## Upgrade an existing database
 
 1. Stop ingestion. Create and verify a custom-format `pg_dump` backup; retain the prior app revision and configuration.
@@ -72,6 +82,8 @@ Stopping a response or leaving the page cancels the browser request and discards
 Document preflight uses locked Pillow/pypdf versions in at most two disposable workers. Each has a 256 MiB memory limit and a three-second parsing deadline, with bounded cleanup. Linux uses process limits/groups; Windows uses Job Objects attached before document bytes are sent. Parser workers do not inherit application credentials. Failed validation never falls through to model generation. Large or complex reports may need fewer pages or smaller images. Content checks establish structure and nonblank content, not the truth of an AI summary. See [Pillow's image reference](https://pillow.readthedocs.io/en/stable/reference/Image.html) and [pypdf's extraction limits](https://pypdf.readthedocs.io/en/stable/user/extract-text.html).
 
 ### Service health
+
+The normal API entrypoint runs the Google Health due-connection worker independently of browser sessions. Keep the API and database running for automatic imports. `GOOGLE_HEALTH_SYNC_SECONDS` accepts 60–3600 seconds (default 120 plus jitter); due connections are checked every 15 seconds, with up to two concurrent accounts. Database advisory locks prevent duplicate manual/background work across API instances. Persisted exponential backoff and consent-stop errors survive restarts. SIGTERM/SIGINT stop scheduling and abort provider calls. Optional exercise-feed failures do not block recorded steps/distance; per-feed status is available through the owned health review. See [Google Health synchronization](GOOGLE_HEALTH.md#synchronization).
 
 `/health/live` reports API liveness; `/health/ready` checks the database after initialization. Core summaries do not wait for Gemini. Logs use request IDs/error codes. `STALE_SECONDS` defaults to 30 and accepts 10–3600.
 

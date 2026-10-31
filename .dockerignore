@@ -17,8 +17,10 @@ ai/build
 .audit-runtime
 artifacts
 output
+tmp
 **/.pio
 **/.pytest_cache
 **/.ruff_cache
 test-results
 playwright-report
+datasets/raw

@@ -11,6 +11,7 @@ import { AddressInfo } from 'net';
 
 jest.mock('axios');
 jest.mock('../src/telemetry',()=>({...jest.requireActual('../src/telemetry'),summary:jest.fn()}));
+jest.mock('../src/health-review',()=>({...jest.requireActual('../src/health-review'),healthReview:jest.fn().mockResolvedValue({facts:[],activity:{period:{start:'2026-01-01',end:'2026-01-07'}},body:{bmi:null,maintenance_kcal:null,energy_status:'profile_needed',model:'DRI-EER-2023'}})}));
 const config=loadConfig({DATABASE_URL:'postgresql://unused/unit_test',JWT_SECRET:'unit-signing-secret-at-least-32-characters',
   AI_INTERNAL_SECRET:'different-internal-secret-at-least-32-characters'});
 const sid=randomUUID();

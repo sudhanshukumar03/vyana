@@ -52,6 +52,34 @@ class InsightResponse(InsightAnswer):
     offline: bool = False
 
 
+class ReviewBodyContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    bmi: float | None = None
+    maintenance_kcal: int | None = Field(default=None, gt=0)
+    energy_status: Literal["ready", "profile_needed", "age_restricted", "review_required"]
+    model: Literal["DRI-EER-2023"]
+
+
+class ReviewFactContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: str = Field(max_length=50)
+    title: str = Field(max_length=120)
+    detail: str = Field(max_length=1000)
+
+
+class ReviewPeriodContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    start: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    end: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+
+
+class HealthReviewContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    facts: list[ReviewFactContext] = Field(default_factory=list, max_length=3)
+    period: ReviewPeriodContext
+    body: ReviewBodyContext
+
+
 class HealthData(BaseModel):
     model_config = ConfigDict(extra="forbid")
     owner_id: str = Field(min_length=1, max_length=64)
@@ -63,6 +91,7 @@ class HealthData(BaseModel):
     historical_vitals: dict = Field(default_factory=dict)
     bmi: dict | None = None
     fresh: bool = False
+    health_review: HealthReviewContext | None = None
 
 
 class Turn(BaseModel):

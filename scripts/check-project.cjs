@@ -78,7 +78,7 @@ for (const file of sources) {
   for (const {fileName: specifier} of references) {
     if (specifier.startsWith('.')) {
       const base = path.resolve(path.dirname(file), specifier.replace(/\.js$/, ''));
-      const resolved = [base, `${base}.ts`, `${base}.tsx`, path.join(base, 'index.ts'), path.join(base, 'index.tsx')]
+      const resolved = [base, `${base}.ts`, `${base}.tsx`, `${base}.d.ts`, path.join(base, 'index.ts'), path.join(base, 'index.tsx')]
         .find(candidate => fs.existsSync(candidate) && fs.statSync(candidate).isFile());
       if (resolved) dependencies.push(resolved);
       else failures.push(`${relative(file)}: missing import ${specifier}`);

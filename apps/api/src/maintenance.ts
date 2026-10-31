@@ -13,10 +13,13 @@ async function main() {
         AND id NOT IN (SELECT DISTINCT ON (device_id,session_id) id FROM activity
           WHERE observed_at<NOW()-make_interval(days=>$1) ORDER BY device_id,session_id,sequence DESC)`,[days]);
       const vitals=await client.query('DELETE FROM vitals WHERE observed_at<NOW()-make_interval(days=>$1)',[days]);
+      const observations=await client.query('DELETE FROM sos_observations WHERE observed_at<NOW()-make_interval(days=>$1)',[days]);
+      const equipment=await client.query('DELETE FROM equipment_history WHERE observed_at<NOW()-make_interval(days=>LEAST($1,30))',[days]);
+      const sos=await client.query('DELETE FROM sos_incidents WHERE created_at<NOW()-make_interval(days=>$1)',[days]);
       await client.query("DELETE FROM sessions WHERE expires_at<NOW()-INTERVAL '7 days'");
       await client.query("DELETE FROM account_tokens WHERE expires_at<NOW()-INTERVAL '1 day'");
       await client.query("DELETE FROM delivery_outbox WHERE created_at<NOW()-INTERVAL '1 day'");
-      return {activity:activity.rowCount,vitals:vitals.rowCount};
+      return {activity:activity.rowCount,vitals:vitals.rowCount,sensor_observations:observations.rowCount,equipment_snapshots:equipment.rowCount,sos_incidents:sos.rowCount};
     });console.log(JSON.stringify({event:'retention_complete',days,...result}));
   }finally{await pool.end();}
 }

@@ -14,8 +14,19 @@ export const vitalsSchema = z.object({ ...envelope, heart_rate: integer.max(300)
   temperature: z.number().min(20).max(45), ecg_status: z.enum(['Normal', 'Irregular', 'Leads Off', 'Unknown']) }).strict();
 export const activitySchema = z.object({ ...envelope, steps: integer, distance_km: z.number().min(0).max(100000),
   calories: integer, active_minutes: integer }).strict();
+export const equipmentSchema = z.object({
+  observed_at: z.iso.datetime({offset:true}).refine(value=>{
+    const age=Date.now()-Date.parse(value);return age>=-5000&&age<=31*86400000;
+  },'Equipment timestamp must be within the past 31 days and no more than five seconds in the future'),
+  temperature_c: z.number().min(-55).max(125).nullable(),
+  heart_rate: z.number().int().min(1).max(300).nullable().optional(),
+  spo2: z.number().min(0).max(100).nullable().optional(),
+  ecg_status: z.enum(['Leads Off','Unknown']),
+  ecg_raw_adc: integer.max(4095), ecg_millivolts: integer.max(5000),
+  ecg_samples: integer, ecg_clipped_samples: integer,
+}).strict().refine(value=>value.ecg_clipped_samples<=value.ecg_samples,'Clipped samples cannot exceed sample count');
 export const deviceSchema = z.object({ device_name: z.string().trim().min(1).max(100), connected: z.boolean(),
-  battery: integer.max(100).nullable(), source }).strict();
+  battery: integer.max(100).nullable(), source, equipment: equipmentSchema.optional() }).strict();
 export const credentialsSchema = z.object({ email: z.email().trim().toLowerCase().max(255),
   password: z.string().min(8).max(72).refine(value=>Buffer.byteLength(value,'utf8')<=72, 'Password exceeds 72 UTF-8 bytes') }).strict();
 const optionalText = (max: number) => z.string().trim().max(max).nullable().optional();
@@ -27,10 +38,13 @@ export const profileSchema = z.object({ full_name: optionalText(100),
   goal: optionalText(100), timezone: z.string().max(100).refine((value) => {
     try { new Intl.DateTimeFormat('en', { timeZone: value }); return true; } catch { return false; }
   }).optional(),
+  energy_activity:z.enum(['inactive','low_active','active','very_active']).nullable().optional(),
+  nutrition_review:z.enum(['unknown','standard','required']).optional(),weight_goal_type:z.enum(['maintain','reduce','gain']).optional(),
+  goal_weight_kg:z.number().min(20).max(300).nullable().optional(),
 }).strict();
-export const contactSchema = z.object({ name: z.string().trim().min(1).max(100), phone: optionalText(32),
+export const contactSchema = z.object({ name: z.string().trim().min(1).max(100), phone: optionalText(32), office_phone:optionalText(32),
   email: z.email().max(120).nullable().optional(), relation: optionalText(50), is_doctor: z.boolean().default(false),
-}).strict().refine((contact) => Boolean(contact.phone || contact.email), 'Provide a phone number or email');
+}).strict().refine((contact) => Boolean(contact.phone || contact.office_phone || contact.email), 'Provide a phone number or email');
 export const chatSchema = z.object({ message: z.string().trim().min(1).max(4000), history: z.array(z.object({
   role: z.enum(['user','assistant']), content: z.string().max(8000) }).strict()).max(16).default([]) }).strict();
 export const reportSchema = z.object({ data_base64: z.string().min(1).max(13981016),

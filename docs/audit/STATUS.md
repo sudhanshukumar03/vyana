@@ -1,8 +1,24 @@
 # Audit status
 
+The [five-reference UI redesign](required-software-2026-10-30.md#five-reference-ui-redesign-and-full-feature-regression-review) supersedes the earlier page-specific styling notes. The shared design now spans navigation, Dashboard, Activity, Wellness, reports, assistant and task forms. All 52 unique browser scenarios, 77 frontend tests, 129 API tests and 173 Python tests passed; the [reference study](../research/VYANA_DESIGN_REFERENCES.md) records the choices and remaining verification boundaries.
+
+The [automatic health-review follow-up](required-software-2026-10-30.md#automatic-health-review-and-weight--energy-ui) adds browser-independent Google sync, longer derived activity history, deterministic weekly/time-overlap reviews and the new weight/maintenance-energy interface. Automated checks pass; real source availability, individual suitability and physical sensor quality remain separate from synthetic test evidence. The [plan](../ACTIVITY_HEALTH_REVIEW_PLAN.md) identifies goal-specific calorie prescriptions and projections as later work.
+
+The [30 October required-software follow-up](required-software-2026-10-30.md) supersedes the earlier pending software descriptions: Google-only product activity, bounded raw ECG batches and recorded display, unsupported-control cleanup and a verified live location query are implemented. Firmware upload, physical waveform quality, real Google import and notification receipt remain separate evidence.
+
+The [30 October scope audit](scope-cleanup-2026-10-30.md) records the Google Health activity decision, remaining legacy activity paths and optional/unfinished scope. Motion settings are absent from current firmware configuration; unused browser preview activity generation was removed. The installed board image and real Google import remain unverified by this cleanup.
+
 The local remediation is substantially complete. Release checks remain open below. This ledger records observed evidence; it does not establish clinical suitability.
 
+The [29 October remaining-work inventory](remaining-work-2026-10-29.md) records the current implementation gaps and verification needs, including real ECG streaming and newer Reports/Assistant/Settings behaviors that earlier dated checkpoints do not cover. It distinguishes exhibition work from optional expansion and broader release requirements.
+
+The [software-first follow-up](software-first-2026-10-29.md) supersedes the inventory's original descriptions of report storage/status, fabricated chat/directory fallbacks, browser provider keys, inert settings, partial history and device controls. It records what was repaired without sensors and what still needs an external service, hardware or broader release work. Actual waveform streaming and physical signal verification remain open.
+
+The [Google Health checkpoint](google-health-2026-10-29.md) records the new web activity integration, MPU source removal and isolated test evidence. Real Google OAuth/account linking and first provider import remain pending. The current host development app is at http://localhost:5173; older Compose checkpoints below describe their dated configuration.
+
 The [audit](2026-10-24.md) is the historical baseline. The [plan](PLAN.md) defines completion. Detailed dated metadata is in [evidence-2026-10-24.json](evidence-2026-10-24.json); its source hashes refer to that snapshot, before the 25 October cleanup.
+
+The [automatic update follow-up](automatic-updates-2026-10-29.md) records Wi-Fi startup settings, dashboard reconnection/fallback polling and the Windows one-click launcher. The review fixed stopped-Docker error handling and a delayed REST response overwriting newer live equipment. All 56 frontend tests and eight startup checks passed; the earlier 67 native firmware tests passed. Two isolated browser checks prove incoming fixture values update without reloading through sockets and fallback polling. After the user confirmed AD8232 connected with pads off-body and laptop USB attached, full `esp32dev` firmware was uploaded and hash-verified. Nine HTTP 200 uploads and ten fresh database observations established automatic physical-to-API delivery; updates continued after the serial monitor closed. ECG quality and body-connected operation remain unverified.
 
 ## Current local configuration — 25 October
 
@@ -46,9 +62,21 @@ All eleven signed-in pages now follow the sign-in screen's forest-teal palette, 
 
 All 17 browser tests and 20 frontend tests passed, along with types, lint and the build. The browser suite visits every page at 320, 390, 768 and 1440 px, checks one page heading, active navigation, keyboard containment, overflow, 44 px controls and automated accessibility. A separate live-app review covered 44 page/viewport combinations without clipped controls or unhandled browser errors. Profile edits, history pagination, SOS logging, session cleanup, assistant cancellation, report boundaries and source labels remain covered. The ECG control's visible and accessible labels now agree. A follow-up fixed notification clipping in short landscape windows and restored focus to the bell on Escape. Layout fixtures reuse one real session to avoid consuming the authentication budget reserved for session-flow tests.
 
+## All sensor software follow-up — 28 October
+
+The [all-sensor code review](all-sensor-code-review-2026-10-28.md) passed 64 native firmware tests, 53 API tests with disposable PostgreSQL, 39 frontend tests and four targeted browser regressions. The combined ESP32 firmware and both ECG bench targets compile; types, lint and API/frontend builds pass. Independent optical values now reach the equipment display without requiring a complete temperature record. ECG acquisition has its own task and a protected snapshot/reset; the dashboard displays real ECG input summaries instead of the earlier generated illustration. Source identifiers continue to record generated activity accurately, with concise product-facing labels. These are local software results only. The user deferred physical testing; no new firmware was uploaded, and usable ECG/optical hardware results remain unverified by this follow-up.
+
 ## Earlier GitHub publication — 25 October
 
 The reviewed changes are on the [audit branch](https://github.com/sudhanshukumar03/vyana/tree/codex/audit-cleanup-2026-10-25); `main` remains unchanged. [Hosted CI](https://github.com/sudhanshukumar03/vyana/actions/runs/40168534380) passed at `3e9282b`: software/PostgreSQL/browser checks, firmware compile/native tests and the secret scan all succeeded. The initial run exposed incorrect PostgreSQL health-command quoting; the follow-up commit corrected it.
+
+## Local patch verification — 26 October
+
+The [review follow-up](review-validation-2026-10-26.md#repair-verification--26-october-2026) records repairs to the two confirmed findings. Pending AI guidance now checks a stable source/data/profile/freshness/active-alert context: unchanged polling and heartbeat metadata preserve valid responses, while changed context discards them. This replaces the initial uncommitted revision-counter patch, which invalidated unchanged polls and failed types/lint. Cookie-only logout matches the immediately previous refresh hash across one rotation, with migration `004_session_prev_token.sql`; missing/unmatched cookies without a usable bearer SID return 400. Signed expired-bearer revocation remains supported.
+
+The repaired working tree passed `pnpm verify` and all **229 software/browser tests**: 44 API (including 23 real PostgreSQL integration tests), 29 frontend, 139 Python and 17 browser. Types, lint, builds and project/reference checks passed. Forced overlapping refresh/logout tests passed with and without an expired bearer. Browser checks covered the existing eleven-page layouts at 320/390/768/1440 px, account flows, focus, reduced motion and automated accessibility. Visual-design files were unchanged.
+
+The checks used two new disposable databases in the separate loopback audit cluster; normal Compose data/services and the independent wiring files were untouched. These changes remain uncommitted and have no new hosted-CI result. Firmware, live-provider, physical hardware, external HTTPS and manual screen-reader checks were not rerun; their prior evidence and open release gates remain as recorded below.
 
 ## Recorded verification — 24 October
 
@@ -115,6 +143,22 @@ Local outputs and synthetic backups are ignored under `artifacts/`. Existing use
 | F34 | Current guides and successful local install/upgrade/container rehearsals (E1/E5/E8) | Verified locally; cleanup recorded below |
 | F35 | Consistent status rules, live feedback, form types and motion/focus behavior (E1/E2) | Automated checks passed; manual AT pending |
 | F36 | BMI classification before rounding; age boundary (E1) | Verified |
+
+## Development authentication repair - 27 October 2026
+
+Sign-in and registration on the user's `pnpm run dev` origin, `http://localhost:5173`, failed because the running API retained the Compose origin on 18082 despite the API service file specifying 5173. The [repair record](auth-origin-2026-10-27.md) documents service-relative environment loading with local development precedence, four new regression cases, 25 passing API unit/contract tests, TypeScript checking and a successful live registration/login/refresh/logout flow through Vite. The temporary verification account was removed. Deployment precedence and untrusted-origin rejection remain covered. This corrects a host-development configuration failure; it is separate from the earlier refresh/logout race repair and the hardware work.
+
+## Development AI startup repair - 27 October 2026
+
+The host API pointed to AI on loopback port 8001, but the old `pnpm dev` command launched only API/web. Gemini access itself passed the provider probe. The [startup repair](ai-dev-startup-2026-10-27.md) adds managed Python AI startup/readiness/reuse to `pnpm dev`, with five passing startup regressions and all 139 Python AI tests/Ruff passing. A live synthetic chat through localhost:5173 returned `source: gemini`, `offline: false`; the temporary account was removed. The AI service is now running locally. Prompt hardware descriptions were aligned with the revised firmware. Existing credentials and the Compose stack were unchanged.
+
+## Hardware preparation - 27 October 2026
+
+The user confirmed that only MPU6050 activity should be simulated. The [firmware guide](../../hardware/README.md) now describes real MAX30102 red/IR processing with the bundled Maxim algorithm, asynchronous DS18B20 conversion, AD8232 ADC1 signal/lead acquisition, and a time-based simulated walk/rest cycle. The physical MPU6050 library is removed. Sources distinguish real vitals from simulated activity. Invalid or missing optical/temperature data withholds the required complete vital upload; individual equipment results remain on serial. Attached ECG leads report `Unknown`, keeping rhythm unclassified and the existing wellness score unavailable. Raw ECG stays local; the app waveform remains synthetic.
+
+The initial preparation build passed locally, using 86,936 bytes static RAM (26.5%) and 1,241,624 bytes flash (94.7% of the default application partition). Existing SparkFun/OneWire library warnings remain. All 11 native tests passed, including eight new measurement/simulation cases covering walk/rest timing, polling gaps, rollover, session reset, invalid/stale values and unclassified ECG. No board was flashed; physical sensor accuracy, timing, reconnect behavior and external HTTPS were not tested. Software/API/browser checks were not rerun because their implementation was unchanged by this hardware task. No publication was performed.
+
+The [deeper hardware review](hardware-review-2026-10-27.md) documents subsequent corrections to checked optical FIFO acquisition, the locally copied Maxim algorithm, temperature conversion completion, diagnostic serialization, cross-task counters, JSON overflow rejection and retry scheduling. Its expanded native, sanitizer and API-contract evidence supersedes the initial 11-test checkpoint for this firmware revision. Physical validation remains open.
 
 ## Follow-up closure
 

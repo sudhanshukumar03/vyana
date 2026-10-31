@@ -35,6 +35,20 @@ def payload(**values):
     return {"owner_id": "1", "vitals": VITALS, "fresh": True, **values}
 
 
+def test_health_review_is_bounded_and_included_in_generation_and_cache(client):
+    review = {"facts": [{"id": "consistency", "title": "Recorded movement", "detail": "Movement on 5 recorded days."}],
+              "period": {"start": "2026-10-16", "end": "2026-10-22"},
+              "body": {"bmi": 23.4, "maintenance_kcal": 2400, "energy_status": "ready", "model": "DRI-EER-2023"}}
+    with patch("main.generate_insights", return_value=[{"type": "info", "title": "Review", "detail": "Recorded activity context."}]) as model:
+        assert client.post("/api/ai/insights", headers=HEADERS, json=payload(health_review=review)).status_code == 200
+        assert model.call_args.kwargs["health_review"] == review
+        review["facts"][0]["detail"] = "Movement on 6 recorded days."
+        assert client.post("/api/ai/insights", headers=HEADERS, json=payload(health_review=review)).status_code == 200
+        assert model.call_count == 2
+    review["body"]["pregnancy_screen"] = "private"
+    assert client.post("/api/ai/insights", headers=HEADERS, json=payload(health_review=review)).status_code == 422
+
+
 def test_package_import():
     assert importlib.import_module("ai")
 

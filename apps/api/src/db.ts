@@ -1,9 +1,12 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool, PoolClient, types } from 'pg';
 import { createHash } from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
 export function createPool(databaseUrl: string) {
+  // DATE is a calendar value, not a local-midnight instant. Preserve birthdays
+  // and reporting days when the server runs east or west of UTC.
+  types.setTypeParser(1082, value => value);
   const pool = new Pool({ connectionString: databaseUrl, max: 10, connectionTimeoutMillis: 3000,
     idleTimeoutMillis: 30000, statement_timeout: 5000, application_name: 'healthguard' });
   pool.on('error', () => console.error('Database pool connection error'));

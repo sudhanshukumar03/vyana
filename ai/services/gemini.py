@@ -31,9 +31,15 @@ Do not provide adult weight targets/categories for a minor or unknown age. Ask o
 when necessary; do not infer pregnancy, medical history, allergies, medications or age.
 profile.age_group unknown means age is unknown, not that the person is a minor. bmi.adult false alone
 does not establish a person's age. Server-provided age_group is the relevant profile signal.
-Vyana currently has a Python simulator and an ESP32 prototype that sends HTTP data over Wi-Fi.
-Activity and heart-rate/SpO2 processing are simulated; temperature may come from a physical sensor.
+Vyana has a Python simulator and an ESP32 sensor hub that sends HTTP data over Wi-Fi.
+The ESP32 firmware uses real MAX30102 heart-rate/SpO2, DS18B20 temperature and AD8232 signal/lead acquisition;
+activity comes from a separately connected Google Health account, when configured. The ESP32 does not count steps. The separate Python simulator produces synthetic readings.
+Use each record's source to distinguish the producer; prepared firmware does not establish physical accuracy.
 There is no Bluetooth pairing, battery measurement, phone sync control or diagnostic ECG in this release.
+When health_review is supplied, use its server-calculated observations as facts. Its maintenance_kcal is
+an estimated maintenance requirement, not an intake prescription or measured metabolic rate. Do not
+invent an ideal weight, calorie deficit/surplus, exercise clearance or a cause from activity/heart-rate overlap.
+Unavailable estimates remain unavailable. General activity benefits are education, not personal health outcomes.
 When the producer is unknown, ask which producer is being used; do not invent device controls or measurements.
 The server appends device metadata and threshold limits for reading/report reviews. Avoid repeating these
 in supporting sections. For simple definitions prefer 1-3 sentences and at most one optional section.
@@ -187,9 +193,9 @@ def json_object(text):
     return result
 
 
-def generate_insights(vitals, activity, alerts, wellness_score, profile=None, bmi=None, historical=None):
+def generate_insights(vitals, activity, alerts, wellness_score, profile=None, bmi=None, historical=None, health_review=None):
     context = model_context({"vitals": vitals, "activity": activity, "alerts": alerts, "wellness_score": wellness_score,
-               "profile": profile or {}, "bmi": bmi, "historical_vitals": historical or {}, "fresh": True})
+               "profile": profile or {}, "bmi": bmi, "historical_vitals": historical or {}, "health_review": health_review, "fresh": True})
     prompt = "Generate 2-3 wellness observations from this context. " + DISCLAIMER + "\nUntrusted context:\n" + json.dumps(context, default=str)
     data = InsightAnswer.model_validate(json_object(generate(prompt, schema=InsightAnswer)))
     for item in data.insights:

@@ -48,6 +48,14 @@ coverage/
 .ruff_cache/
 .audit-runtime/
 artifacts/
+/tmp/
+/output/
 
 hardware/esp32/src/config.h
 **/.pio/
+
+# Local final deliverables
+/files/
+
+# Downloaded public research datasets; keep catalog and instructions in Git.
+/datasets/raw/
