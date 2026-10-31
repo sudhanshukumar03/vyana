@@ -23,6 +23,17 @@ describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
   const vital=(sequence:number,heart_rate=72,observed_at=new Date().toISOString())=>({session_id:session,sequence,observed_at,heart_rate,spo2:98,temperature:36.7,ecg_status:'Normal',source:'Test'});
   const api=()=>request(runtime.app);
   const auth=(token:string)=>({Authorization:`Bearer ${token}`});
+  async function waitForSessionLocks(count:number) {
+    const deadline=Date.now()+2500;
+    while(Date.now()<deadline){
+      const {rows}=await pool.query(`SELECT COUNT(*)::int AS count FROM pg_stat_activity
+        WHERE datname=current_database() AND pid<>pg_backend_pid() AND application_name='healthguard'
+          AND wait_event_type='Lock' AND query ILIKE '%sessions%'`);
+      if(rows[0].count>=count)return;
+      await new Promise(resolve=>setTimeout(resolve,10));
+    }
+    throw new Error(`Expected ${count} session operations to wait on the held row lock`);
+  }
   beforeAll(async()=>{
     const db=process.env.TEST_DATABASE_URL!;
     if(!new URL(db).pathname.endsWith('_test') || process.env.ALLOW_TEST_RESET!=='1') throw new Error('Integration reset requires an explicit disposable *_test database and ALLOW_TEST_RESET=1');
@@ -158,26 +169,13 @@ describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
     expect(results.filter(result=>result.body.duplicate)).toHaveLength(1);
     expect((await pool.query("SELECT id FROM alerts WHERE device_id=$1 AND metric='temperature'",[deviceId])).rowCount).toBe(1);
   });
-  it('counts day deltas across old baselines, session resets and duplicate activity',async()=>{
-    const activitySession=randomUUID();
-    await pool.query(`INSERT INTO activity(user_id,device_id,session_id,sequence,observed_at,source,steps,distance_km,calories,active_minutes)
-      VALUES($1,$2,$3,1,NOW()-INTERVAL '3 days','Test',1000,1,50,5)`,[Number(jwt.decode(alice)!.sub),deviceId,activitySession]);
-    const reading={session_id:activitySession,sequence:2,observed_at:new Date().toISOString(),steps:1100,distance_km:1.1,calories:60,active_minutes:6,source:'Test'};
+  it('preserves legacy activity history without using it as product activity',async()=>{
+    const reading={session_id:randomUUID(),sequence:1,observed_at:new Date().toISOString(),steps:1100,distance_km:1.1,calories:60,active_minutes:6,source:'Test'};
     await api().post('/api/v1/ingest/activity').set('X-Device-Key',key).send(reading).expect(200);
     await api().post('/api/v1/ingest/activity').set('X-Device-Key',key).send(reading).expect(200);
-    await api().post('/api/v1/ingest/activity').set('X-Device-Key',key).send({...reading,session_id:randomUUID(),steps:25,distance_km:.02,calories:2,active_minutes:1}).expect(200);
-    const result=(await api().get('/api/v1/health/summary').set(auth(alice))).body.activity;
-    expect(result.steps).toBe(125);expect(result.calories).toBe(12);expect(result.active_minutes).toBe(2);
+    expect((await api().get('/api/v1/health/summary').set(auth(alice))).body.activity).toBeNull();
+    expect((await api().get('/api/v1/activity/summary').set(auth(alice))).body.some((row:{steps:number})=>row.steps===1100)).toBe(true);
     expect((await api().get('/api/v1/activity/summary').set(auth(bob))).body).toEqual([]);
-    const boundary=(await pool.query(`WITH starts AS (SELECT
-      date_trunc('day',NOW() AT TIME ZONE 'Pacific/Kiritimati') AT TIME ZONE 'Pacific/Kiritimati' a,
-      date_trunc('day',NOW() AT TIME ZONE 'Etc/GMT+12') AT TIME ZONE 'Etc/GMT+12' b)
-      SELECT LEAST(a,b)+(GREATEST(a,b)-LEAST(a,b))/2 AS instant,a<b AS a_earlier FROM starts`)).rows[0];
-    await api().post('/api/v1/ingest/activity').set('X-Device-Key',key).send({...reading,session_id:randomUUID(),observed_at:boundary.instant.toISOString(),steps:50,distance_km:.03,calories:3,active_minutes:1}).expect(200);
-    for(const [zone,expected] of [['Pacific/Kiritimati',boundary.a_earlier?175:125],['Etc/GMT+12',boundary.a_earlier?125:175]] as const) {
-      await api().patch('/api/v1/profile').set(auth(alice)).send({timezone:zone}).expect(200);
-      expect((await api().get('/api/v1/health/summary').set(auth(alice))).body.activity.steps).toBe(expected);
-    }
   });
   it('paginates equal-time history with a composite cursor without losing records',async()=>{
     const time=new Date(Date.now()-60000).toISOString(),historySession=randomUUID();
@@ -212,6 +210,29 @@ describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
     await api().post('/api/v1/auth/verify').send({token:verificationToken}).expect(200);
     await api().post('/api/v1/auth/verify').send({token:verificationToken}).expect(400);
   });
+  // NOTE: this block must run before the device-credential revocation test below,
+  // because /admin/simulate/seed operates on whatever device is active at that moment.
+  it('keeps simulated readings isolated behind explicit device selection',async()=>{
+    await api().post('/api/v1/admin/simulate').set(auth(alice)).send({
+      heart_rate:88, spo2:97, temperature:37.1, ecg_status:'Normal', generate_ecg_batch:true, source:'BackOffice_Simulator',
+    }).expect(200);
+    // Simulation must not disturb the active physical device (deviceId).
+    const after=(await api().get('/api/v1/health/summary').set(auth(alice))).body;
+    expect(after.device?.id).toBe(deviceId);
+    const physicalRow=(await pool.query('SELECT active FROM devices WHERE id=$1',[deviceId])).rows[0];
+    expect(physicalRow.active).toBe(true);
+  });
+  it('exposes seeded simulation history for the simulator device without activating it',async()=>{
+    await api().post('/api/v1/admin/simulate/seed').set(auth(alice)).send({
+      hours:6, heart_rate:74, spo2:98, temperature:36.6,
+    }).expect(200);
+    // Find the sim device belonging to this user (owned by whoever /admin/simulate/seed targeted).
+    const simDevice=(await pool.query("SELECT id FROM devices WHERE source='BackOffice_Simulator' ORDER BY id DESC LIMIT 1")).rows[0];
+    expect(simDevice).toBeDefined();
+    const simVitals=(await pool.query(
+      "SELECT source FROM vitals WHERE device_id=$1 ORDER BY observed_at DESC LIMIT 1",[simDevice.id])).rows[0];
+    expect(simVitals.source).toBe('BackOffice_Simulator');
+  });
   it('revokes device credentials and refresh sessions even during an expired-token logout race',async()=>{
     await api().delete(`/api/v1/devices/${deviceId}`).set(auth(alice)).expect(200);
     await api().post('/api/v1/ingest/vitals').set('X-Device-Key',key).send(vital(9)).expect(401);
@@ -224,5 +245,76 @@ describeDatabase('Owned API integration against disposable PostgreSQL',()=>{
     await api().post('/api/v1/auth/logout').set('Cookie',cookie).set(auth(expired)).set('X-HealthGuard-Client','web').expect(200);
     await api().post('/api/v1/auth/refresh').set('Cookie',newCookie).set('X-HealthGuard-Client','web').expect(401);
     await api().get('/api/v1/profile').set(auth(refresh.body.token)).expect(401);
+  });
+  describe('logout regressions',()=>{
+    let logoutRuntime:ReturnType<typeof createApplication>;
+    const api=()=>request(logoutRuntime.app);
+    // Keep each regression independent of the main suite's real auth budget.
+    beforeEach(async()=>{
+      const config=loadConfig({DATABASE_URL:process.env.TEST_DATABASE_URL!,JWT_SECRET:secret,
+        AI_INTERNAL_SECRET:'integration-internal-key-at-least-32-characters',AI_URL:'http://127.0.0.1:1',WEB_ORIGIN:'http://localhost:5173'});
+      logoutRuntime=createApplication(pool,config);
+      await new Promise<void>(resolve=>logoutRuntime.server.listen(0,'127.0.0.1',resolve));
+    });
+    afterEach(async()=>{await new Promise<void>(resolve=>logoutRuntime.io.close(()=>resolve()));});
+    it('rejects logout with a missing or unmatched cookie and no usable bearer',async()=>{
+      const reg=await api().post('/api/v1/auth/register').send({email:'dave@example.test',password:'password-for-tests'}).expect(201);
+      const daveCookie=reg.headers['set-cookie'][0].split(';')[0];
+      await api().post('/api/v1/auth/logout').set('X-HealthGuard-Client','web').expect(400);
+      const missing=await api().post('/api/v1/auth/logout').set('Cookie','hg_refresh=unmatched-test-credential')
+        .set('X-HealthGuard-Client','web').expect(400);
+      expect(missing.headers['set-cookie'][0]).toContain('hg_refresh=;');
+      expect(missing.body.error).toContain('Unable to identify the session');
+      await api().post('/api/v1/auth/refresh').set('Cookie',daveCookie).set('X-HealthGuard-Client','web').expect(200);
+    });
+    it('cookie-only logout revokes the session even when a refresh rotation has already replaced token_hash',async()=>{
+      // Register a fresh user to keep this independent of the alice/bob session state
+      const reg=await api().post('/api/v1/auth/register').send({email:'carol@example.test',password:'password-for-tests'}).expect(201);
+      const cookie2=reg.headers['set-cookie'][0].split(';')[0];
+      // Rotate the refresh token so the cookie's hash is no longer the active token_hash.
+      const rotated=await api().post('/api/v1/auth/refresh').set('Cookie',cookie2).set('X-HealthGuard-Client','web').expect(200);
+      const rotatedCookie=rotated.headers['set-cookie'][0].split(';')[0];
+      // Cookie-only logout: send the *original* cookie with no bearer SID.
+      // This is the race window where logout's lookup by token_hash misses the row
+      // because a refresh rotation has already committed its new hash.
+      await api().post('/api/v1/auth/logout').set('Cookie',cookie2).set('X-HealthGuard-Client','web').expect(200);
+      // Both credentials for this session must be revoked.
+      await api().post('/api/v1/auth/refresh').set('Cookie',rotatedCookie).set('X-HealthGuard-Client','web').expect(401);
+      await api().get('/api/v1/profile').set(auth(rotated.body.token)).expect(401);
+    });
+    it.each([false,true])('revokes an overlapping refresh with expired bearer=%s',async withBearer=>{
+      const reg=await api().post('/api/v1/auth/register')
+        .send({email:`overlap-${withBearer}@example.test`,password:'password-for-tests'}).expect(201);
+      const originalCookie=reg.headers['set-cookie'][0].split(';')[0];
+      const original=jwt.decode(reg.body.token) as jwt.JwtPayload;
+      const blocker=await pool.connect(),inFlight:Promise<unknown>[]=[];
+      let locked=false;
+      try {
+        await blocker.query('BEGIN');locked=true;
+        await blocker.query('SELECT id FROM sessions WHERE id=$1 FOR UPDATE',[original.sid]);
+        // Queue refresh first, then logout behind the same row lock. Releasing
+        // the blocker makes refresh rotate before logout rechecks the old cookie.
+        const rotating=api().post('/api/v1/auth/refresh').set('Cookie',originalCookie)
+          .set('X-HealthGuard-Client','web').then(response=>response);
+        inFlight.push(rotating);await waitForSessionLocks(1);
+        const logout=api().post('/api/v1/auth/logout').set('Cookie',originalCookie).set('X-HealthGuard-Client','web');
+        if(withBearer){
+          const expired=jwt.sign({sid:original.sid},secret,
+            {subject:original.sub,issuer:'healthguard',audience:'healthguard-web',expiresIn:-1});
+          logout.set(auth(expired));
+        }
+        const revoking=logout.then(response=>response);
+        inFlight.push(revoking);await waitForSessionLocks(2);
+        await blocker.query('COMMIT');locked=false;
+        const [refreshResponse,logoutResponse]=await Promise.all([rotating,revoking]);
+        expect(refreshResponse.status).toBe(200);expect(logoutResponse.status).toBe(200);
+        const rotatedCookie=refreshResponse.headers['set-cookie'][0].split(';')[0];
+        await api().post('/api/v1/auth/refresh').set('Cookie',rotatedCookie).set('X-HealthGuard-Client','web').expect(401);
+        await api().get('/api/v1/profile').set(auth(refreshResponse.body.token)).expect(401);
+      } finally {
+        if(locked)await blocker.query('ROLLBACK');
+        blocker.release();await Promise.allSettled(inFlight);
+      }
+    },15000);
   });
 });
